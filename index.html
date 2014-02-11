@@ -502,6 +502,7 @@ class JavaScriptREPL {
 <p>Things to do:</p>
 
 <ul>
+<li>Note that Emscripten preloads all of the games assets prior to starting it.</li>
 <li>Complete a level by guiding the character to the door using the arrow keys.</li>
 <li>Use ESC to go back to the level selection screen.</li>
 <li>Note that your progress has not been saved at all. You must start again at the first level.</li>
@@ -515,13 +516,13 @@ class JavaScriptREPL {
 <p>Things to do:</p>
 
 <ul>
-<li>Note that we do not preload all game assets at once; instead, we download then as the game requests them.
+<li>Note that we do not preload all game assets at once; instead, we download them as the game requests them.
 
 <ul>
 <li>This does not increase the <em>responsiveness</em> of the game as it can cause unwanted pauses during gameplay, but it reduces startup time and prevents the developer from needing to explicitly bundle files together.</li>
 </ul>
 </li>
-<li>Complete a level by guiding the character to the door using th arrow keys.</li>
+<li>Complete a level by guiding the character to the door using the arrow keys.</li>
 <li>Use ESC to go back to the level selection screen.</li>
 <li>Note that your progress is saved!</li>
 <li>Close the web browser.</li>

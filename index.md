@@ -267,6 +267,7 @@ The original Emscripten port can be played [here](emscripten/mams/mams.html).
 
 Things to do:
 
+- Note that Emscripten preloads all of the games assets prior to starting it.
 - Complete a level by guiding the character to the door using the arrow keys.
 - Use ESC to go back to the level selection screen.
 - Note that your progress has not been saved at all. You must start again at the first level.
@@ -277,9 +278,9 @@ Now, try our version that embeds Doppio's file system into Emscripten's file sys
 
 Things to do:
 
-- Note that we do not preload all game assets at once; instead, we download then as the game requests them.
+- Note that we do not preload all game assets at once; instead, we download them as the game requests them.
   - This does not increase the *responsiveness* of the game as it can cause unwanted pauses during gameplay, but it reduces startup time and prevents the developer from needing to explicitly bundle files together.
-- Complete a level by guiding the character to the door using th arrow keys.
+- Complete a level by guiding the character to the door using the arrow keys.
 - Use ESC to go back to the level selection screen.
 - Note that your progress is saved!
 - Close the web browser.
