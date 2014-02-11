@@ -1,0 +1,4 @@
+1: inside ctor synchronized block
+2: leaving ctor synchronized block
+3: inside run synchronized block
+4: outside run synchronized block

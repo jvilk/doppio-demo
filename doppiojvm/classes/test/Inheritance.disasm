@@ -1,0 +1,372 @@
+Compiled from "Inheritance.java"
+public class classes.test.Inheritance extends java.lang.Object
+  SourceFile: "Inheritance.java"
+  InnerClass: 
+   #35= #26 of #32; //C=class classes/test/Inheritance$C of class classes/test/Inheritance
+   #38= #37 of #32; //B=class classes/test/Inheritance$B of class classes/test/Inheritance
+   #40= #39 of #32; //A=class classes/test/Inheritance$A of class classes/test/Inheritance
+   #41= #13 of #32; //BChild=class classes/test/Inheritance$BChild of class classes/test/Inheritance
+   #43= #42 of #32; //AParent=class classes/test/Inheritance$AParent of class classes/test/Inheritance
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#34.#56;	//  java/lang/Object."<init>":()V
+const #2 = Field	#57.#58;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #3 = class	#59;	//  java/lang/StringBuilder
+const #4 = Method	#3.#56;	//  java/lang/StringBuilder."<init>":()V
+const #5 = String	#60;	//  a: 
+const #6 = Method	#3.#61;	//  java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+const #7 = Field	#13.#62;	//  classes/test/Inheritance$BChild.a:I
+const #8 = Method	#3.#63;	//  java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+const #9 = Method	#3.#64;	//  java/lang/StringBuilder.toString:()Ljava/lang/String;
+const #10 = Method	#65.#66;	//  java/io/PrintStream.println:(Ljava/lang/String;)V
+const #11 = class	#67;	//  java/lang/NullPointerException
+const #12 = String	#68;	//  Cannot getfield on a null object.
+const #13 = class	#69;	//  classes/test/Inheritance$BChild
+const #14 = Method	#13.#70;	//  classes/test/Inheritance$BChild."<init>":(Lclasses/test/Inheritance;)V
+const #15 = Field	#13.#71;	//  classes/test/Inheritance$BChild.b:I
+const #16 = String	#72;	//  Child a: 
+const #17 = String	#73;	//  Parent a through child via getter: 
+const #18 = Method	#13.#74;	//  classes/test/Inheritance$BChild.getA:()I
+const #19 = String	#75;	//  Child b: 
+const #20 = Field	#42.#62;	//  classes/test/Inheritance$AParent.a:I
+const #21 = String	#76;	//  Parent a: 
+const #22 = String	#77;	//  Parent a through getter: 
+const #23 = Method	#42.#74;	//  classes/test/Inheritance$AParent.getA:()I
+const #24 = String	#78;	//  Parent b: 
+const #25 = Field	#42.#71;	//  classes/test/Inheritance$AParent.b:I
+const #26 = class	#79;	//  classes/test/Inheritance$C
+const #27 = Method	#26.#70;	//  classes/test/Inheritance$C."<init>":(Lclasses/test/Inheritance;)V
+const #28 = Field	#26.#80;	//  classes/test/Inheritance$C.foo:S
+const #29 = Method	#65.#81;	//  java/io/PrintStream.println:(I)V
+const #30 = Field	#37.#80;	//  classes/test/Inheritance$B.foo:S
+const #31 = Field	#39.#80;	//  classes/test/Inheritance$A.foo:S
+const #32 = class	#82;	//  classes/test/Inheritance
+const #33 = Method	#32.#56;	//  classes/test/Inheritance."<init>":()V
+const #34 = class	#83;	//  java/lang/Object
+const #35 = Asciz	C;
+const #36 = Asciz	InnerClasses;
+const #37 = class	#84;	//  classes/test/Inheritance$B
+const #38 = Asciz	B;
+const #39 = class	#85;	//  classes/test/Inheritance$A
+const #40 = Asciz	A;
+const #41 = Asciz	BChild;
+const #42 = class	#86;	//  classes/test/Inheritance$AParent
+const #43 = Asciz	AParent;
+const #44 = Asciz	<init>;
+const #45 = Asciz	()V;
+const #46 = Asciz	Code;
+const #47 = Asciz	LineNumberTable;
+const #48 = Asciz	StackMapTable;
+const #49 = class	#82;	//  classes/test/Inheritance
+const #50 = class	#69;	//  classes/test/Inheritance$BChild
+const #51 = class	#67;	//  java/lang/NullPointerException
+const #52 = Asciz	main;
+const #53 = Asciz	([Ljava/lang/String;)V;
+const #54 = Asciz	SourceFile;
+const #55 = Asciz	Inheritance.java;
+const #56 = NameAndType	#44:#45;//  "<init>":()V
+const #57 = class	#87;	//  java/lang/System
+const #58 = NameAndType	#88:#89;//  out:Ljava/io/PrintStream;
+const #59 = Asciz	java/lang/StringBuilder;
+const #60 = Asciz	a: ;
+const #61 = NameAndType	#90:#91;//  append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+const #62 = NameAndType	#92:#93;//  a:I
+const #63 = NameAndType	#90:#94;//  append:(I)Ljava/lang/StringBuilder;
+const #64 = NameAndType	#95:#96;//  toString:()Ljava/lang/String;
+const #65 = class	#97;	//  java/io/PrintStream
+const #66 = NameAndType	#98:#99;//  println:(Ljava/lang/String;)V
+const #67 = Asciz	java/lang/NullPointerException;
+const #68 = Asciz	Cannot getfield on a null object.;
+const #69 = Asciz	classes/test/Inheritance$BChild;
+const #70 = NameAndType	#44:#100;//  "<init>":(Lclasses/test/Inheritance;)V
+const #71 = NameAndType	#101:#93;//  b:I
+const #72 = Asciz	Child a: ;
+const #73 = Asciz	Parent a through child via getter: ;
+const #74 = NameAndType	#102:#103;//  getA:()I
+const #75 = Asciz	Child b: ;
+const #76 = Asciz	Parent a: ;
+const #77 = Asciz	Parent a through getter: ;
+const #78 = Asciz	Parent b: ;
+const #79 = Asciz	classes/test/Inheritance$C;
+const #80 = NameAndType	#104:#105;//  foo:S
+const #81 = NameAndType	#98:#106;//  println:(I)V
+const #82 = Asciz	classes/test/Inheritance;
+const #83 = Asciz	java/lang/Object;
+const #84 = Asciz	classes/test/Inheritance$B;
+const #85 = Asciz	classes/test/Inheritance$A;
+const #86 = Asciz	classes/test/Inheritance$AParent;
+const #87 = Asciz	java/lang/System;
+const #88 = Asciz	out;
+const #89 = Asciz	Ljava/io/PrintStream;;
+const #90 = Asciz	append;
+const #91 = Asciz	(Ljava/lang/String;)Ljava/lang/StringBuilder;;
+const #92 = Asciz	a;
+const #93 = Asciz	I;
+const #94 = Asciz	(I)Ljava/lang/StringBuilder;;
+const #95 = Asciz	toString;
+const #96 = Asciz	()Ljava/lang/String;;
+const #97 = Asciz	java/io/PrintStream;
+const #98 = Asciz	println;
+const #99 = Asciz	(Ljava/lang/String;)V;
+const #100 = Asciz	(Lclasses/test/Inheritance;)V;
+const #101 = Asciz	b;
+const #102 = Asciz	getA;
+const #103 = Asciz	()I;
+const #104 = Asciz	foo;
+const #105 = Asciz	S;
+const #106 = Asciz	(I)V;
+
+{
+public classes.test.Inheritance();
+  Code:
+   Stack=3, Locals=6, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	aconst_null
+   5:	astore_1
+   6:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   9:	new	#3; //class java/lang/StringBuilder
+   12:	dup
+   13:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   16:	ldc	#5; //String a: 
+   18:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   21:	aload_1
+   22:	getfield	#7; //Field classes/test/Inheritance$BChild.a:I
+   25:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   28:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   31:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   34:	goto	46
+   37:	astore_2
+   38:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   41:	ldc	#12; //String Cannot getfield on a null object.
+   43:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   46:	new	#13; //class classes/test/Inheritance$BChild
+   49:	dup
+   50:	aload_0
+   51:	invokespecial	#14; //Method classes/test/Inheritance$BChild."<init>":(Lclasses/test/Inheritance;)V
+   54:	astore_2
+   55:	aload_2
+   56:	iconst_3
+   57:	putfield	#7; //Field classes/test/Inheritance$BChild.a:I
+   60:	aload_2
+   61:	iconst_5
+   62:	putfield	#15; //Field classes/test/Inheritance$BChild.b:I
+   65:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   68:	new	#3; //class java/lang/StringBuilder
+   71:	dup
+   72:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   75:	ldc	#16; //String Child a: 
+   77:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   80:	aload_2
+   81:	getfield	#7; //Field classes/test/Inheritance$BChild.a:I
+   84:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   87:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   90:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   93:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   96:	new	#3; //class java/lang/StringBuilder
+   99:	dup
+   100:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   103:	ldc	#17; //String Parent a through child via getter: 
+   105:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   108:	aload_2
+   109:	invokevirtual	#18; //Method classes/test/Inheritance$BChild.getA:()I
+   112:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   115:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   118:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   121:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   124:	new	#3; //class java/lang/StringBuilder
+   127:	dup
+   128:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   131:	ldc	#19; //String Child b: 
+   133:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   136:	aload_2
+   137:	getfield	#15; //Field classes/test/Inheritance$BChild.b:I
+   140:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   143:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   146:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   149:	aload_2
+   150:	astore_3
+   151:	aload_3
+   152:	iconst_4
+   153:	putfield	#20; //Field classes/test/Inheritance$AParent.a:I
+   156:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   159:	new	#3; //class java/lang/StringBuilder
+   162:	dup
+   163:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   166:	ldc	#21; //String Parent a: 
+   168:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   171:	aload_3
+   172:	getfield	#20; //Field classes/test/Inheritance$AParent.a:I
+   175:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   178:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   181:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   184:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   187:	new	#3; //class java/lang/StringBuilder
+   190:	dup
+   191:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   194:	ldc	#22; //String Parent a through getter: 
+   196:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   199:	aload_3
+   200:	invokevirtual	#23; //Method classes/test/Inheritance$AParent.getA:()I
+   203:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   206:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   209:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   212:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   215:	new	#3; //class java/lang/StringBuilder
+   218:	dup
+   219:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   222:	ldc	#24; //String Parent b: 
+   224:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   227:	aload_3
+   228:	getfield	#25; //Field classes/test/Inheritance$AParent.b:I
+   231:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   234:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   237:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   240:	aload_3
+   241:	checkcast	#13; //class classes/test/Inheritance$BChild
+   244:	astore	4
+   246:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   249:	new	#3; //class java/lang/StringBuilder
+   252:	dup
+   253:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   256:	ldc	#16; //String Child a: 
+   258:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   261:	aload	4
+   263:	getfield	#7; //Field classes/test/Inheritance$BChild.a:I
+   266:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   269:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   272:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   275:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   278:	new	#3; //class java/lang/StringBuilder
+   281:	dup
+   282:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   285:	ldc	#17; //String Parent a through child via getter: 
+   287:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   290:	aload	4
+   292:	invokevirtual	#18; //Method classes/test/Inheritance$BChild.getA:()I
+   295:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   298:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   301:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   304:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   307:	new	#3; //class java/lang/StringBuilder
+   310:	dup
+   311:	invokespecial	#4; //Method java/lang/StringBuilder."<init>":()V
+   314:	ldc	#19; //String Child b: 
+   316:	invokevirtual	#6; //Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   319:	aload	4
+   321:	getfield	#15; //Field classes/test/Inheritance$BChild.b:I
+   324:	invokevirtual	#8; //Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   327:	invokevirtual	#9; //Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+   330:	invokevirtual	#10; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   333:	new	#26; //class classes/test/Inheritance$C
+   336:	dup
+   337:	aload_0
+   338:	invokespecial	#27; //Method classes/test/Inheritance$C."<init>":(Lclasses/test/Inheritance;)V
+   341:	astore	5
+   343:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   346:	aload	5
+   348:	getfield	#28; //Field classes/test/Inheritance$C.foo:S
+   351:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   354:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   357:	aload	5
+   359:	getfield	#30; //Field classes/test/Inheritance$B.foo:S
+   362:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   365:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   368:	aload	5
+   370:	getfield	#31; //Field classes/test/Inheritance$A.foo:S
+   373:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   376:	aload	5
+   378:	sipush	1337
+   381:	putfield	#28; //Field classes/test/Inheritance$C.foo:S
+   384:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   387:	aload	5
+   389:	getfield	#28; //Field classes/test/Inheritance$C.foo:S
+   392:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   395:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   398:	aload	5
+   400:	getfield	#30; //Field classes/test/Inheritance$B.foo:S
+   403:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   406:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   409:	aload	5
+   411:	getfield	#31; //Field classes/test/Inheritance$A.foo:S
+   414:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   417:	aload	5
+   419:	bipush	42
+   421:	putfield	#31; //Field classes/test/Inheritance$A.foo:S
+   424:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   427:	aload	5
+   429:	getfield	#28; //Field classes/test/Inheritance$C.foo:S
+   432:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   435:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   438:	aload	5
+   440:	getfield	#30; //Field classes/test/Inheritance$B.foo:S
+   443:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   446:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   449:	aload	5
+   451:	getfield	#31; //Field classes/test/Inheritance$A.foo:S
+   454:	invokevirtual	#29; //Method java/io/PrintStream.println:(I)V
+   457:	return
+  Exception table:
+   from   to  target type
+     6    34    37   Class java/lang/NullPointerException
+
+  LineNumberTable: 
+   line 4: 0
+   line 5: 4
+   line 7: 6
+   line 10: 34
+   line 8: 37
+   line 9: 38
+   line 12: 46
+   line 13: 55
+   line 14: 60
+   line 15: 65
+   line 16: 93
+   line 17: 121
+   line 18: 149
+   line 19: 151
+   line 20: 156
+   line 21: 184
+   line 22: 212
+   line 23: 240
+   line 24: 246
+   line 25: 275
+   line 26: 304
+   line 29: 333
+   line 30: 343
+   line 31: 354
+   line 32: 365
+   line 33: 376
+   line 34: 384
+   line 35: 395
+   line 36: 406
+   line 37: 417
+   line 38: 424
+   line 39: 435
+   line 40: 446
+   line 41: 457
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 37
+     locals = [ class classes/test/Inheritance, class classes/test/Inheritance$BChild ]
+     stack = [ class java/lang/NullPointerException ]
+   frame_type = 8 /* same */
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=2, Locals=1, Args_size=1
+   0:	new	#32; //class classes/test/Inheritance
+   3:	dup
+   4:	invokespecial	#33; //Method "<init>":()V
+   7:	pop
+   8:	return
+  LineNumberTable: 
+   line 44: 0
+   line 45: 8
+
+
+}
+

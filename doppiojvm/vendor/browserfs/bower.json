@@ -1,0 +1,24 @@
+{
+  "name": "BrowserFS",
+  "version": "0.3.4",
+  "main": [
+    "./dist/browserfs.js",
+    "./dist/browserfs.js.map"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "async": "~0.2.5",
+    "dropbox-build": "*",
+    "DefinitelyTyped": "latest",
+    "almond": "*",
+    "requirejs": "*",
+    "assert": "*",
+    "jasmine": "*"
+  }
+}

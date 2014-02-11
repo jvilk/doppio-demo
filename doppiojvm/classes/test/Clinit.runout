@@ -1,0 +1,19 @@
+Declared methods for class ClinitBar:
+bar
+pubBar
+
+Public methods for class ClinitBar:
+equals
+getClass
+hashCode
+notify
+notifyAll
+pubBar
+pubFoo
+toString
+wait
+wait
+wait
+false
+array has length 5
+initializing class ClinitFoo

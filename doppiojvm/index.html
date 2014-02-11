@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DoppioJVM: A JVM in JavaScript</title>
+  <link href='vendor/cdnjs/Bitter.css' rel='stylesheet'>
+  <link rel='stylesheet' href="browser/style.css">
+  <script src="vendor/cdnjs/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="vendor/cdnjs/mode-java.js" type="text/javascript" charset="utf-8"></script>
+  <script src="vendor/cdnjs/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+  <script src="vendor/cdnjs/dropbox.min.js" type="text/javascript" charset="utf-8"></script>
+  <!-- BEGIN WebSockify LIBRARY -->
+  <script src="vendor/websockify/base64.js"></script>
+  <script src="vendor/websockify/util.js"></script>
+  <script src="vendor/websockify/websock.js"></script>
+  <!-- END WebSockify LIBRARY -->
+  <script src="vendor/require.js"></script>
+  <script src="vendor/browserfs/dist/browserfs.js"></script>
+  <script src="doppio.js"></script>
+  <script src="browser/frontend.js"></script>
+  <script>
+    // Wrap in a closure; don't pollute the global namespace.
+    (function() {
+      var mfs = new BrowserFS.FileSystem.MountableFileSystem(),
+          fs = BrowserFS.BFSRequire('fs');
+      BrowserFS.initialize(mfs);
+      mfs.mount('/tmp', new BrowserFS.FileSystem.InMemory());
+      fs.mkdirSync('/mnt');
+      if (BrowserFS.FileSystem.HTML5FS.isAvailable()) {
+        // Try for 50MB storage.
+        var html5fs = new BrowserFS.FileSystem.HTML5FS(50*1024, window.PERSISTENT);
+        html5fs.allocate(function(e) {
+          if (e == null) {
+            mfs.mount('/mnt/html5fs', html5fs);
+          }
+        });
+      }
+      mfs.mount('/mnt/localStorage', new BrowserFS.FileSystem.LocalStorage());
+      mfs.mount('/sys', new BrowserFS.FileSystem.XmlHttpRequest('browser/listings.json', './'));
+      require(["browser/frontend"], function(frontend) {
+        // Kicks everything off!
+      });
+    })();
+  </script>
+</head>
+<body>
+<div id='progress-container'>
+  <div id='progress-box'>
+    <div id='progress' class='progress progress-striped active' style='background:#ccc'>
+      <div class='bar' style='width:0%'></div>
+    </div>
+    <div id='preloading-file'></div>
+  </div>
+</div>
+<div id='overlay'>
+</div>
+<a href="https://github.com/int3/doppio">
+  <img style="position: fixed; top: 0; right: 0; border: 0;z-index:9999"
+  src="browser/ribbon.png" alt="Fork me on GitHub">
+</a>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class='brand bitter' href='index.html'>DoppioJVM</a>
+      <ul class='nav'>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id='main'>
+  <header class='page-header'>
+  <h1 id='title' style='float:left;' class='bitter'>DoppioJVM
+    <span class='build-info'>
+      <a href="https://github.com/int3/doppio/commit/9b6666ad8b94d54049846e25981c6120929e55e6
+">
+        @9b6666a</a>, built Tuesday, February 11, 2014
+    </span>
+  </h1>
+    <!-- File upload button strategy credit goes davist11: https://gist.github.com/645816 -->
+    <span class="file-wrapper" style='margin: 8px 0 3px 0;float:right;'>
+      <input type="file" name="file" id="file" multiple />
+      <span class="button">Upload Files...</span>
+    </span>
+    <h1>&nbsp;</h1>
+  </header>
+  <div id='ide' style='display:none'>
+    <div id='source'></div>
+    <!-- the Ace editor affects document flow weirdly, hence this hack -->
+    <div style='height:70%'></div>
+    <form class='form-inline' style='margin: 8px 0 3px 0;'>
+      <label for='filename' class='control-label'>Save As:</label>
+      <input type='text' id='filename' class='input-xlarge'/>
+      <button id='save_btn' class='btn btn-mini btn-primary'>Save &amp; Close</button>
+      <button id='close_btn' class='btn btn-mini btn-primary'>Close Without Saving</button>
+    </form>
+  </div>
+
+  <div id='console'><div id="consoleUnderlay"><img src="browser/coffee.png"/></div></div>
+</div>
+</body>
+</html>
+

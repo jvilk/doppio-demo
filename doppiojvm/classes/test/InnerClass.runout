@@ -1,0 +1,14 @@
+40
+6
+null
+classes.test.InnerClass
+classes.test.InnerClass$Foo
+classes.test.InnerClass$Foo
+Foo
+Bar
+classes.test.InnerClass$Foo
+classes.test.InnerClass$ProtectedInnerAbstract
+classes.test.InnerClass$ProtectedInner
+classes.test.InnerClass$PrivateInnerAbstract
+classes.test.InnerClass$PrivateInner
+classes.test.InnerClass$Foo$Bar

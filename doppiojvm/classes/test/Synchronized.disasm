@@ -1,0 +1,151 @@
+Compiled from "Synchronized.java"
+class classes.test.Synchronized extends java.lang.Object
+  SourceFile: "Synchronized.java"
+  InnerClass: 
+   #17= #6 of #15; //BazRunner=class classes/test/Synchronized$BazRunner of class classes/test/Synchronized
+   #19= #3 of #15; //BarRunner=class classes/test/Synchronized$BarRunner of class classes/test/Synchronized
+   #20= #12 of #15; //Foo=class classes/test/Synchronized$Foo of class classes/test/Synchronized
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#16.#36;	//  java/lang/Object."<init>":()V
+const #2 = class	#37;	//  java/lang/Thread
+const #3 = class	#38;	//  classes/test/Synchronized$BarRunner
+const #4 = Method	#3.#36;	//  classes/test/Synchronized$BarRunner."<init>":()V
+const #5 = Method	#2.#39;	//  java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+const #6 = class	#40;	//  classes/test/Synchronized$BazRunner
+const #7 = Method	#6.#36;	//  classes/test/Synchronized$BazRunner."<init>":()V
+const #8 = Method	#2.#41;	//  java/lang/Thread.start:()V
+const #9 = Field	#15.#42;	//  classes/test/Synchronized.state:I
+const #10 = Method	#2.#43;	//  java/lang/Thread.yield:()V
+const #11 = Method	#2.#44;	//  java/lang/Thread.interrupt:()V
+const #12 = class	#45;	//  classes/test/Synchronized$Foo
+const #13 = Method	#12.#36;	//  classes/test/Synchronized$Foo."<init>":()V
+const #14 = Field	#15.#46;	//  classes/test/Synchronized.foo:Lclasses/test/Synchronized$Foo;
+const #15 = class	#47;	//  classes/test/Synchronized
+const #16 = class	#48;	//  java/lang/Object
+const #17 = Asciz	BazRunner;
+const #18 = Asciz	InnerClasses;
+const #19 = Asciz	BarRunner;
+const #20 = Asciz	Foo;
+const #21 = Asciz	state;
+const #22 = Asciz	I;
+const #23 = Asciz	foo;
+const #24 = Asciz	Lclasses/test/Synchronized$Foo;;
+const #25 = Asciz	<init>;
+const #26 = Asciz	()V;
+const #27 = Asciz	Code;
+const #28 = Asciz	LineNumberTable;
+const #29 = Asciz	main;
+const #30 = Asciz	([Ljava/lang/String;)V;
+const #31 = Asciz	StackMapTable;
+const #32 = class	#37;	//  java/lang/Thread
+const #33 = Asciz	<clinit>;
+const #34 = Asciz	SourceFile;
+const #35 = Asciz	Synchronized.java;
+const #36 = NameAndType	#25:#26;//  "<init>":()V
+const #37 = Asciz	java/lang/Thread;
+const #38 = Asciz	classes/test/Synchronized$BarRunner;
+const #39 = NameAndType	#25:#49;//  "<init>":(Ljava/lang/Runnable;)V
+const #40 = Asciz	classes/test/Synchronized$BazRunner;
+const #41 = NameAndType	#50:#26;//  start:()V
+const #42 = NameAndType	#21:#22;//  state:I
+const #43 = NameAndType	#51:#26;//  yield:()V
+const #44 = NameAndType	#52:#26;//  interrupt:()V
+const #45 = Asciz	classes/test/Synchronized$Foo;
+const #46 = NameAndType	#23:#24;//  foo:Lclasses/test/Synchronized$Foo;
+const #47 = Asciz	classes/test/Synchronized;
+const #48 = Asciz	java/lang/Object;
+const #49 = Asciz	(Ljava/lang/Runnable;)V;
+const #50 = Asciz	start;
+const #51 = Asciz	yield;
+const #52 = Asciz	interrupt;
+
+{
+static int state;
+
+
+static final classes.test.Synchronized$Foo foo;
+
+
+classes.test.Synchronized();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	return
+  LineNumberTable: 
+   line 3: 0
+   line 32: 4
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=4, Locals=3, Args_size=1
+   0:	new	#2; //class java/lang/Thread
+   3:	dup
+   4:	new	#3; //class classes/test/Synchronized$BarRunner
+   7:	dup
+   8:	invokespecial	#4; //Method classes/test/Synchronized$BarRunner."<init>":()V
+   11:	invokespecial	#5; //Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+   14:	astore_1
+   15:	new	#2; //class java/lang/Thread
+   18:	dup
+   19:	new	#6; //class classes/test/Synchronized$BazRunner
+   22:	dup
+   23:	invokespecial	#7; //Method classes/test/Synchronized$BazRunner."<init>":()V
+   26:	invokespecial	#5; //Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+   29:	astore_2
+   30:	aload_1
+   31:	invokevirtual	#8; //Method java/lang/Thread.start:()V
+   34:	getstatic	#9; //Field state:I
+   37:	iconst_1
+   38:	if_icmpeq	47
+   41:	invokestatic	#10; //Method java/lang/Thread.yield:()V
+   44:	goto	34
+   47:	aload_2
+   48:	invokevirtual	#8; //Method java/lang/Thread.start:()V
+   51:	getstatic	#9; //Field state:I
+   54:	iconst_2
+   55:	if_icmpeq	64
+   58:	invokestatic	#10; //Method java/lang/Thread.yield:()V
+   61:	goto	51
+   64:	aload_1
+   65:	invokevirtual	#11; //Method java/lang/Thread.interrupt:()V
+   68:	return
+  LineNumberTable: 
+   line 41: 0
+   line 42: 15
+   line 43: 30
+   line 44: 34
+   line 45: 47
+   line 48: 51
+   line 49: 64
+   line 50: 68
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 253 /* append */
+     offset_delta = 34
+     locals = [ class java/lang/Thread, class java/lang/Thread ]
+   frame_type = 12 /* same */
+   frame_type = 3 /* same */
+   frame_type = 12 /* same */
+
+
+static {};
+  Code:
+   Stack=2, Locals=0, Args_size=0
+   0:	iconst_0
+   1:	putstatic	#9; //Field state:I
+   4:	new	#12; //class classes/test/Synchronized$Foo
+   7:	dup
+   8:	invokespecial	#13; //Method classes/test/Synchronized$Foo."<init>":()V
+   11:	putstatic	#14; //Field foo:Lclasses/test/Synchronized$Foo;
+   14:	return
+  LineNumberTable: 
+   line 5: 0
+   line 6: 4
+
+
+}
+

@@ -1,0 +1,36 @@
+*.dll
+*.exe
+*.cmd
+*.pdb
+*.suo
+*.js
+*.user
+*.cache
+*.cs
+*.sln
+*.csproj
+*.txt
+*.map
+*.swp
+.DS_Store
+
+_Resharper.DefinitelyTyped
+bin
+obj
+Properties
+
+# VIM backup files
+*~
+
+# test folder
+!_infrastructure/*.js
+!_infrastructure/tests/*
+!_infrastructure/tests/*.js
+!_infrastructure/tests/*/*.js
+!_infrastructure/tests/*/*/*.js
+!_infrastructure/tests/*/*/*/*.js
+
+.idea
+*.iml
+
+node_modules

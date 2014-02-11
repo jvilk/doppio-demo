@@ -1,0 +1,232 @@
+Compiled from "InnerClass.java"
+public abstract class classes.test.InnerClass extends java.lang.Object
+  SourceFile: "InnerClass.java"
+  InnerClass: 
+   #18= #6 of #9; //Foo=class classes/test/InnerClass$Foo of class classes/test/InnerClass
+   abstract #21= #20 of #9; //ProtectedInnerAbstract=class classes/test/InnerClass$ProtectedInnerAbstract of class classes/test/InnerClass
+   #23= #22 of #9; //ProtectedInner=class classes/test/InnerClass$ProtectedInner of class classes/test/InnerClass
+   abstract #25= #24 of #9; //PrivateInnerAbstract=class classes/test/InnerClass$PrivateInnerAbstract of class classes/test/InnerClass
+   #27= #26 of #9; //PrivateInner=class classes/test/InnerClass$PrivateInner of class classes/test/InnerClass
+   #3; //class classes/test/InnerClass$1
+   #57= #14 of #6; //Bar=class classes/test/InnerClass$Foo$Bar of class classes/test/InnerClass$Foo
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#17.#41;	//  java/lang/Object."<init>":()V
+const #2 = Method	#9.#42;	//  classes/test/InnerClass.run:()V
+const #3 = class	#43;	//  classes/test/InnerClass$1
+const #4 = Method	#3.#41;	//  classes/test/InnerClass$1."<init>":()V
+const #5 = Method	#9.#45;	//  classes/test/InnerClass.runFunctor:(Lclasses/test/InnerClass;)V
+const #6 = class	#46;	//  classes/test/InnerClass$Foo
+const #7 = Method	#6.#41;	//  classes/test/InnerClass$Foo."<init>":()V
+const #8 = Field	#47.#48;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #9 = class	#49;	//  classes/test/InnerClass
+const #10 = Method	#50.#51;	//  java/lang/Class.getDeclaringClass:()Ljava/lang/Class;
+const #11 = Method	#52.#53;	//  java/io/PrintStream.println:(Ljava/lang/Object;)V
+const #12 = Method	#50.#54;	//  java/lang/Class.getName:()Ljava/lang/String;
+const #13 = Method	#52.#55;	//  java/io/PrintStream.println:(Ljava/lang/String;)V
+const #14 = class	#56;	//  classes/test/InnerClass$Foo$Bar
+const #15 = Method	#50.#58;	//  java/lang/Class.getSimpleName:()Ljava/lang/String;
+const #16 = Method	#50.#59;	//  java/lang/Class.getDeclaredClasses:()[Ljava/lang/Class;
+const #17 = class	#60;	//  java/lang/Object
+const #18 = Asciz	Foo;
+const #19 = Asciz	InnerClasses;
+const #20 = class	#61;	//  classes/test/InnerClass$ProtectedInnerAbstract
+const #21 = Asciz	ProtectedInnerAbstract;
+const #22 = class	#62;	//  classes/test/InnerClass$ProtectedInner
+const #23 = Asciz	ProtectedInner;
+const #24 = class	#63;	//  classes/test/InnerClass$PrivateInnerAbstract
+const #25 = Asciz	PrivateInnerAbstract;
+const #26 = class	#64;	//  classes/test/InnerClass$PrivateInner
+const #27 = Asciz	PrivateInner;
+const #28 = Asciz	<init>;
+const #29 = Asciz	()V;
+const #30 = Asciz	Code;
+const #31 = Asciz	LineNumberTable;
+const #32 = Asciz	run;
+const #33 = Asciz	runFunctor;
+const #34 = Asciz	(Lclasses/test/InnerClass;)V;
+const #35 = Asciz	main;
+const #36 = Asciz	([Ljava/lang/String;)V;
+const #37 = Asciz	StackMapTable;
+const #38 = class	#65;	//  "[Ljava/lang/Class;"
+const #39 = Asciz	SourceFile;
+const #40 = Asciz	InnerClass.java;
+const #41 = NameAndType	#28:#29;//  "<init>":()V
+const #42 = NameAndType	#32:#29;//  run:()V
+const #43 = Asciz	classes/test/InnerClass$1;
+const #44 = Asciz	;
+const #45 = NameAndType	#33:#34;//  runFunctor:(Lclasses/test/InnerClass;)V
+const #46 = Asciz	classes/test/InnerClass$Foo;
+const #47 = class	#66;	//  java/lang/System
+const #48 = NameAndType	#67:#68;//  out:Ljava/io/PrintStream;
+const #49 = Asciz	classes/test/InnerClass;
+const #50 = class	#69;	//  java/lang/Class
+const #51 = NameAndType	#70:#71;//  getDeclaringClass:()Ljava/lang/Class;
+const #52 = class	#72;	//  java/io/PrintStream
+const #53 = NameAndType	#73:#74;//  println:(Ljava/lang/Object;)V
+const #54 = NameAndType	#75:#76;//  getName:()Ljava/lang/String;
+const #55 = NameAndType	#73:#77;//  println:(Ljava/lang/String;)V
+const #56 = Asciz	classes/test/InnerClass$Foo$Bar;
+const #57 = Asciz	Bar;
+const #58 = NameAndType	#78:#76;//  getSimpleName:()Ljava/lang/String;
+const #59 = NameAndType	#79:#80;//  getDeclaredClasses:()[Ljava/lang/Class;
+const #60 = Asciz	java/lang/Object;
+const #61 = Asciz	classes/test/InnerClass$ProtectedInnerAbstract;
+const #62 = Asciz	classes/test/InnerClass$ProtectedInner;
+const #63 = Asciz	classes/test/InnerClass$PrivateInnerAbstract;
+const #64 = Asciz	classes/test/InnerClass$PrivateInner;
+const #65 = Asciz	[Ljava/lang/Class;;
+const #66 = Asciz	java/lang/System;
+const #67 = Asciz	out;
+const #68 = Asciz	Ljava/io/PrintStream;;
+const #69 = Asciz	java/lang/Class;
+const #70 = Asciz	getDeclaringClass;
+const #71 = Asciz	()Ljava/lang/Class;;
+const #72 = Asciz	java/io/PrintStream;
+const #73 = Asciz	println;
+const #74 = Asciz	(Ljava/lang/Object;)V;
+const #75 = Asciz	getName;
+const #76 = Asciz	()Ljava/lang/String;;
+const #77 = Asciz	(Ljava/lang/String;)V;
+const #78 = Asciz	getSimpleName;
+const #79 = Asciz	getDeclaredClasses;
+const #80 = Asciz	()[Ljava/lang/Class;;
+
+{
+public classes.test.InnerClass();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	return
+  LineNumberTable: 
+   line 3: 0
+   line 15: 4
+
+
+public abstract void run();
+
+public static void runFunctor(classes.test.InnerClass);
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokevirtual	#2; //Method run:()V
+   4:	return
+  LineNumberTable: 
+   line 13: 0
+   line 14: 4
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=2, Locals=5, Args_size=1
+   0:	new	#3; //class classes/test/InnerClass$1
+   3:	dup
+   4:	invokespecial	#4; //Method classes/test/InnerClass$1."<init>":()V
+   7:	invokestatic	#5; //Method runFunctor:(Lclasses/test/InnerClass;)V
+   10:	new	#6; //class classes/test/InnerClass$Foo
+   13:	dup
+   14:	invokespecial	#7; //Method classes/test/InnerClass$Foo."<init>":()V
+   17:	invokestatic	#5; //Method runFunctor:(Lclasses/test/InnerClass;)V
+   20:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   23:	ldc_w	#9; //class classes/test/InnerClass
+   26:	invokevirtual	#10; //Method java/lang/Class.getDeclaringClass:()Ljava/lang/Class;
+   29:	invokevirtual	#11; //Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+   32:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   35:	ldc_w	#6; //class classes/test/InnerClass$Foo
+   38:	invokevirtual	#10; //Method java/lang/Class.getDeclaringClass:()Ljava/lang/Class;
+   41:	invokevirtual	#12; //Method java/lang/Class.getName:()Ljava/lang/String;
+   44:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   47:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   50:	ldc_w	#14; //class classes/test/InnerClass$Foo$Bar
+   53:	invokevirtual	#10; //Method java/lang/Class.getDeclaringClass:()Ljava/lang/Class;
+   56:	invokevirtual	#12; //Method java/lang/Class.getName:()Ljava/lang/String;
+   59:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   62:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   65:	ldc_w	#6; //class classes/test/InnerClass$Foo
+   68:	invokevirtual	#12; //Method java/lang/Class.getName:()Ljava/lang/String;
+   71:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   74:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   77:	ldc_w	#6; //class classes/test/InnerClass$Foo
+   80:	invokevirtual	#15; //Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+   83:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   86:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   89:	ldc_w	#14; //class classes/test/InnerClass$Foo$Bar
+   92:	invokevirtual	#15; //Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+   95:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   98:	ldc_w	#9; //class classes/test/InnerClass
+   101:	invokevirtual	#16; //Method java/lang/Class.getDeclaredClasses:()[Ljava/lang/Class;
+   104:	astore_1
+   105:	aload_1
+   106:	arraylength
+   107:	istore_2
+   108:	iconst_0
+   109:	istore_3
+   110:	iload_3
+   111:	iload_2
+   112:	if_icmpge	137
+   115:	aload_1
+   116:	iload_3
+   117:	aaload
+   118:	astore	4
+   120:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   123:	aload	4
+   125:	invokevirtual	#12; //Method java/lang/Class.getName:()Ljava/lang/String;
+   128:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   131:	iinc	3, 1
+   134:	goto	110
+   137:	ldc_w	#6; //class classes/test/InnerClass$Foo
+   140:	invokevirtual	#16; //Method java/lang/Class.getDeclaredClasses:()[Ljava/lang/Class;
+   143:	astore_1
+   144:	aload_1
+   145:	arraylength
+   146:	istore_2
+   147:	iconst_0
+   148:	istore_3
+   149:	iload_3
+   150:	iload_2
+   151:	if_icmpge	176
+   154:	aload_1
+   155:	iload_3
+   156:	aaload
+   157:	astore	4
+   159:	getstatic	#8; //Field java/lang/System.out:Ljava/io/PrintStream;
+   162:	aload	4
+   164:	invokevirtual	#12; //Method java/lang/Class.getName:()Ljava/lang/String;
+   167:	invokevirtual	#13; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   170:	iinc	3, 1
+   173:	goto	149
+   176:	return
+  LineNumberTable: 
+   line 24: 0
+   line 30: 10
+   line 32: 20
+   line 33: 32
+   line 34: 47
+   line 35: 62
+   line 36: 74
+   line 37: 86
+   line 38: 98
+   line 39: 120
+   line 38: 131
+   line 40: 137
+   line 41: 159
+   line 40: 170
+   line 42: 176
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 254 /* append */
+     offset_delta = 110
+     locals = [ class "[Ljava/lang/Class;", int, int ]
+   frame_type = 248 /* chop */
+     offset_delta = 26
+   frame_type = 254 /* append */
+     offset_delta = 11
+     locals = [ class "[Ljava/lang/Class;", int, int ]
+   frame_type = 248 /* chop */
+     offset_delta = 26
+
+
+}
+

@@ -1,0 +1,449 @@
+Compiled from "ArrayOps.java"
+public class classes.test.ArrayOps extends java.lang.Object
+  SourceFile: "ArrayOps.java"
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#26.#49;	//  java/lang/Object."<init>":()V
+const #2 = class	#28;	//  "[[[S"
+const #3 = Field	#8.#50;	//  classes/test/ArrayOps.foo3:[[[S
+const #4 = Method	#51.#52;	//  java/lang/System.arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+const #5 = Field	#51.#53;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #6 = Method	#54.#55;	//  java/io/PrintStream.println:(I)V
+const #7 = class	#56;	//  "[[Ljava/lang/Integer;"
+const #8 = class	#57;	//  classes/test/ArrayOps
+const #9 = Method	#8.#49;	//  classes/test/ArrayOps."<init>":()V
+const #10 = Method	#58.#59;	//  java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+const #11 = Method	#54.#60;	//  java/io/PrintStream.print:(Ljava/lang/Object;)V
+const #12 = Method	#54.#61;	//  java/io/PrintStream.println:()V
+const #13 = class	#62;	//  "[Ljava/lang/Object;"
+const #14 = Method	#54.#63;	//  java/io/PrintStream.println:(Ljava/lang/Object;)V
+const #15 = double	8.3d;
+const #17 = long	2l;
+const #19 = class	#64;	//  java/lang/NullPointerException
+const #20 = String	#65;	//  Caught field lookup on null
+const #21 = Method	#54.#66;	//  java/io/PrintStream.println:(Ljava/lang/String;)V
+const #22 = class	#67;	//  java/lang/ArrayIndexOutOfBoundsException
+const #23 = String	#68;	//  Caught iastore out of bounds
+const #24 = String	#69;	//  Caught iaload out of bounds
+const #25 = String	#70;	//  OK
+const #26 = class	#71;	//  java/lang/Object
+const #27 = Asciz	foo3;
+const #28 = Asciz	[[[S;
+const #29 = Asciz	<init>;
+const #30 = Asciz	()V;
+const #31 = Asciz	Code;
+const #32 = Asciz	LineNumberTable;
+const #33 = Asciz	main;
+const #34 = Asciz	([Ljava/lang/String;)V;
+const #35 = Asciz	StackMapTable;
+const #36 = class	#72;	//  "[Ljava/lang/String;"
+const #37 = class	#73;	//  "[I"
+const #38 = class	#57;	//  classes/test/ArrayOps
+const #39 = class	#74;	//  "[[Ljava/lang/Object;"
+const #40 = class	#75;	//  "[J"
+const #41 = class	#76;	//  "[S"
+const #42 = class	#77;	//  "[B"
+const #43 = class	#78;	//  "[F"
+const #44 = class	#79;	//  "[D"
+const #45 = class	#64;	//  java/lang/NullPointerException
+const #46 = class	#67;	//  java/lang/ArrayIndexOutOfBoundsException
+const #47 = Asciz	SourceFile;
+const #48 = Asciz	ArrayOps.java;
+const #49 = NameAndType	#29:#30;//  "<init>":()V
+const #50 = NameAndType	#27:#28;//  foo3:[[[S
+const #51 = class	#80;	//  java/lang/System
+const #52 = NameAndType	#81:#82;//  arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+const #53 = NameAndType	#83:#84;//  out:Ljava/io/PrintStream;
+const #54 = class	#85;	//  java/io/PrintStream
+const #55 = NameAndType	#86:#87;//  println:(I)V
+const #56 = Asciz	[[Ljava/lang/Integer;;
+const #57 = Asciz	classes/test/ArrayOps;
+const #58 = class	#88;	//  java/lang/Integer
+const #59 = NameAndType	#89:#90;//  valueOf:(I)Ljava/lang/Integer;
+const #60 = NameAndType	#91:#92;//  print:(Ljava/lang/Object;)V
+const #61 = NameAndType	#86:#30;//  println:()V
+const #62 = Asciz	[Ljava/lang/Object;;
+const #63 = NameAndType	#86:#92;//  println:(Ljava/lang/Object;)V
+const #64 = Asciz	java/lang/NullPointerException;
+const #65 = Asciz	Caught field lookup on null;
+const #66 = NameAndType	#86:#93;//  println:(Ljava/lang/String;)V
+const #67 = Asciz	java/lang/ArrayIndexOutOfBoundsException;
+const #68 = Asciz	Caught iastore out of bounds;
+const #69 = Asciz	Caught iaload out of bounds;
+const #70 = Asciz	OK;
+const #71 = Asciz	java/lang/Object;
+const #72 = Asciz	[Ljava/lang/String;;
+const #73 = Asciz	[I;
+const #74 = Asciz	[[Ljava/lang/Object;;
+const #75 = Asciz	[J;
+const #76 = Asciz	[S;
+const #77 = Asciz	[B;
+const #78 = Asciz	[F;
+const #79 = Asciz	[D;
+const #80 = Asciz	java/lang/System;
+const #81 = Asciz	arraycopy;
+const #82 = Asciz	(Ljava/lang/Object;ILjava/lang/Object;II)V;
+const #83 = Asciz	out;
+const #84 = Asciz	Ljava/io/PrintStream;;
+const #85 = Asciz	java/io/PrintStream;
+const #86 = Asciz	println;
+const #87 = Asciz	(I)V;
+const #88 = Asciz	java/lang/Integer;
+const #89 = Asciz	valueOf;
+const #90 = Asciz	(I)Ljava/lang/Integer;;
+const #91 = Asciz	print;
+const #92 = Asciz	(Ljava/lang/Object;)V;
+const #93 = Asciz	(Ljava/lang/String;)V;
+
+{
+short[][][] foo3;
+
+
+public classes.test.ArrayOps();
+  Code:
+   Stack=3, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	aload_0
+   5:	iconst_3
+   6:	iconst_2
+   7:	multianewarray	#2,  2; //class "[[[S"
+   11:	putfield	#3; //Field foo3:[[[S
+   14:	return
+  LineNumberTable: 
+   line 5: 0
+   line 6: 4
+   line 7: 14
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=6, Locals=15, Args_size=1
+   0:	iconst_5
+   1:	newarray int
+   3:	dup
+   4:	iconst_0
+   5:	iconst_5
+   6:	iastore
+   7:	dup
+   8:	iconst_1
+   9:	iconst_4
+   10:	iastore
+   11:	dup
+   12:	iconst_2
+   13:	iconst_3
+   14:	iastore
+   15:	dup
+   16:	iconst_3
+   17:	iconst_2
+   18:	iastore
+   19:	dup
+   20:	iconst_4
+   21:	iconst_1
+   22:	iastore
+   23:	astore_1
+   24:	aload_1
+   25:	arraylength
+   26:	istore_2
+   27:	iconst_5
+   28:	newarray int
+   30:	astore_3
+   31:	aload_1
+   32:	iconst_0
+   33:	aload_3
+   34:	iconst_0
+   35:	iconst_5
+   36:	invokestatic	#4; //Method java/lang/System.arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+   39:	aload_1
+   40:	iconst_2
+   41:	bipush	30
+   43:	iastore
+   44:	aload_3
+   45:	iconst_2
+   46:	iaload
+   47:	istore	4
+   49:	iconst_0
+   50:	istore	5
+   52:	iload	5
+   54:	aload_1
+   55:	arraylength
+   56:	if_icmpge	75
+   59:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   62:	aload_1
+   63:	iload	5
+   65:	iaload
+   66:	invokevirtual	#6; //Method java/io/PrintStream.println:(I)V
+   69:	iinc	5, 1
+   72:	goto	52
+   75:	iconst_0
+   76:	istore	5
+   78:	iload	5
+   80:	aload_3
+   81:	arraylength
+   82:	if_icmpge	101
+   85:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   88:	aload_3
+   89:	iload	5
+   91:	iaload
+   92:	invokevirtual	#6; //Method java/io/PrintStream.println:(I)V
+   95:	iinc	5, 1
+   98:	goto	78
+   101:	iconst_5
+   102:	iconst_5
+   103:	multianewarray	#7,  2; //class "[[Ljava/lang/Integer;"
+   107:	astore	5
+   109:	new	#8; //class classes/test/ArrayOps
+   112:	dup
+   113:	invokespecial	#9; //Method "<init>":()V
+   116:	astore	6
+   118:	iconst_0
+   119:	istore	7
+   121:	iload	7
+   123:	aload	5
+   125:	arraylength
+   126:	if_icmpge	191
+   129:	iconst_0
+   130:	istore	8
+   132:	iload	8
+   134:	aload	5
+   136:	iload	7
+   138:	aaload
+   139:	arraylength
+   140:	if_icmpge	179
+   143:	aload	5
+   145:	iload	7
+   147:	aaload
+   148:	iload	8
+   150:	iload	7
+   152:	iload	8
+   154:	imul
+   155:	invokestatic	#10; //Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   158:	aastore
+   159:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   162:	aload	5
+   164:	iload	7
+   166:	aaload
+   167:	iload	8
+   169:	aaload
+   170:	invokevirtual	#11; //Method java/io/PrintStream.print:(Ljava/lang/Object;)V
+   173:	iinc	8, 1
+   176:	goto	132
+   179:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   182:	invokevirtual	#12; //Method java/io/PrintStream.println:()V
+   185:	iinc	7, 1
+   188:	goto	121
+   191:	iconst_1
+   192:	anewarray	#13; //class "[Ljava/lang/Object;"
+   195:	astore	7
+   197:	aload	7
+   199:	iconst_0
+   200:	aaload
+   201:	ifnull	214
+   204:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   207:	aload	7
+   209:	iconst_0
+   210:	aaload
+   211:	invokevirtual	#14; //Method java/io/PrintStream.println:(Ljava/lang/Object;)V
+   214:	iconst_3
+   215:	newarray long
+   217:	astore	8
+   219:	iconst_4
+   220:	newarray short
+   222:	astore	9
+   224:	iconst_5
+   225:	newarray byte
+   227:	astore	10
+   229:	bipush	6
+   231:	newarray float
+   233:	astore	11
+   235:	bipush	7
+   237:	newarray double
+   239:	astore	12
+   241:	aload	12
+   243:	bipush	6
+   245:	ldc2_w	#15; //double 8.3d
+   248:	dastore
+   249:	aload	11
+   251:	iconst_5
+   252:	aload	12
+   254:	bipush	6
+   256:	daload
+   257:	d2f
+   258:	fastore
+   259:	aload	10
+   261:	iconst_4
+   262:	aload	11
+   264:	iconst_5
+   265:	faload
+   266:	f2i
+   267:	i2b
+   268:	bastore
+   269:	aload	9
+   271:	iconst_3
+   272:	aload	10
+   274:	iconst_4
+   275:	baload
+   276:	i2s
+   277:	sastore
+   278:	aload	8
+   280:	iconst_2
+   281:	aload	9
+   283:	iconst_3
+   284:	saload
+   285:	i2l
+   286:	lastore
+   287:	aload	12
+   289:	iconst_1
+   290:	aload	8
+   292:	iconst_2
+   293:	laload
+   294:	l2d
+   295:	dastore
+   296:	aload	8
+   298:	iconst_0
+   299:	ldc2_w	#17; //long 2l
+   302:	aload	8
+   304:	iconst_1
+   305:	laload
+   306:	ladd
+   307:	lastore
+   308:	aconst_null
+   309:	astore	13
+   311:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   314:	aload	13
+   316:	arraylength
+   317:	invokevirtual	#6; //Method java/io/PrintStream.println:(I)V
+   320:	goto	333
+   323:	astore	14
+   325:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   328:	ldc	#20; //String Caught field lookup on null
+   330:	invokevirtual	#21; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   333:	iconst_0
+   334:	newarray int
+   336:	astore	13
+   338:	aload	13
+   340:	iconst_0
+   341:	iconst_0
+   342:	iastore
+   343:	goto	356
+   346:	astore	14
+   348:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   351:	ldc	#23; //String Caught iastore out of bounds
+   353:	invokevirtual	#21; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   356:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   359:	aload	13
+   361:	iconst_0
+   362:	iaload
+   363:	invokevirtual	#6; //Method java/io/PrintStream.println:(I)V
+   366:	goto	379
+   369:	astore	14
+   371:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   374:	ldc	#24; //String Caught iaload out of bounds
+   376:	invokevirtual	#21; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   379:	getstatic	#5; //Field java/lang/System.out:Ljava/io/PrintStream;
+   382:	ldc	#25; //String OK
+   384:	invokevirtual	#21; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   387:	return
+  Exception table:
+   from   to  target type
+   311   320   323   Class java/lang/NullPointerException
+
+   338   343   346   Class java/lang/ArrayIndexOutOfBoundsException
+
+   356   366   369   Class java/lang/ArrayIndexOutOfBoundsException
+
+  LineNumberTable: 
+   line 9: 0
+   line 10: 24
+   line 11: 27
+   line 12: 31
+   line 13: 39
+   line 14: 44
+   line 15: 49
+   line 16: 59
+   line 15: 69
+   line 17: 75
+   line 18: 85
+   line 17: 95
+   line 21: 101
+   line 22: 109
+   line 24: 118
+   line 25: 129
+   line 26: 143
+   line 27: 159
+   line 25: 173
+   line 29: 179
+   line 24: 185
+   line 33: 191
+   line 34: 197
+   line 35: 204
+   line 38: 214
+   line 39: 219
+   line 40: 224
+   line 41: 229
+   line 42: 235
+   line 43: 241
+   line 44: 249
+   line 45: 259
+   line 46: 269
+   line 47: 278
+   line 48: 287
+   line 50: 296
+   line 53: 308
+   line 56: 311
+   line 60: 320
+   line 58: 323
+   line 59: 325
+   line 62: 333
+   line 65: 338
+   line 69: 343
+   line 67: 346
+   line 68: 348
+   line 72: 356
+   line 76: 366
+   line 74: 369
+   line 75: 371
+   line 78: 379
+   line 79: 387
+
+  StackMapTable: number_of_entries = 15
+   frame_type = 255 /* full_frame */
+     offset_delta = 52
+     locals = [ class "[Ljava/lang/String;", class "[I", int, class "[I", int, int ]
+     stack = []
+   frame_type = 250 /* chop */
+     offset_delta = 22
+   frame_type = 252 /* append */
+     offset_delta = 2
+     locals = [ int ]
+   frame_type = 250 /* chop */
+     offset_delta = 22
+   frame_type = 254 /* append */
+     offset_delta = 19
+     locals = [ class "[[Ljava/lang/Integer;", class classes/test/ArrayOps, int ]
+   frame_type = 252 /* append */
+     offset_delta = 10
+     locals = [ int ]
+   frame_type = 250 /* chop */
+     offset_delta = 46
+   frame_type = 250 /* chop */
+     offset_delta = 11
+   frame_type = 252 /* append */
+     offset_delta = 22
+     locals = [ class "[[Ljava/lang/Object;" ]
+   frame_type = 255 /* full_frame */
+     offset_delta = 108
+     locals = [ class "[Ljava/lang/String;", class "[I", int, class "[I", int, class "[[Ljava/lang/Integer;", class classes/test/ArrayOps, class "[[Ljava/lang/Object;", class "[J", class "[S", class "[B", class "[F", class "[D", class "[I" ]
+     stack = [ class java/lang/NullPointerException ]
+   frame_type = 9 /* same */
+   frame_type = 76 /* same_locals_1_stack_item */
+     stack = [ class java/lang/ArrayIndexOutOfBoundsException ]
+   frame_type = 9 /* same */
+   frame_type = 76 /* same_locals_1_stack_item */
+     stack = [ class java/lang/ArrayIndexOutOfBoundsException ]
+   frame_type = 9 /* same */
+
+
+}
+

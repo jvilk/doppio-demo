@@ -1,0 +1,96 @@
+Compiled from "Runtime.java"
+public class classes.test.Runtime extends java.lang.Object
+  SourceFile: "Runtime.java"
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#7.#20;	//  java/lang/Object."<init>":()V
+const #2 = Method	#21.#22;	//  java/lang/Runtime.getRuntime:()Ljava/lang/Runtime;
+const #3 = Method	#21.#23;	//  java/lang/Runtime.maxMemory:()J
+const #4 = Field	#24.#25;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #5 = Method	#26.#27;	//  java/io/PrintStream.println:(Z)V
+const #6 = class	#28;	//  classes/test/Runtime
+const #7 = class	#29;	//  java/lang/Object
+const #8 = Asciz	<init>;
+const #9 = Asciz	()V;
+const #10 = Asciz	Code;
+const #11 = Asciz	LineNumberTable;
+const #12 = Asciz	main;
+const #13 = Asciz	([Ljava/lang/String;)V;
+const #14 = Asciz	StackMapTable;
+const #15 = class	#30;	//  "[Ljava/lang/String;"
+const #16 = class	#31;	//  java/lang/Runtime
+const #17 = class	#32;	//  java/io/PrintStream
+const #18 = Asciz	SourceFile;
+const #19 = Asciz	Runtime.java;
+const #20 = NameAndType	#8:#9;//  "<init>":()V
+const #21 = class	#31;	//  java/lang/Runtime
+const #22 = NameAndType	#33:#34;//  getRuntime:()Ljava/lang/Runtime;
+const #23 = NameAndType	#35:#36;//  maxMemory:()J
+const #24 = class	#37;	//  java/lang/System
+const #25 = NameAndType	#38:#39;//  out:Ljava/io/PrintStream;
+const #26 = class	#32;	//  java/io/PrintStream
+const #27 = NameAndType	#40:#41;//  println:(Z)V
+const #28 = Asciz	classes/test/Runtime;
+const #29 = Asciz	java/lang/Object;
+const #30 = Asciz	[Ljava/lang/String;;
+const #31 = Asciz	java/lang/Runtime;
+const #32 = Asciz	java/io/PrintStream;
+const #33 = Asciz	getRuntime;
+const #34 = Asciz	()Ljava/lang/Runtime;;
+const #35 = Asciz	maxMemory;
+const #36 = Asciz	()J;
+const #37 = Asciz	java/lang/System;
+const #38 = Asciz	out;
+const #39 = Asciz	Ljava/io/PrintStream;;
+const #40 = Asciz	println;
+const #41 = Asciz	(Z)V;
+
+{
+public classes.test.Runtime();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	return
+  LineNumberTable: 
+   line 3: 0
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=5, Locals=4, Args_size=1
+   0:	invokestatic	#2; //Method java/lang/Runtime.getRuntime:()Ljava/lang/Runtime;
+   3:	astore_1
+   4:	aload_1
+   5:	invokevirtual	#3; //Method java/lang/Runtime.maxMemory:()J
+   8:	lstore_2
+   9:	getstatic	#4; //Field java/lang/System.out:Ljava/io/PrintStream;
+   12:	lload_2
+   13:	lconst_0
+   14:	lcmp
+   15:	ifle	22
+   18:	iconst_1
+   19:	goto	23
+   22:	iconst_0
+   23:	invokevirtual	#5; //Method java/io/PrintStream.println:(Z)V
+   26:	return
+  LineNumberTable: 
+   line 5: 0
+   line 7: 4
+   line 9: 9
+   line 10: 26
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 22
+     locals = [ class "[Ljava/lang/String;", class java/lang/Runtime, long ]
+     stack = [ class java/io/PrintStream ]
+   frame_type = 255 /* full_frame */
+     offset_delta = 0
+     locals = [ class "[Ljava/lang/String;", class java/lang/Runtime, long ]
+     stack = [ class java/io/PrintStream, int ]
+
+
+}
+

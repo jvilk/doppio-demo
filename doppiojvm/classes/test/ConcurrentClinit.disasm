@@ -1,0 +1,145 @@
+Compiled from "ConcurrentClinit.java"
+class classes.test.ConcurrentClinit extends java.lang.Object
+  SourceFile: "ConcurrentClinit.java"
+  InnerClass: 
+   #15= #14 of #12; //Bar=class classes/test/ConcurrentClinit$Bar of class classes/test/ConcurrentClinit
+   #18= #17 of #12; //Foo=class classes/test/ConcurrentClinit$Foo of class classes/test/ConcurrentClinit
+   #3; //class classes/test/ConcurrentClinit$1
+   #6; //class classes/test/ConcurrentClinit$2
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#13.#34;	//  java/lang/Object."<init>":()V
+const #2 = class	#35;	//  java/lang/Thread
+const #3 = class	#36;	//  classes/test/ConcurrentClinit$1
+const #4 = Method	#3.#34;	//  classes/test/ConcurrentClinit$1."<init>":()V
+const #5 = Method	#2.#38;	//  java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+const #6 = class	#39;	//  classes/test/ConcurrentClinit$2
+const #7 = Method	#6.#34;	//  classes/test/ConcurrentClinit$2."<init>":()V
+const #8 = Method	#2.#40;	//  java/lang/Thread.start:()V
+const #9 = Field	#12.#41;	//  classes/test/ConcurrentClinit.state:I
+const #10 = Method	#2.#42;	//  java/lang/Thread.yield:()V
+const #11 = Method	#2.#43;	//  java/lang/Thread.interrupt:()V
+const #12 = class	#44;	//  classes/test/ConcurrentClinit
+const #13 = class	#45;	//  java/lang/Object
+const #14 = class	#46;	//  classes/test/ConcurrentClinit$Bar
+const #15 = Asciz	Bar;
+const #16 = Asciz	InnerClasses;
+const #17 = class	#47;	//  classes/test/ConcurrentClinit$Foo
+const #18 = Asciz	Foo;
+const #19 = Asciz	state;
+const #20 = Asciz	I;
+const #21 = Asciz	<init>;
+const #22 = Asciz	()V;
+const #23 = Asciz	Code;
+const #24 = Asciz	LineNumberTable;
+const #25 = Asciz	main;
+const #26 = Asciz	([Ljava/lang/String;)V;
+const #27 = Asciz	StackMapTable;
+const #28 = class	#35;	//  java/lang/Thread
+const #29 = Asciz	Exceptions;
+const #30 = class	#48;	//  java/lang/InterruptedException
+const #31 = Asciz	<clinit>;
+const #32 = Asciz	SourceFile;
+const #33 = Asciz	ConcurrentClinit.java;
+const #34 = NameAndType	#21:#22;//  "<init>":()V
+const #35 = Asciz	java/lang/Thread;
+const #36 = Asciz	classes/test/ConcurrentClinit$1;
+const #37 = Asciz	;
+const #38 = NameAndType	#21:#49;//  "<init>":(Ljava/lang/Runnable;)V
+const #39 = Asciz	classes/test/ConcurrentClinit$2;
+const #40 = NameAndType	#50:#22;//  start:()V
+const #41 = NameAndType	#19:#20;//  state:I
+const #42 = NameAndType	#51:#22;//  yield:()V
+const #43 = NameAndType	#52:#22;//  interrupt:()V
+const #44 = Asciz	classes/test/ConcurrentClinit;
+const #45 = Asciz	java/lang/Object;
+const #46 = Asciz	classes/test/ConcurrentClinit$Bar;
+const #47 = Asciz	classes/test/ConcurrentClinit$Foo;
+const #48 = Asciz	java/lang/InterruptedException;
+const #49 = Asciz	(Ljava/lang/Runnable;)V;
+const #50 = Asciz	start;
+const #51 = Asciz	yield;
+const #52 = Asciz	interrupt;
+
+{
+static int state;
+
+
+classes.test.ConcurrentClinit();
+  Code:
+   Stack=1, Locals=1, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	return
+  LineNumberTable: 
+   line 3: 0
+   line 23: 4
+
+
+public static void main(java.lang.String[])   throws java.lang.InterruptedException;
+  Code:
+   Stack=4, Locals=3, Args_size=1
+   0:	new	#2; //class java/lang/Thread
+   3:	dup
+   4:	new	#3; //class classes/test/ConcurrentClinit$1
+   7:	dup
+   8:	invokespecial	#4; //Method classes/test/ConcurrentClinit$1."<init>":()V
+   11:	invokespecial	#5; //Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+   14:	astore_1
+   15:	new	#2; //class java/lang/Thread
+   18:	dup
+   19:	new	#6; //class classes/test/ConcurrentClinit$2
+   22:	dup
+   23:	invokespecial	#7; //Method classes/test/ConcurrentClinit$2."<init>":()V
+   26:	invokespecial	#5; //Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+   29:	astore_2
+   30:	aload_1
+   31:	invokevirtual	#8; //Method java/lang/Thread.start:()V
+   34:	getstatic	#9; //Field state:I
+   37:	iconst_1
+   38:	if_icmpeq	47
+   41:	invokestatic	#10; //Method java/lang/Thread.yield:()V
+   44:	goto	34
+   47:	aload_2
+   48:	invokevirtual	#8; //Method java/lang/Thread.start:()V
+   51:	getstatic	#9; //Field state:I
+   54:	iconst_2
+   55:	if_icmpeq	64
+   58:	invokestatic	#10; //Method java/lang/Thread.yield:()V
+   61:	goto	51
+   64:	aload_1
+   65:	invokevirtual	#11; //Method java/lang/Thread.interrupt:()V
+   68:	return
+  LineNumberTable: 
+   line 33: 0
+   line 38: 15
+   line 44: 30
+   line 45: 34
+   line 47: 47
+   line 48: 51
+   line 49: 64
+   line 50: 68
+
+  StackMapTable: number_of_entries = 4
+   frame_type = 253 /* append */
+     offset_delta = 34
+     locals = [ class java/lang/Thread, class java/lang/Thread ]
+   frame_type = 12 /* same */
+   frame_type = 3 /* same */
+   frame_type = 12 /* same */
+
+  Exceptions: 
+   throws java.lang.InterruptedException
+static {};
+  Code:
+   Stack=1, Locals=0, Args_size=0
+   0:	iconst_0
+   1:	putstatic	#9; //Field state:I
+   4:	return
+  LineNumberTable: 
+   line 4: 0
+
+
+}
+

@@ -1,0 +1,9 @@
+ran defineClass with no issues
+Custom loaded class: class classes.test.CustomClassLoader
+Class loaded through custom loader is NOT the same as that loaded by System loader.
+Called CustomClassLoader.foo
+Called CustomClassLoader.bar
+Object[] loaded through custom classloader is the same as that loaded by System loader.
+ERROR reading java/lang/Lolol.class
+java.lang.ClassNotFoundException: Cannot load class: java.lang.Lolol
+java.lang.Lolol[] is malformed

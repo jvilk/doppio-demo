@@ -1,0 +1,170 @@
+Compiled from "SynchronizedStart.java"
+public class classes.test.SynchronizedStart extends java.lang.Object implements java.lang.Runnable
+  SourceFile: "SynchronizedStart.java"
+  minor version: 0
+  major version: 50
+  Constant pool:
+const #1 = Method	#14.#29;	//  java/lang/Object."<init>":()V
+const #2 = Field	#30.#31;	//  java/lang/System.out:Ljava/io/PrintStream;
+const #3 = String	#32;	//  1: inside ctor synchronized block
+const #4 = Method	#33.#34;	//  java/io/PrintStream.println:(Ljava/lang/String;)V
+const #5 = class	#35;	//  java/lang/Thread
+const #6 = String	#36;	//  runner
+const #7 = Method	#5.#37;	//  java/lang/Thread."<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+const #8 = Method	#5.#38;	//  java/lang/Thread.start:()V
+const #9 = String	#39;	//  2: leaving ctor synchronized block
+const #10 = String	#40;	//  3: inside run synchronized block
+const #11 = String	#41;	//  4: outside run synchronized block
+const #12 = class	#42;	//  classes/test/SynchronizedStart
+const #13 = Method	#12.#29;	//  classes/test/SynchronizedStart."<init>":()V
+const #14 = class	#43;	//  java/lang/Object
+const #15 = class	#44;	//  java/lang/Runnable
+const #16 = Asciz	<init>;
+const #17 = Asciz	()V;
+const #18 = Asciz	Code;
+const #19 = Asciz	LineNumberTable;
+const #20 = Asciz	StackMapTable;
+const #21 = class	#42;	//  classes/test/SynchronizedStart
+const #22 = class	#43;	//  java/lang/Object
+const #23 = class	#45;	//  java/lang/Throwable
+const #24 = Asciz	run;
+const #25 = Asciz	main;
+const #26 = Asciz	([Ljava/lang/String;)V;
+const #27 = Asciz	SourceFile;
+const #28 = Asciz	SynchronizedStart.java;
+const #29 = NameAndType	#16:#17;//  "<init>":()V
+const #30 = class	#46;	//  java/lang/System
+const #31 = NameAndType	#47:#48;//  out:Ljava/io/PrintStream;
+const #32 = Asciz	1: inside ctor synchronized block;
+const #33 = class	#49;	//  java/io/PrintStream
+const #34 = NameAndType	#50:#51;//  println:(Ljava/lang/String;)V
+const #35 = Asciz	java/lang/Thread;
+const #36 = Asciz	runner;
+const #37 = NameAndType	#16:#52;//  "<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+const #38 = NameAndType	#53:#17;//  start:()V
+const #39 = Asciz	2: leaving ctor synchronized block;
+const #40 = Asciz	3: inside run synchronized block;
+const #41 = Asciz	4: outside run synchronized block;
+const #42 = Asciz	classes/test/SynchronizedStart;
+const #43 = Asciz	java/lang/Object;
+const #44 = Asciz	java/lang/Runnable;
+const #45 = Asciz	java/lang/Throwable;
+const #46 = Asciz	java/lang/System;
+const #47 = Asciz	out;
+const #48 = Asciz	Ljava/io/PrintStream;;
+const #49 = Asciz	java/io/PrintStream;
+const #50 = Asciz	println;
+const #51 = Asciz	(Ljava/lang/String;)V;
+const #52 = Asciz	(Ljava/lang/Runnable;Ljava/lang/String;)V;
+const #53 = Asciz	start;
+
+{
+public classes.test.SynchronizedStart();
+  Code:
+   Stack=4, Locals=3, Args_size=1
+   0:	aload_0
+   1:	invokespecial	#1; //Method java/lang/Object."<init>":()V
+   4:	aload_0
+   5:	dup
+   6:	astore_1
+   7:	monitorenter
+   8:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   11:	ldc	#3; //String 1: inside ctor synchronized block
+   13:	invokevirtual	#4; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   16:	new	#5; //class java/lang/Thread
+   19:	dup
+   20:	aload_0
+   21:	ldc	#6; //String runner
+   23:	invokespecial	#7; //Method java/lang/Thread."<init>":(Ljava/lang/Runnable;Ljava/lang/String;)V
+   26:	invokevirtual	#8; //Method java/lang/Thread.start:()V
+   29:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   32:	ldc	#9; //String 2: leaving ctor synchronized block
+   34:	invokevirtual	#4; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   37:	aload_1
+   38:	monitorexit
+   39:	goto	47
+   42:	astore_2
+   43:	aload_1
+   44:	monitorexit
+   45:	aload_2
+   46:	athrow
+   47:	return
+  Exception table:
+   from   to  target type
+     8    39    42   any
+    42    45    42   any
+  LineNumberTable: 
+   line 9: 0
+   line 10: 4
+   line 11: 8
+   line 12: 16
+   line 13: 29
+   line 14: 37
+   line 15: 47
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 42
+     locals = [ class classes/test/SynchronizedStart, class java/lang/Object ]
+     stack = [ class java/lang/Throwable ]
+   frame_type = 250 /* chop */
+     offset_delta = 4
+
+
+public void run();
+  Code:
+   Stack=2, Locals=3, Args_size=1
+   0:	aload_0
+   1:	dup
+   2:	astore_1
+   3:	monitorenter
+   4:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   7:	ldc	#10; //String 3: inside run synchronized block
+   9:	invokevirtual	#4; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   12:	aload_1
+   13:	monitorexit
+   14:	goto	22
+   17:	astore_2
+   18:	aload_1
+   19:	monitorexit
+   20:	aload_2
+   21:	athrow
+   22:	getstatic	#2; //Field java/lang/System.out:Ljava/io/PrintStream;
+   25:	ldc	#11; //String 4: outside run synchronized block
+   27:	invokevirtual	#4; //Method java/io/PrintStream.println:(Ljava/lang/String;)V
+   30:	return
+  Exception table:
+   from   to  target type
+     4    14    17   any
+    17    20    17   any
+  LineNumberTable: 
+   line 17: 0
+   line 18: 4
+   line 19: 12
+   line 20: 22
+   line 21: 30
+
+  StackMapTable: number_of_entries = 2
+   frame_type = 255 /* full_frame */
+     offset_delta = 17
+     locals = [ class classes/test/SynchronizedStart, class java/lang/Object ]
+     stack = [ class java/lang/Throwable ]
+   frame_type = 250 /* chop */
+     offset_delta = 4
+
+
+public static void main(java.lang.String[]);
+  Code:
+   Stack=2, Locals=1, Args_size=1
+   0:	new	#12; //class classes/test/SynchronizedStart
+   3:	dup
+   4:	invokespecial	#13; //Method "<init>":()V
+   7:	pop
+   8:	return
+  LineNumberTable: 
+   line 23: 0
+   line 24: 8
+
+
+}
+
