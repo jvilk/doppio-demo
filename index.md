@@ -30,12 +30,7 @@ The offline version of this demo requires the following software:
   * Install with `npm install -g http-server` on the command line.
   * Other HTTP server software may work, but this one is far better than e.g. Python's SimpleHTTPServer or Webrick.
 
-To start the offline version of DoppioJVM:
-
-* Download the ZIP file, and extract it to a folder.
-* Enter the folder on the command line.
-* Run `http-server`.
-* Navigate to [`http://localhost:8080/`](http://localhost:8080).
+To launch the offline version of the demo, merely run `http-server` in the repository folder and navigate to [`http://localhost:8080/`](http://localhost:8080).
 
 DoppioJVM artifact guide
 ------------------------
