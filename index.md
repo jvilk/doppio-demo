@@ -244,7 +244,8 @@ Of course, DoppioJVM isn't perfect. Here are some issues you might run into, esp
 - **The official Kawa-Scheme JAR file does not work.** Full disclosure: We needed to make a trivial edit to Kawa-Scheme to run it on DoppioJVM, as it makes [an illegal assumption about the bootstrap ClassLoader](https://github.com/int3/doppio/issues/164#issuecomment-15264211) that happens to be true for the HotSpot JVM. Thus, the official JAR file will not function in DoppioJVM. We offer our patched version [here](https://docs.google.com/file/d/0BzhBeckwqxilcDZSendxT2NVYjQ/edit?usp=sharing).
 - **I can no longer type commands into the terminal.** Rarely, an unexpected error can cause the demo page to lose the callback that restores your access to the terminal. You'll have to reload the page.
 - **The first run of a program is significantly slower than the second.** This is caused by DoppioJVM's current file system setup. Instead of using compressed JAR files for the Java Class Library and our benchmark applications, we use individual class files. Each time DoppioJVM's classloader loads a classfile from the `/sys` folder, it must fetch the class file's contents from the remote server. The file system will cache the file's contents, so subsequent fetches on the second run will be instantaneous.
-
+- **When trying `mount_dropbox`, I get the error `Invalid redirect_uri: u'http://jvilk.github.io/doppio-demo/doppiojvm/index.html'.`** For security reasons, Dropbox doesn't allow you to login to Dropbox from non-`https` URLs (unless the page is served from `localhost`, as is the case for the offline version). Navigate to the `https` version of the URL to fix this.
+- **Your site has an invalid SSL certificate.** It sure does! I don't know why. It's something on GitHub's end.
 
 ### Reporting Bugs
 
