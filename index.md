@@ -267,7 +267,7 @@ The original Emscripten port can be played [here](emscripten/mams/mams.html).
 
 Things to do:
 
-- Note that Emscripten preloads all of the games assets prior to starting it.
+- Note that Emscripten preloads all of the game's assets prior to starting it.
 - Complete a level by guiding the character to the door using the arrow keys.
 - Use ESC to go back to the level selection screen.
 - Note that your progress has not been saved at all. You must start again at the first level.
