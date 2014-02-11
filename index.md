@@ -15,7 +15,13 @@ We have a conflict of interest with both Daniel Barowy and Charlie Curtsinger on
 
 ### Offline Version
 
-You can grab an offline version of this demo [here](demo.zip).
+You can grab an offline version of this demo by cloning this git repository.
+
+```
+git clone https://github.com/jvilk/doppio-demo
+cd doppio-demo
+git checkout gh-pages
+```
 
 The offline version of this demo requires the following software:
 
