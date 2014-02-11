@@ -233,6 +233,7 @@ Of course, DoppioJVM isn't perfect. Here are some issues you might run into, esp
 
 - **Java 7 is not supported**. DoppioJVM is a Java 6 JVM. Attempting to run a Java 7 program will likely result in interesting errors.
 - **`java/lang/UnsatisfiedLinkError`**: The Java Class Library has *many* `native` methods that are written in C/C++. [DoppioJVM implements quite a few of them in JavaScript](https://github.com/int3/doppio/blob/master/src/natives.ts), but there are many that we might have missed.
+- **I get the error `Cannot get field Ljava/io/FileDescriptor;fd from class Ljava/io/FileDescriptor;`.** You're probably running a program that is attempting to write to read-only storage (e.g. `/sys`). [Doppio isn't properly reporting the error.](https://github.com/int3/doppio/issues/296) Make sure you only write to mutable storage! (e.g. `/tmp` or any of the subdirectories of `/mnt`).
 - **DoppioJVM hangs or appears to be doing nothing.** There are many potential causes of this:
   - **Cloud storage**: Reading files from Dropbox is slow.
   - **Remote file downloads**: On the online version of the DoppioJVM demo, the first time each class from the Java Class Library is loaded, DoppioJVM must issue a remote HTTP file download. Check the network tab of your browser's JavaScript debug tools to see if many class files are whizzing by.

@@ -455,6 +455,7 @@ class JavaScriptREPL {
 <ul>
 <li><strong>Java 7 is not supported</strong>. DoppioJVM is a Java 6 JVM. Attempting to run a Java 7 program will likely result in interesting errors.</li>
 <li><strong><code>java/lang/UnsatisfiedLinkError</code></strong>: The Java Class Library has <em>many</em> <code>native</code> methods that are written in C/C++. <a href="https://github.com/int3/doppio/blob/master/src/natives.ts">DoppioJVM implements quite a few of them in JavaScript</a>, but there are many that we might have missed.</li>
+<li><strong>I get the error <code>Cannot get field Ljava/io/FileDescriptor;fd from class Ljava/io/FileDescriptor;</code>.</strong> You're probably running a program that is attempting to write to read-only storage (e.g. <code>/sys</code>). <a href="https://github.com/int3/doppio/issues/296">Doppio isn't properly reporting the error.</a> Make sure you only write to mutable storage! (e.g. <code>/tmp</code> or any of the subdirectories of <code>/mnt</code>).</li>
 <li><strong>DoppioJVM hangs or appears to be doing nothing.</strong> There are many potential causes of this:
 
 <ul>
