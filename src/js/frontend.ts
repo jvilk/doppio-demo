@@ -1,19 +1,14 @@
 /// <reference path="../../vendor/DefinitelyTyped/node/node.d.ts" />
 /// <reference path="../../vendor/DefinitelyTyped/jquery/jquery.d.ts" />
-/// <amd-dependency path="../../vendor/jquery/dist/jquery.min" />
-/// <amd-dependency path="../../vendor/jquery-migrate/jquery-migrate.min" />
 /// <reference path="../../vendor/jquery.console.d.ts" />
 /// <amd-dependency path="../vendor/jquery.console" />
 /// <reference path="../../vendor/DefinitelyTyped/ace/ace.d.ts" />
-/// <amd-dependency path="../vendor/underscore/underscore" />
 declare var BrowserFS: {
   BFSRequire(name: 'process'): NodeJS.Process;
   BFSRequire(name: 'buffer'): { Buffer: typeof Buffer };
   BFSRequire(name: string): any;
 };
 declare var Dropbox;
-import doppio = require('../src/doppio');
-import untar = require('./untar');
 // @todo Try to remove this dependency somehow.
 import util = require('../src/util');
 import fs = require('fs');
