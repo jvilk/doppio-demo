@@ -1,10 +1,10 @@
-/// <reference path="../vendor/DefinitelyTyped/node/node.d.ts" />
-/// <reference path="../vendor/DefinitelyTyped/jquery/jquery.d.ts" />
-/// <amd-dependency path="../vendor/jquery/dist/jquery.min" />
-/// <amd-dependency path="../vendor/jquery-migrate/jquery-migrate.min" />
-/// <reference path="../vendor/jquery.console.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/node/node.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/jquery/jquery.d.ts" />
+/// <amd-dependency path="../../vendor/jquery/dist/jquery.min" />
+/// <amd-dependency path="../../vendor/jquery-migrate/jquery-migrate.min" />
+/// <reference path="../../vendor/jquery.console.d.ts" />
 /// <amd-dependency path="../vendor/jquery.console" />
-/// <reference path="../vendor/DefinitelyTyped/ace/ace.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/ace/ace.d.ts" />
 /// <amd-dependency path="../vendor/underscore/underscore" />
 declare var BrowserFS: {
   BFSRequire(name: 'process'): NodeJS.Process;

@@ -1,0 +1,1 @@
+define(["require","exports"],function(){var a=function(){function a(){}return a["init()Z"]=function(){return!0},a["getSystemProxy(Ljava/lang/String;Ljava/lang/String;)Ljava/net/Proxy;"]=function(){return null},a}();registerNatives({"sun/net/spi/DefaultProxySelector":a})});

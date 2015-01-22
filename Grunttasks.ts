@@ -135,41 +135,6 @@ export function setup(grunt: IGrunt) {
         }
       }
     },
-    uglify: {
-      options: {
-        warnings: false,
-        unsafe: true,
-        compress: {
-          global_defs: {
-            RELEASE: true
-          }
-        }
-      },
-      'release-cli': {
-        files: [{
-          expand: true,
-          cwd: 'build/release-cli',
-          src: '+(console|src)/*.js',
-          dest: 'build/release-cli'
-        }]
-      },
-      natives: {
-        files: [{
-          expand: true,
-          cwd: '<%= build.build_dir %>',
-          src: 'src/natives/*.js',
-          dest: '<%= build.build_dir %>'
-        }]
-      },
-      'natives-browser': {
-        files: [{
-          expand: true,
-          cwd: '<%= resolve(build.scratch_dir, "tmp_release") %>',
-          src: 'src/natives/*.js',
-          dest: '<%= build.build_dir %>'
-        }]
-      }
-    },
     copy: {
       build: {
         files: [{
