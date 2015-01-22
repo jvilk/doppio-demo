@@ -1,130 +1,15 @@
 /// <reference path="../../vendor/DefinitelyTyped/node/node.d.ts" />
 /// <reference path="../../vendor/DefinitelyTyped/jquery/jquery.d.ts" />
 /// <reference path="../../vendor/jquery.console.d.ts" />
-/// <amd-dependency path="../vendor/jquery.console" />
 /// <reference path="../../vendor/DefinitelyTyped/ace/ace.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/underscore/underscore.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/dropboxjs/dropboxjs.d.ts" />
+/// <reference path="../../vendor/DefinitelyTyped/async/async.d.ts" />
 declare var BrowserFS: {
   BFSRequire(name: 'process'): NodeJS.Process;
   BFSRequire(name: 'buffer'): { Buffer: typeof Buffer };
   BFSRequire(name: string): any;
 };
-declare var Dropbox;
-// @todo Try to remove this dependency somehow.
-import util = require('../src/util');
-import fs = require('fs');
-import path = require('path');
-import ByteStream = require('../src/ByteStream');
-
-// Imported for type annotations ONLY
-import TJVM = require('../src/jvm');
-// End type annotations.
-
-var underscore = require('../vendor/underscore/underscore'),
-    JVM: typeof doppio.JVM = doppio.JVM,
-    testing = doppio.testing,
-    java_cli = doppio.javaCli,
-    process: NodeJS.Process = BrowserFS.BFSRequire('process'),
-    Buffer: typeof Buffer = BrowserFS.BFSRequire('buffer').Buffer,
-    // To be initialized on document load
-    stdout: (data: NodeBuffer) => void,
-    user_input: (resume: (data: any) => void) => void,
-    controller: JQConsole,
-    editor: AceAjax.Editor,
-    jvm_state: TJVM,
-    sys_path = '/sys';
-
-/**
- * Construct a JavaOptions object with the default demo fields filled in.
- * Optionally merge it with the custom arguments specified.
- */
-function constructJavaOptions(customArgs: {[prop: string]: any} = {}) {
-  return underscore.extend({
-    bootstrapClasspath: ['/sys/vendor/java_home/classes'],
-    classpath: [],
-    javaHomePath: '/sys/vendor/java_home',
-    extractionPath: '/jars',
-    nativeClasspath: ['/sys/src/natives'],
-    assertionsEnabled: false
-  }, customArgs);
-}
-
-function preload(): void {
-  fs.readFile(sys_path + "/browser/mini-rt.tar", function(err: Error, data: NodeBuffer): void {
-    if (err) {
-      console.error("Error downloading mini-rt.tar:", err);
-      return;
-    }
-    var file_count = 0;
-    var done = false;
-    var start_untar = (new Date).getTime();
-    function on_complete(): void {
-      var end_untar = (new Date).getTime();
-      console.log("Untarring took a total of " + (end_untar - start_untar) + "ms.");
-      $('#overlay').fadeOut('slow');
-      $('#progress-container').fadeOut('slow');
-      $('#console').click();
-    }
-    var update_bar = underscore.throttle((function(percent: number, path: string) {
-      var bar = $('#progress > .bar');
-      var preloading_file = $('#preloading-file');
-      // +10% hack to make the bar appear fuller before fading kicks in
-      var display_perc = Math.min(Math.ceil(percent * 100), 100);
-      bar.width(display_perc + "%");
-      preloading_file.text(display_perc < 100 ? "Loading " + path : "Done!");
-    }));
-    function on_progress(percent: number, path: string, file: ByteStream): void {
-      if (path[0] != '/') {
-        path = '/' + path;
-      }
-      update_bar(percent, path);
-      var ext = path.split('.')[1];
-      if (ext !== 'class') {
-        if (percent === 100) {
-          on_complete();
-        }
-        return;
-      }
-      file_count++;
-      untar.asyncExecute(function() {
-        try {
-          xhrfs.preloadFile(path, file.getBuffer());
-        } catch (e) {
-          console.error("Error writing " + path + ":", e);
-        }
-        if (--file_count === 0 && done) {
-          return on_complete();
-        }
-      });
-    }
-    function on_file_done(): void {
-      done = true;
-      if (file_count === 0) {
-        on_complete();
-      }
-    }
-    // Grab the XmlHttpRequest file system.
-    var xhrfs = (<any>fs).getRootFS().mntMap[sys_path];
-    // Note: Path is relative to XHR mount point (e.g. /vendor/classes rather than
-    // /sys/vendor/classes). They must also be absolute paths.
-    untar.untar(new ByteStream(data), on_progress, on_file_done);
-  });
-}
-
-function onResize(): void {
-  var height = $(window).height() * 0.7;
-  $('#console').height(height);
-  $('#source').height(height);
-}
-
-// Returns prompt text, ala $PS1 in bash.
-function ps1(): string {
-  return process.cwd() + '$ ';
-}
-
-$(window).resize(onResize);
-
-// Note: Typescript supposedly has "open interfaces", but I can't get it to
-//  work right, so I'm doing this as a hack.
 
 // Add the .files attr for FileReader event targets.
 interface FileReaderEvent extends ErrorEvent {
@@ -135,81 +20,215 @@ interface FileReaderEventTarget extends EventTarget {
   error: any;
 }
 
-// Add the .readAsBinaryString function for FileReader.
-interface FileReader2 extends FileReader {
-  readAsBinaryString: (f: any) => string;
+interface TerminalCommand {
+  getCommand(): string;
+  getAutocompleteFilter(): (fname: string) => boolean;
+  run(terminal: Terminal, args: string[]): void;
 }
 
-$(document).ready(function() {
+var welcomeMessage =
+`Welcome to DoppioJVM! You may wish to try the following Java programs:
+  cd /sys
+  java classes/test/FileRead
+  java classes/demo/Fib <num>
+  java classes/demo/Chatterbot
+  java classes/demo/RegexTestHarness
+  java classes/demo/GzipDemo c Hello.txt hello.gz (compress)
+  java classes/demo/GzipDemo d hello.gz hello.tmp (decompress)
+  java classes/demo/DiffPrint Hello.txt hello.tmp
+
+We support the stock Sun Java Compiler:
+  javac classes/test/FileRead.java
+  javac classes/demo/Fib.java
+
+We can run Rhino, the Java-based JS engine:
+  rhino
+
+Text files can be edited by typing \`edit [filename]\`.
+
+You can also upload your own files using the uploader above the top-right
+corner of the console.
+
+Enter 'help' for full a list of commands. Ctrl+D is EOF. Ctrl+C is SIGINT.
+
+DoppioJVM has been tested with the latest versions of the following desktop browsers:
+  Chrome, Safari, Firefox, Opera, Internet Explorer 10, and Internet Explorer 11.`;
+
+/**
+ * Abstracts away the messiness of JQConsole.
+ */
+class Terminal {
+  private _console: JQConsole;
+  private _consoleElement: JQuery;
+  private _commands: { [command: string]: TerminalCommand } = {};
+
+  constructor(console: JQConsole, consoleElement: JQuery, commands: TerminalCommand[]) {
+    this._console = console;
+    this._consoleElement = consoleElement;
+    commands.forEach((c: TerminalCommand) => {
+      this._commands[c.getCommand()] = c;
+    });
+  }
+  public stdout(text: string): void {
+    this._console.message(text, 'success', false);
+  }
+  public stderr(text: string): void {
+    this._console.message(text, 'error', false);
+  }
+  public stdin(cb: (text: string) => void): void {
+    var console = this._console,
+      oldPrompt = console.promptLabel,
+      oldHandle = console.commandHandle;
+    console.promptLabel = '';
+    // Reprompt with a temporary custom handler.
+    console.reprompt();
+    console.commandHandle = (line: string) => {
+      console.commandHandle = oldHandle;
+      console.promptLabel = oldPrompt;
+      if (line === '\0') {
+        // EOF
+        cb(line);
+      } else {
+        line += "\n";  // so BufferedReader knows it has a full line
+        cb(line);
+      }
+    };
+  }
+  public runCommand(args: string[]) {
+    var command = this._commands[args[0]];
+    if (command === undefined) {
+      this.stderr("Command " + args[0] + " is not defined.");
+      this.exitProgram();
+    } else {
+      command.run(this, args);
+    }
+  }
+  public exitProgram(): void {
+    this._console.reprompt();
+    this._consoleElement.click();
+  }
+
+  private _expandArguments(args: string[], cb: (expandedArgs: string[]) => void) {
+
+  }
+}
+
+var process: NodeJS.Process = BrowserFS.BFSRequire('process'),
+  Buffer = BrowserFS.BFSRequire('buffer').Buffer,
+  fs = BrowserFS.BFSRequire('fs'),
+  editor: AceAjax.Editor,
+  sys_path = '/sys';
+
+/**
+ * Construct a JavaOptions object with the default demo fields filled in.
+ * Optionally merge it with the custom arguments specified.
+ */
+function constructJavaOptions(customArgs: { [prop: string]: any } = {}) {
+  return _.extend({
+    bootstrapClasspath: ['/sys/vendor/java_home/classes'],
+    classpath: [],
+    javaHomePath: '/sys/vendor/java_home',
+    extractionPath: '/jars',
+    nativeClasspath: ['/sys/src/natives'],
+    assertionsEnabled: false
+  }, customArgs);
+}
+
+/**
+ * Maintain the size of the console.
+ */
+function onResize(): void {
+  var height = $(window).height() * 0.7;
+  $('#console').height(height);
+  $('#source').height(height);
+}
+
+// Returns prompt text, ala $PS1 in bash.
+function ps1(): string {
+  return `${process.cwd() }$ `;
+}
+
+
+
+/**
+ * Uploads the specified file via the FileReader interface. Calls the callback
+ * with an optional error if one occurs.
+ */
+function uploadFile(f: File, cb: (e?: string) => void) {
+  var reader = new FileReader();
+  reader.onerror = (e: FileReaderEvent): void => {
+    switch (e.target.error.code) {
+      case e.target.error.NOT_FOUND_ERR:
+        return cb(`File ${f.name} not found.`);
+      case e.target.error.NOT_READABLE_ERR:
+        return cb(`File ${f.name} is not readable.`);
+      case e.target.error.SECURITY_ERR:
+        return cb("Cannot use the FileReader interface. You must launch your browser with --allow-file-access-from-files.");
+    }
+  };
+  reader.onload = (e) => {
+    fs.writeFile(process.cwd() + '/' + f.name, new Buffer((<any> e.target).result),(err: Error) => {
+      if (err) {
+        cb(`${err}`);
+      } else {
+        cb();
+      }
+    });
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+/**
+ * Upload files via the browser's FileReader interface. Triggered when someone
+ * clicks the upload button in the demo.
+ */
+function uploadFiles(terminal: Terminal, ev: FileReaderEvent) {
+  if (typeof FileReader === "undefined" || FileReader === null) {
+    terminal.stderr("Your browser doesn't support file loading.\nTry using the editor to create files instead.");
+    return terminal.exitProgram();
+  }
+  var fileCount = ev.target.files.length, filesUploaded = 0;
+  if (fileCount > 0) {
+    terminal.stdout(`Uploading ${fileCount} files...\n`);
+  }
+
+  var files = ev.target.files;
+  files.forEach((f: File) => {
+    uploadFile(f,(e?) => {
+      filesUploaded++;
+      var str = `[${filesUploaded}/${fileCount}]: File ${f.name} `
+      if (e) {
+        str += `could not be saved: ${e}.\n`;
+        terminal.stderr(str);
+      } else {
+        str += "successfully saved.\n";
+        terminal.stdout(str);
+      }
+
+      if (filesUploaded === fileCount) {
+        terminal.exitProgram();
+      }
+    });
+  });
+}
+
+// TODO: Download file locally command.
+
+$(window).resize(onResize);
+$(document).ready(() => {
+  // Set up initial size of the console.
   onResize();
   // Put the user in the tmpfs.
   process.chdir('/tmp');
-  //editor = $('#editor');
   // set up the local file loaders
-  $('#file').change(function(ev: FileReaderEvent) {
-    if (typeof FileReader === "undefined" || FileReader === null) {
-      controller.message("Your browser doesn't support file loading.\nTry using the editor to create files instead.", "error");
-      // click to restore focus
-      return $('#console').click();
-    }
-    var num_files = ev.target.files.length;
-    var files_uploaded = 0;
-    if (num_files > 0) {
-      controller.message("Uploading " + num_files + " files...\n", 'success', true);
-    }
-    // Need to make a function instead of making this the body of a loop so we
-    // don't overwrite "f" before the onload handler calls.
-    var file_fcn = (function(f: File) {
-      var reader = <FileReader2> new FileReader;
-      reader.onerror = function(e: FileReaderEvent): void {
-        switch (e.target.error.code) {
-          case e.target.error.NOT_FOUND_ERR:
-            return alert("404'd");
-          case e.target.error.NOT_READABLE_ERR:
-            return alert("unreadable");
-          case e.target.error.SECURITY_ERR:
-            return alert("only works with --allow-file-access-from-files");
-        }
-      };
-      var ext = f.name.split('.')[1];
-      var isClass = ext === 'class';
-      reader.onload = function(e) {
-        files_uploaded++;
-        var progress = "[" + files_uploaded + "/" + num_files
-                           + "] File '" + f.name + "'";
-        fs.writeFile(process.cwd() + '/' + f.name, new Buffer((<any> e.target).result), function(err: Error) {
-          if (err) {
-            controller.message(progress + " could not be saved: " + err + ".\n",
-                               'error', files_uploaded !== num_files);
-          } else {
-            controller.message(progress + " saved.\n",
-                               'success', files_uploaded !== num_files);
-            if (typeof editor.getSession === "function") {
-              if (isClass) {
-                editor.getSession().setValue("/*\n * Binary file: " + f.name + "\n */");
-              } else {
-                editor.getSession().setValue((<any> e.target).result);
-              }
-            }
-          }
-          // click to restore focus
-          $('#console').click();
-        });
-      };
-      return reader.readAsArrayBuffer(f);
-    });
-    var files = <File[]>ev.target.files;
-    for (var i = 0; i < num_files; i++) {
-      file_fcn(files[i]);
-    }
-  });
+  $('#file').change(uploadFiles);
   var jqconsole = $('#console');
   controller = jqconsole.console({
     promptLabel: ps1(),
-    commandHandle: function(line: string): any {
+    commandHandle: (line: string): any => {
       var parts = line.trim().split(/\s+/);
       var cmd = parts[0];
-      var args = parts.slice(1).filter((a)=> a.length > 0).map((a)=>a.trim());
+      var args = parts.slice(1).filter((a) => a.length > 0).map((a) => a.trim());
       if (cmd === '') {
         return true;
       }
@@ -218,10 +237,10 @@ $(document).ready(function() {
         return "Unknown command '" + cmd + "'. Enter 'help' for a list of commands.";
       }
       // Check for globs (*) in the arguments, and expand them.
-      var expanded_args : string[] = [];
+      var expanded_args: string[] = [];
       util.asyncForEach(args,
         // runs on each argument
-        function(arg: string, next_item): void {
+        function (arg: string, next_item): void {
           var starIdx = arg.indexOf('*');
           if (starIdx === -1) {
             // Regular element.
@@ -229,13 +248,13 @@ $(document).ready(function() {
             return next_item();
           }
           // Glob element.
-          process_glob(arg, function(comps: string[]): void {
+          process_glob(arg, function (comps: string[]): void {
             expanded_args = expanded_args.concat(comps);
             next_item();
           });
         },
         // runs at the end of processing
-        function(): void {
+        function (): void {
           try {
             var response = handler(expanded_args);
             if (response !== null) {
@@ -245,9 +264,9 @@ $(document).ready(function() {
             controller.message(_error.toString(), 'error');
           }
         }
-      );
+        );
     },
-    cancelHandle: function(): void {
+    cancelHandle: function (): void {
       if (jvm_state) {
         jvm_state.abort();
       }
@@ -256,28 +275,7 @@ $(document).ready(function() {
     autofocus: false,
     animateScroll: true,
     promptHistory: true,
-    welcomeMessage: "Welcome to DoppioJVM! You may wish to try the following Java programs:\n" +
-      "  cd /sys\n" +
-      "  java classes/test/FileRead\n" +
-      "  java classes/demo/Fib <num>\n" +
-      "  java classes/demo/Chatterbot\n" +
-      "  java classes/demo/RegexTestHarness\n" +
-      "  java classes/demo/GzipDemo c Hello.txt hello.gz (compress)\n" +
-      "  java classes/demo/GzipDemo d hello.gz hello.tmp (decompress)\n" +
-      "  java classes/demo/DiffPrint Hello.txt hello.tmp\n\n" +
-      "We support the stock Sun Java Compiler:\n" +
-      "  javac classes/test/FileRead.java\n" +
-      "  javac classes/demo/Fib.java\n\n" +
-      "(Note: if you edit a program and recompile with javac, you'll need\n" +
-      "  to run 'clear_cache' to see your changes when you run the program.)\n\n" +
-      "We can run Rhino, the Java-based JS engine:\n" +
-      "  rhino\n\n" +
-      "Text files can be edited by typing `edit [filename]`.\n\n" +
-      "You can also upload your own files using the uploader above the top-right\n" +
-      "corner of the console.\n\n" +
-      "Enter 'help' for full a list of commands. Ctrl+D is EOF. Ctrl+C is SIGINT. \n\n" +
-      "DoppioJVM has been tested with the latest versions of the following desktop browsers:\n" +
-      "  Chrome, Safari, Firefox, Opera, Internet Explorer 10, and Internet Explorer 11."
+    welcomeMessage: welcomeMessage,
   });
   stdout = function(data: NodeBuffer): void {
     controller.message(data.toString(), '', true);
@@ -884,14 +882,6 @@ function expand_dirs(dirs: string[], r: RegExp, cb: (expansion: string[]) => voi
 }
 
 /**
- * Constructs a regular expression for a given glob pattern.
- */
-function construct_regexp(pattern: string): RegExp {
-  // Yay chaining?
-  return new RegExp("^" + pattern.replace(/\./g, "\\.").split('*').join('[^/]*') + "$");
-}
-
-/**
  * Asynchronous method for processing a Unix glob.
  */
 function process_glob(glob: string, cb: (expansion: string[]) => void): void {
@@ -900,6 +890,13 @@ function process_glob(glob: string, cb: (expansion: string[]) => void): void {
       // We bootstrap the algorithm with '/' or '.', depending on whether or not
       // the glob is a relative or absolute path.
       expanded: string[] = [glob.charAt(0) === '/' ? '/' : '.'];
+
+  /**
+   * Constructs a regular expression for a given glob pattern.
+   */
+  function construct_regexp(pattern: string): RegExp {
+    return new RegExp("^" + pattern.replace(/\./g, "\\.").split('*').join('[^/]*') + "$");
+  }
 
   // Process each component of the path separately.
   util.asyncForEach(path_comps, function(path_comp: string, next_item: () => void): void {
