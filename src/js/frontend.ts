@@ -33,34 +33,6 @@ interface TerminalCommand {
   run(terminal: Terminal, args: string[], cb: () => void): void;
 }
 
-var welcomeMessage =
-`Welcome to DoppioJVM! You may wish to try the following Java programs:
-  cd /sys
-  java classes/test/FileRead
-  java classes/demo/Fib <num>
-  java classes/demo/Chatterbot
-  java classes/demo/RegexTestHarness
-  java classes/demo/GzipDemo c Hello.txt hello.gz (compress)
-  java classes/demo/GzipDemo d hello.gz hello.tmp (decompress)
-  java classes/demo/DiffPrint Hello.txt hello.tmp
-
-We support the stock Sun Java Compiler:
-  javac classes/test/FileRead.java
-  javac classes/demo/Fib.java
-
-We can run Rhino, the Java-based JS engine:
-  rhino
-
-Text files can be edited by typing \`edit [filename]\`.
-
-You can also upload your own files using the uploader above the top-right
-corner of the console.
-
-Enter 'help' for full a list of commands. Ctrl+D is EOF. Ctrl+C is SIGINT.
-
-DoppioJVM has been tested with the latest versions of the following desktop browsers:
-  Chrome, Safari, Firefox, Opera, Internet Explorer 10, and Internet Explorer 11.`;
-
 /**
  * Abstracts away the messiness of JQConsole.
  */
@@ -69,11 +41,12 @@ class Terminal {
   private _consoleElement: JQuery;
   private _commands: { [command: string]: TerminalCommand } = {};
 
-  constructor(consoleElement: JQuery, commands: TerminalCommand[]) {
+  constructor(consoleElement: JQuery, commands: TerminalCommand[], welcomeMessage: string) {
     this._consoleElement = consoleElement;
     commands.forEach((c: TerminalCommand) => {
       this._commands[c.getCommand()] = c;
     });
+
     this._console = consoleElement.console({
       promptLabel: ps1(),
       commandHandle: (line: string): any => {
@@ -278,42 +251,48 @@ $(document).ready(() => {
   // Put the user in the tmpfs.
   process.chdir('/tmp');
   // Set up the master terminal object.
-  var terminal = new Terminal($('#console'), [
-    new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true']),
-    new JARCommand('rhino', demoJars + "rhino.jar"),
-    new JavaClassCommand('javac', demoClasses, "classes.util.Javac"),
-    new JavaClassCommand('javap', demoClasses, "classes.util.Javap"),
-    new JavaCommand(),
-    new LSCommand(),
-    new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
-    new CatCommand(),
-    new MvCommand(),
-    new MkdirCommand(),
-    new CDCommand(),
-    new RMCommand(),
-    new MountDropboxCommand(),
-    new TimeCommand(),
-    new ProfileCommand(),
-    new HelpCommand()
-  ]);
+  fs.readFile("/sys/helptext.txt",(e, data: Buffer) => {
+    var welcomeText = "";
+    if (!e) {
+      welcomeText = data.toString();
+    }
+    var terminal = new Terminal($('#console'), [
+      new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true']),
+      new JARCommand('rhino', demoJars + "rhino.jar"),
+      new JavaClassCommand('javac', demoClasses, "classes.util.Javac"),
+      new JavaClassCommand('javap', demoClasses, "classes.util.Javap"),
+      new JavaCommand(),
+      new LSCommand(),
+      new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
+      new CatCommand(),
+      new MvCommand(),
+      new MkdirCommand(),
+      new CDCommand(),
+      new RMCommand(),
+      new MountDropboxCommand(),
+      new TimeCommand(),
+      new ProfileCommand(),
+      new HelpCommand()
+    ], welcomeText);
 
-  // set up the local file loaders
-  $('#file').change((ev: FileReaderEvent) => {
-    uploadFiles(terminal, ev);
-  });
-
-  // Set up stdout/stderr/stdin.
-  process.stdout.on('data', (data: Buffer) => terminal.stdout(data.toString()));
-  process.stderr.on('data', (data: Buffer) => terminal.stderr(data.toString()));
-  process.stdin.on('_read',() => {
-    terminal.stdin((text: string) => {
-      // BrowserFS's stdin lets you write to it for emulation purposes.
-      (<NodeJS.ReadWriteStream> process.stdin).write(new Buffer(text));
+    // set up the local file loaders
+    $('#file').change((ev: FileReaderEvent) => {
+      uploadFiles(terminal, ev);
     });
-  });
 
-  // Focus the terminal.
-  $('#console').click();
+    // Set up stdout/stderr/stdin.
+    process.stdout.on('data',(data: Buffer) => terminal.stdout(data.toString()));
+    process.stderr.on('data',(data: Buffer) => terminal.stderr(data.toString()));
+    process.stdin.on('_read',() => {
+      terminal.stdin((text: string) => {
+        // BrowserFS's stdin lets you write to it for emulation purposes.
+        (<NodeJS.ReadWriteStream> process.stdin).write(new Buffer(text));
+      });
+    });
+
+    // Focus the terminal.
+    $('#console').click();
+  });
 });
 
 function pad_right(str: string, len: number): string {

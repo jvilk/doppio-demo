@@ -1,0 +1,26 @@
+Welcome to DoppioJVM! You may wish to try the following Java programs:
+  cd /sys
+  java classes/test/FileRead
+  java classes/demo/Fib <num>
+  java classes/demo/Chatterbot
+  java classes/demo/RegexTestHarness
+  java classes/demo/GzipDemo c Hello.txt hello.gz (compress)
+  java classes/demo/GzipDemo d hello.gz hello.tmp (decompress)
+  java classes/demo/DiffPrint Hello.txt hello.tmp
+
+We support the stock Sun Java Compiler:
+  javac classes/test/FileRead.java
+  javac classes/demo/Fib.java
+
+We can run Rhino, the Java-based JS engine:
+  rhino
+
+Text files can be edited by typing `edit [filename]`.
+
+You can also upload your own files using the uploader above the top-right
+corner of the console.
+
+Enter 'help' for full a list of commands. Ctrl+D is EOF. Ctrl+C is SIGINT.
+
+DoppioJVM has been tested with the latest versions of the following desktop browsers:
+  Chrome, Safari, Firefox, Opera, Internet Explorer 10, and Internet Explorer 11.
