@@ -45,7 +45,7 @@ export function setup(grunt: IGrunt) {
     listings: {
       options: {
         output: "<%= resolve(build.build_dir, 'listings.json') %>",
-        cwd: "<%= resolve(build.build_dir, 'demo_files' %>"
+        cwd: "<%= resolve(build.build_dir, 'demo_files') %>"
       },
       default: {}
     },
@@ -80,6 +80,7 @@ export function setup(grunt: IGrunt) {
       build: {
         files: [{
           expand: true,
+          flatten: true,
           src: ['src/img/**/*'],
           dest: '<%= resolve(build.build_dir, "img") %>'
         },
@@ -91,10 +92,14 @@ export function setup(grunt: IGrunt) {
         {
           expand: true, flatten: true,
           src: ['vendor/jquery.console.js',
-            'vendor/websockify/**/*',
+            'vendor/websockify',
             'vendor/browserfs/dist/browserfs.min.*',
             'vendor/doppio/dist/doppio.js'], dest: '<%= resolve(build.build_dir, "js") %>'
-        }, {
+        },
+        {
+          expand: true, flatten: false
+        },
+        {
           expand: true, flatten: true,
           src: ['vendor/doppio/dist/natives/**/*.js'],
           dest: '<%= resolve(build.build_dir, "demo_files", "natives") %>'

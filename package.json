@@ -13,6 +13,7 @@
   "homepage": "https://github.com/jvilk/doppio-demo",
   "devDependencies": {
     "async": "^0.9.0",
+    "coffee-script": "^1.8.0",
     "execSync": "^1.0.2",
     "glob": "^4.3.5",
     "grunt": "^0.4.5",
