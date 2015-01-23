@@ -126,7 +126,7 @@ export function setup(grunt: IGrunt) {
     concat: {
       default: {
         src: ['vendor/bootstrap/docs/assets/css/bootstrap.css', 'browser/style.css'],
-        dest: '<%= resolve(build.build_dir, "build/css/style.css") %>',
+        dest: '<%= resolve(build.build_dir, "css", "style.css") %>',
       }
     },
     watch: {
