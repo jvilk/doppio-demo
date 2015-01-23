@@ -112,7 +112,7 @@ export function setup(grunt: IGrunt) {
     render: {
       release: {
         options: {
-          args: ["--release"]
+          partials: "src/html/_*.mustache"
         },
         files: [{
           expand: true,
