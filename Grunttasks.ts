@@ -132,7 +132,7 @@ export function setup(grunt: IGrunt) {
     },
     concat: {
       default: {
-        src: ['vendor/bootstrap/dist/css/bootstrap.min.css', 'browser/style.css'],
+        src: ['vendor/bootstrap/docs/assets/css/bootstrap.css', 'src/css/style.css'],
         dest: '<%= resolve(build.build_dir, "css", "style.css") %>',
       }
     },

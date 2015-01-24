@@ -17,7 +17,7 @@
   ],
   "devDependencies": {
     "DefinitelyTyped": "*",
-    "bootstrap": "~3.3.2",
+    "bootstrap": "2.3.2",
     "browserfs": "~0.3.6",
     "almond": "~0.3.0",
     "requirejs": "~2.1.15"
