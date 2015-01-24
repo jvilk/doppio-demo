@@ -9,6 +9,8 @@ declare var BrowserFS: {
   BFSRequire(name: 'process'): NodeJS.Process;
   BFSRequire(name: 'buffer'): { Buffer: typeof Buffer };
   BFSRequire(name: string): any;
+  FileSystem: any;
+  initialize(fs: any): void;
 };
 
 declare var doppio: {
@@ -155,11 +157,11 @@ var process: NodeJS.Process = BrowserFS.BFSRequire('process'),
  */
 function constructJavaOptions(customArgs: { [prop: string]: any } = {}) {
   return _.extend({
-    bootstrapClasspath: ['/sys/vendor/java_home/classes'],
+    bootstrapClasspath: ['/sys/java_home/classes'],
     classpath: [],
-    javaHomePath: '/sys/vendor/java_home',
+    javaHomePath: '/sys/java_home',
     extractionPath: '/jars',
-    nativeClasspath: ['/sys/src/natives'],
+    nativeClasspath: ['/sys/natives'],
     assertionsEnabled: false
   }, customArgs);
 }
@@ -248,10 +250,18 @@ $(window).resize(onResize);
 $(document).ready(() => {
   // Set up initial size of the console.
   onResize();
-  // Put the user in the tmpfs.
-  process.chdir('/tmp');
+
+  // Set up file system.
+  var xhrfs = new BrowserFS.FileSystem.XmlHttpRequest('listings.json', 'demo_files/'),
+    mfs = new BrowserFS.FileSystem.MountableFileSystem();
+
+  mfs.mount('/sys', xhrfs);
+  BrowserFS.initialize(mfs);
+  BrowserFS.BFSRequire('fs').mkdirSync('/home');
+  process.chdir('/home');
+
   // Set up the master terminal object.
-  fs.readFile("/sys/helptext.txt",(e, data: Buffer) => {
+  fs.readFile("/sys/starttext.txt",(e, data: Buffer) => {
     var welcomeText = "";
     if (!e) {
       welcomeText = data.toString();

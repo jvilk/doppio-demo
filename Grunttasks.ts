@@ -44,7 +44,7 @@ export function setup(grunt: IGrunt) {
     },
     listings: {
       options: {
-        output: "<%= resolve(build.build_dir, 'listings.json') %>",
+        output: "<%= resolve(build.build_dir, 'demo_files', 'listings.json') %>",
         cwd: "<%= resolve(build.build_dir, 'demo_files') %>"
       },
       default: {}
@@ -92,12 +92,14 @@ export function setup(grunt: IGrunt) {
         {
           expand: true, flatten: true,
           src: ['vendor/jquery.console.js',
-            'vendor/websockify',
             'vendor/browserfs/dist/browserfs.min.*',
             'vendor/doppio/dist/doppio.js'], dest: '<%= resolve(build.build_dir, "js") %>'
         },
         {
-          expand: true, flatten: false
+          expand: true, flatten: false,
+          src: ['websockify/**/*'],
+          cwd: 'vendor',
+          dest: '<%= resolve(build.build_dir, "js") %>'
         },
         {
           expand: true, flatten: true,
@@ -130,7 +132,7 @@ export function setup(grunt: IGrunt) {
     },
     concat: {
       default: {
-        src: ['vendor/bootstrap/docs/assets/css/bootstrap.css', 'browser/style.css'],
+        src: ['vendor/bootstrap/dist/css/bootstrap.min.css', 'browser/style.css'],
         dest: '<%= resolve(build.build_dir, "css", "style.css") %>',
       }
     },
