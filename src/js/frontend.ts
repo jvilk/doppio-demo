@@ -61,6 +61,11 @@ class Terminal {
       },
       tabComplete: () => {
         // tabComplete;
+        // tabComplete(terminal: Terminal, args: string[], filter: (item: string) => void): void {
+        var promptText = this._console.promptText(),
+          args = promptText.split(/\s+/),
+          cmd = this._commands[args[0]];
+        tabComplete(this, args);
       },
       autofocus: false,
       animateScroll: true,
@@ -158,7 +163,7 @@ var process: NodeJS.Process = BrowserFS.BFSRequire('process'),
  */
 function constructJavaOptions(customArgs: { [prop: string]: any } = {}) {
   return _.extend({
-    bootstrapClasspath: ['/sys/java_home/classes'],
+    bootstrapClasspath: ['/sys/java_home/classes/classes.jar'],
     classpath: [],
     javaHomePath: '/sys/java_home',
     extractionPath: '/jars',
@@ -245,6 +250,51 @@ function uploadFiles(terminal: Terminal, ev: FileReaderEvent) {
   });
 }
 
+function recursiveCopy(srcFolder: string, destFolder: string, cb: (err?: any) => void): void {
+  function processDir(srcFolder: string, destFolder: string, cb: (err?: any) => void) {
+    fs.mkdir(destFolder, (err?: any) => {
+      // Ignore EEXIST.
+      if (err && err.code !== 'EEXIST') {
+        cb(err);
+      } else {
+        fs.readdir(srcFolder, (e: any, items: string[]) => {
+          if (e) {
+            cb(e);
+          } else {
+            async.each(items, (item: string, next: (err?: any) => void) => {
+              var srcItem = path.resolve(srcFolder, item),
+                destItem = path.resolve(destFolder, item);
+              fs.stat(srcItem, (e: any, stat?: any) => {
+                if (e) {
+                  cb(e);
+                } else {
+                  if (stat.isDirectory()) {
+                    processDir(srcItem, destItem, next);
+                  } else {
+                    processFile(srcItem, destItem, next);
+                  }
+                }
+              });
+            }, cb);
+          }
+        });
+      }
+    });
+  }
+
+  function processFile(srcFile: string, destFile: string, cb: (err?: any) => void) {
+    fs.readFile(srcFile, (e: any, data?: Buffer) => {
+      if (e) {
+        cb(e);
+      } else {
+        fs.writeFile(destFile, data, cb);
+      }
+    });
+  }
+
+  processDir(srcFolder, path.resolve(destFolder, path.basename(srcFolder)), cb);
+}
+
 // TODO: Download file locally command.
 
 $(window).resize(onResize);
@@ -261,48 +311,52 @@ $(document).ready(() => {
   BrowserFS.BFSRequire('fs').mkdirSync('/home');
   process.chdir('/home');
 
-  // Set up the master terminal object.
-  fs.readFile("/sys/starttext.txt",(e, data: Buffer) => {
-    var welcomeText = "";
-    if (!e) {
-      welcomeText = data.toString();
-    }
-    var terminal = new Terminal($('#console'), [
-      new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true']),
-      new JARCommand('rhino', demoJars + "rhino.jar"),
-      new JavaClassCommand('javac', demoClasses, "classes.util.Javac"),
-      new JavaClassCommand('javap', demoClasses, "classes.util.Javap"),
-      new JavaCommand(),
-      new LSCommand(),
-      new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
-      new CatCommand(),
-      new MvCommand(),
-      new MkdirCommand(),
-      new CDCommand(),
-      new RMCommand(),
-      new MountDropboxCommand(),
-      new TimeCommand(),
-      new ProfileCommand(),
-      new HelpCommand()
-    ], welcomeText);
+  recursiveCopy('/sys/classes', '/home', (err?) => {
+    recursiveCopy('/sys/jars', '/home', (err?) => {
+      // Set up the master terminal object.
+      fs.readFile("/sys/starttext.txt",(e, data: Buffer) => {
+        var welcomeText = "";
+        if (!e) {
+          welcomeText = data.toString();
+        }
+        var terminal = new Terminal($('#console'), [
+          new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true']),
+          new JARCommand('rhino', demoJars + "rhino.jar"),
+          new JavaClassCommand('javac', demoClasses, "classes.util.Javac"),
+          new JavaClassCommand('javap', demoClasses, "classes.util.Javap"),
+          new JavaCommand(),
+          new LSCommand(),
+          new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
+          new CatCommand(),
+          new MvCommand(),
+          new MkdirCommand(),
+          new CDCommand(),
+          new RMCommand(),
+          new MountDropboxCommand(),
+          new TimeCommand(),
+          new ProfileCommand(),
+          new HelpCommand()
+        ], welcomeText);
 
-    // set up the local file loaders
-    $('#file').change((ev: FileReaderEvent) => {
-      uploadFiles(terminal, ev);
-    });
+        // set up the local file loaders
+        $('#file').change((ev: FileReaderEvent) => {
+          uploadFiles(terminal, ev);
+        });
 
-    // Set up stdout/stderr/stdin.
-    process.stdout.on('data',(data: Buffer) => terminal.stdout(data.toString()));
-    process.stderr.on('data',(data: Buffer) => terminal.stderr(data.toString()));
-    process.stdin.on('_read',() => {
-      terminal.stdin((text: string) => {
-        // BrowserFS's stdin lets you write to it for emulation purposes.
-        (<NodeJS.ReadWriteStream> process.stdin).write(new Buffer(text));
+          // Set up stdout/stderr/stdin.
+        process.stdout.on('data',(data: Buffer) => terminal.stdout(data.toString()));
+        process.stderr.on('data',(data: Buffer) => terminal.stderr(data.toString()));
+        process.stdin.on('_read',() => {
+          terminal.stdin((text: string) => {
+            // BrowserFS's stdin lets you write to it for emulation purposes.
+            (<NodeJS.ReadWriteStream> process.stdin).write(new Buffer(text));
+          });
+        });
+
+        // Focus the terminal.
+        $('#console').click();
       });
     });
-
-    // Focus the terminal.
-    $('#console').click();
   });
 });
 
@@ -423,7 +477,7 @@ class JavaClassCommand extends JavaCommand {
   }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     var allArgs = ["-cp", `.:${this._classpath}`, this._className].concat(this._extraArgs, args);
-    super.run(terminal, args, cb);
+    super.run(terminal, allArgs, cb);
   }
 }
 
@@ -554,18 +608,29 @@ class EditCommand extends AbstractTerminalCommand {
     };
 
     if (args[0] == null) {
-      startEditor(defaultFile('Test.java'));
+      startEditor(this.defaultFile('Test.java'));
       this._lastCb = cb;
     } else {
       fs.readFile(args[0], 'utf8',(err: Error, data: string): void => {
         if (err) {
-          startEditor(defaultFile(args[0]));
+          startEditor(this.defaultFile(args[0]));
         } else {
           startEditor(data);
         }
         this._lastCb = cb;
       });
     }
+  }
+
+  private defaultFile(filename: string): string {
+    if (filename.indexOf('.java', filename.length - 5) != -1) {
+      return `class ${filename.substr(0, filename.length - 5)} {
+  public static void main(String[] args) {
+    // enter code here
+  }
+}`;
+    }
+    return "";
   }
 }
 
@@ -815,10 +880,10 @@ class HelpCommand extends AbstractTerminalCommand {
   }
 }
 
-function tabComplete(terminal: Terminal, args: string[], filter: (item: string) => void): void {
+function tabComplete(terminal: Terminal, args: string[]): void {
   var promptText = terminal.getPromptText();
   var lastArg = _.last(args);
-  getCompletions(terminal, args, filter, (completions: string[]) => {
+  getCompletions(terminal, args, (completions: string[]) => {
     var prefix = longestCommmonPrefix(completions);
     if (prefix == '' || prefix == lastArg) {
       // We've no more sure completions to give, so show all options.
@@ -834,12 +899,16 @@ function tabComplete(terminal: Terminal, args: string[], filter: (item: string) 
   });
 }
 
-function getCompletions(terminal: Terminal, args: string[], filter: (item: string) => void, cb: (c: string[]) => void): void {
+function getCompletions(terminal: Terminal, args: string[], cb: (c: string[]) => void): void {
   if (args.length == 1) {
     cb(filterSubstring(args[0], Object.keys(terminal.getAvailableCommands())));
   } else if (args[0] === 'time') {
-    getCompletions(terminal, args.slice(1), filter, cb);
+    getCompletions(terminal, args.slice(1), cb);
   } else {
+    var cmd = terminal.getAvailableCommands()[args[0]], filter: (fname: string) => void = (f) => {};
+    if (cmd != null) {
+      filter = cmd.getAutocompleteFilter();
+    }
     fileNameCompletions(args[0], args, filter, cb);
   }
 }
@@ -888,18 +957,6 @@ function fileNameCompletions(cmd: string, args: string[], filter: (item: string)
 // use the awesome greedy regex hack, from http://stackoverflow.com/a/1922153/10601
 function longestCommmonPrefix(lst: string[]): string {
   return lst.join(' ').match(/^(\S*)\S*(?: \1\S*)*$/i)[1];
-}
-
-function defaultFile(filename: string): string {
-  if (filename.indexOf('.java', filename.length - 5) != -1) {
-    return
-`class ${filename.substr(0, filename.length - 5)} {
-  public static void main(String[] args) {
-    // enter code here
-  }
-}`;
-  }
-  return "";
 }
 
 /**
