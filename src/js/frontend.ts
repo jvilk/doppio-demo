@@ -69,10 +69,10 @@ class Terminal {
     });
   }
   public stdout(text: string): void {
-    this._console.message(text, 'success', false);
+    this._console.message(text, 'success', true);
   }
   public stderr(text: string): void {
-    this._console.message(text, 'error', false);
+    this._console.message(text, 'error', true);
   }
   public stdin(cb: (text: string) => void): void {
     var console = this._console,
@@ -104,7 +104,9 @@ class Terminal {
       });
     }
   }
+
   public exitProgram(): void {
+    this.stdout('\n');
     this._console.reprompt();
     this._consoleElement.click();
   }

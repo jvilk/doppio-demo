@@ -146,18 +146,18 @@ export function setup(grunt: IGrunt) {
       // CLI and browser builds.
       'ts-source': {
         files: ['src/js/**/*.ts'],
-        tasks: []
+        tasks: ['ts:build']
       },
       'mustache-templates': {
         files: ['src/html/*.mustache'],
-        tasks: []
+        tasks: ['render:release']
       },
       css: {
         files: ['src/css/*.css'],
         tasks: ['concat']
       },
       java: {
-        files: ['src/java/classes/**/*.java'],
+        files: ['demo_files/**/*.java'],
         tasks: [
           'javac',
           'copy:build'
