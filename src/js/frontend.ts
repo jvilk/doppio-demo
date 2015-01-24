@@ -314,7 +314,7 @@ $(document).ready(() => {
   recursiveCopy('/sys/classes', '/home', (err?) => {
     recursiveCopy('/sys/jars', '/home', (err?) => {
       // Set up the master terminal object.
-      fs.readFile("/sys/starttext.txt",(e, data: Buffer) => {
+      fs.readFile("/sys/motd",(e, data: Buffer) => {
         var welcomeText = "";
         if (!e) {
           welcomeText = data.toString();
