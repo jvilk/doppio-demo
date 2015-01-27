@@ -37,7 +37,7 @@ export function setup(grunt: IGrunt) {
       doppio_dir: __dirname, // Root directory for doppio (same as this file)
       vendor_dir: '<%= resolve(build.doppio_dir, "vendor") %>',
       java_home_dir: '<%= resolve(build.doppio_dir, "vendor", "java_home") %>',
-      jcl_dir: '<%= resolve(build.java_home_dir, "classes") %>',
+      jcl_dir: '<%= resolve(build.java_home_dir, "lib") %>',
       build_dir: '<%= resolve(build.doppio_dir, "build") %>',
       // TODO: Maybe fix this to prevent us from using too much scratch space?
       scratch_dir: path.resolve(os.tmpdir(), "jdk-download" + Math.floor(Math.random() * 100000))
