@@ -115,10 +115,13 @@ class Terminal {
     this._consoleElement.click();
   }
   public getPromptText(): string {
-    return this._console.promptLabel;
+    return this._console.promptText();
   }
   public setPromptText(text: string): void {
-    this._console.promptLabel = text;
+    this._console.promptText(text);
+  }
+  public setPromptLabel(prompt: string): void {
+    this._console.promptLabel = prompt;
   }
   public getAvailableCommands(): { [commandName: string]: TerminalCommand } {
     return _.clone(this._commands);
@@ -715,7 +718,7 @@ class CDCommand extends AbstractTerminalCommand {
       fs.exists(dir, (doesExist: boolean) => {
         if (doesExist) {
           process.chdir(dir);
-          terminal.setPromptText(ps1());
+          terminal.setPromptLabel(ps1());
         } else {
           terminal.stderr(`Directory ${dir} does not exist.\n`);
         }
