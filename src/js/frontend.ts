@@ -225,7 +225,7 @@ function uploadFile(f: File, cb: (e?: string) => void) {
  */
 function uploadFiles(terminal: Terminal, ev: FileReaderEvent) {
   if (typeof FileReader === "undefined" || FileReader === null) {
-    terminal.stderr("Your browser doesn't support file loading.\nTry using the editor to create files instead.");
+    terminal.stderr("Your browser doesn't support file loading.\nTry using the editor to create files instead.\n");
     return terminal.exitProgram();
   }
   var fileCount = ev.target.files.length, filesUploaded = 0;
@@ -649,7 +649,7 @@ class CatCommand extends AbstractTerminalCommand {
     } else {
       fs.readFile(fname, 'utf8', function (err: Error, data: string): void {
         if (err) {
-          terminal.stderr(`Could not open file '${fname}': ${err}`);
+          terminal.stderr(`Could not open file '${fname}': ${err}\n`);
         } else {
           terminal.stdout(data + "\n");
         }
@@ -795,7 +795,7 @@ you will need to type "mount_dropbox Y" again to finish mounting.
           mfs.mount('/mnt/dropbox', new (<any>BrowserFS).FileSystem.Dropbox(client));
           terminal.stdout("Successfully connected to your Dropbox account. You can now access files in the /Apps/DoppioJVM folder of your Dropbox account at /mnt/dropbox.\n");
         } else {
-          terminal.stderr(`Unable to connect to Dropbox: ${error}`);
+          terminal.stderr(`Unable to connect to Dropbox: ${error}\n`);
         }
         cb();
       });
@@ -835,7 +835,7 @@ class ProfileCommand extends AbstractTerminalCommand {
     var count = 0, runs = 5, duration = 0, command = args[0],
       commandObj = terminal.getAvailableCommands()[command];
     if (commandObj === undefined) {
-      terminal.stdout(`Undefined command: ${command}`);
+      terminal.stdout(`Undefined command: ${command}\n`);
       cb();
     } else {
       function timeOnce(isWarmup: boolean): void {
