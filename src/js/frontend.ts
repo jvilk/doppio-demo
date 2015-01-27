@@ -107,12 +107,18 @@ class Terminal {
       this.stderr(`Unknown command ${args[0]}. Type "help" for a list of commands.\n`);
       this.exitProgram();
     } else {
-      command.run(this, args.slice(1), () => {
-        this.exitProgram();
+      this._expandArguments(args.slice(1), (expArgs, err) => {
+        if (err !== undefined) {
+          this.stderr(`${command.getCommand()}: ${err}\n`);
+          this.exitProgram();
+        } else {
+          command.run(this, expArgs, () => {
+            this.exitProgram();
+          });
+        }
       });
     }
   }
-
   public exitProgram(): void {
     this._console.reprompt();
     this._consoleElement.click();
@@ -129,15 +135,24 @@ class Terminal {
   public getAvailableCommands(): { [commandName: string]: TerminalCommand } {
     return _.clone(this._commands);
   }
-  private _expandArguments(args: string[], cb: (expandedArgs: string[]) => void) {
+  private _expandArguments(args: string[], cb: (expandedArgs: string[], err: any) => void) {
     var expandedArgs: string[] = [];
     async.each(args,(arg: string, cb: (e?: any) => void) => {
-      processGlob(arg, (expansionTerms: string[]) => {
-        expandedArgs = expandedArgs.concat(expansionTerms);
+      if (arg.indexOf('*') == -1) {
+        expandedArgs.push(arg);
         cb();
-      });
+      } else {
+        processGlob(arg, (expansionTerms: string[]) => {
+          if (expansionTerms.length > 0) {
+            expandedArgs = expandedArgs.concat(expansionTerms);
+            cb();
+          } else {
+            cb(`${arg}: No such file or directory`);
+          }
+        });
+      }
     },(e?: any) => {
-        cb(expandedArgs);
+        cb(expandedArgs, e);
     });
   }
 }
@@ -1074,7 +1089,7 @@ function processGlob(glob: string, cb: (expansion: string[]) => void): void {
   }
 
   // Process each component of the path separately.
-  async.each(pathComps, function(path_comp: string, next_item: (e?: any) => void): void {
+  async.eachSeries(pathComps, function(path_comp: string, next_item: (e?: any) => void): void {
     var r: RegExp;
     if (path_comp === "") {
       // This condition occurs for:
