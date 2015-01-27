@@ -31,7 +31,7 @@ interface FileReaderEventTarget extends EventTarget {
 
 interface TerminalCommand {
   getCommand(): string;
-  getAutocompleteFilter(): (fname: string) => boolean;
+  getAutocompleteFilter(): (fname: string, isDir: boolean) => boolean;
   run(terminal: Terminal, args: string[], cb: () => void): void;
 }
 
@@ -147,7 +147,7 @@ class AbstractTerminalCommand implements TerminalCommand {
     throw new Error("Abstract method.");
   }
   public getAutocompleteFilter() {
-    return () => true;
+    return (fname: string, isDir: boolean) => true;
   }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     throw new Error("Abstract method");
@@ -326,10 +326,10 @@ $(document).ready(() => {
           welcomeText = data.toString();
         }
         var terminal = new Terminal($('#console'), [
-          new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true']),
-          new JARCommand('rhino', demoJars + "rhino.jar"),
-          new JavaClassCommand('javac', demoClasses, "classes.util.Javac"),
-          new JavaClassCommand('javap', demoClasses, "classes.util.Javap"),
+          new JARCommand('ecj', demoJars + "ecj.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
+          new JARCommand('rhino', demoJars + "rhino.jar", [], ['js']),
+          new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], ['java']),
+          new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], ['class']),
           new JavaCommand(),
           new LSCommand(),
           new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
@@ -439,6 +439,15 @@ class JavaCommand extends AbstractTerminalCommand {
   public getCommand(): string {
     return "java";
   }
+  public getAutocompleteFilter() {
+    // complete all directories, and some files
+    return (fname,isDir) => {
+      if (isDir) return true;
+      var dot = fname.lastIndexOf('.');
+      var ext = dot === -1 ? '' : fname.slice(dot+1);
+      return ext === 'class' || ext === 'jar';
+    }
+  }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     doppio.javaCli.java(args, constructJavaOptions({
       launcherName: this.getCommand()
@@ -450,14 +459,27 @@ class JARCommand extends JavaCommand {
   private _cmd: string;
   private _jarPath: string;
   private _extraArgs: string[];
-  constructor(cmd: string, jarPath: string, extraArgs: string[] = []) {
+  private _validExts: string[];
+  constructor(cmd: string, jarPath: string, extraArgs: string[] = [], validExts: string[] = []) {
     super();
     this._cmd = cmd;
     this._jarPath = jarPath;
     this._extraArgs = extraArgs;
+    this._validExts = validExts;
   }
   public getCommand() {
     return this._cmd;
+  }
+  public getAutocompleteFilter() {
+    return (fname,isDir) => {
+      if (isDir) return true;
+      var dot = fname.lastIndexOf('.');
+      var ext = dot === -1 ? '' : fname.slice(dot+1);
+      for (var i = 0; i < this._validExts.length; i++) {
+        if (ext === this._validExts[i]) return true;
+      }
+      return false;
+    }
   }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     var allArgs = ["-jar", this._jarPath].concat(this._extraArgs, args);
@@ -471,15 +493,29 @@ class JavaClassCommand extends JavaCommand {
   private _classpath: string;
   private _className: string;
   private _extraArgs: string[];
-  constructor(cmd: string, classpath: string, className: string, extraArgs: string[] = []) {
+  private _validExts: string[];
+  constructor(cmd: string, classpath: string, className: string,
+              extraArgs: string[] = [], validExts: string[] = []) {
     super();
     this._cmd = cmd;
     this._classpath = classpath;
     this._className = className;
     this._extraArgs = extraArgs;
+    this._validExts = validExts;
   }
   public getCommand() {
     return this._cmd;
+  }
+  public getAutocompleteFilter() {
+    return (fname,isDir) => {
+      if (isDir) return true;
+      var dot = fname.lastIndexOf('.');
+      var ext = dot === -1 ? '' : fname.slice(dot+1);
+      for (var i = 0; i < this._validExts.length; i++) {
+        if (ext === this._validExts[i]) return true;
+      }
+      return false;
+    }
   }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     var allArgs = ["-cp", `.:${this._classpath}`, this._className].concat(this._extraArgs, args);
@@ -773,6 +809,12 @@ class MountDropboxCommand extends AbstractTerminalCommand {
   public getCommand() {
     return 'mount_dropbox';
   }
+
+  public getAutocompleteFilter() {
+    // takes no completable arguments
+    return () => false;
+  }
+
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     var api_key: string = "j07r6fxu4dyd08r";
     if (args.length < 1 || args[0] !== 'Y') {
@@ -866,6 +908,11 @@ class HelpCommand extends AbstractTerminalCommand {
     return 'help';
   }
 
+  public getAutocompleteFilter() {
+    // help command takes no arguments
+    return () => false;
+  }
+
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     terminal.stdout(
       "Ctrl-D is EOF.\n\n" +
@@ -893,18 +940,30 @@ function tabComplete(terminal: Terminal, args: string[]): void {
   var promptText = terminal.getPromptText();
   var lastArg = _.last(args);
   getCompletions(terminal, args, (completions: string[]) => {
-    var prefix = longestCommmonPrefix(completions);
-    if (prefix == '' || prefix == lastArg) {
-      // We've no more sure completions to give, so show all options.
-      var commonLen = lastArg.lastIndexOf('/') + 1;
-      var options = columnize(completions.map((c) => c.slice(commonLen)));
-      terminal.stdout(options);
+    if (completions.length == 1) {
+      // only one choice: complete to it, then add a space (unless it's a directory)
+      promptText = promptText.substr(0, promptText.length -  lastArg.length);
+      promptText += completions[0];
+      if (promptText[promptText.length-1] !== '/') {
+        promptText += ' ';
+      }
       terminal.setPromptText(promptText);
-      return;
+    } else if (completions.length > 0) {
+      var prefix = longestCommmonPrefix(completions);
+      if (prefix == '' || prefix == lastArg) {
+        // We've no more sure completions to give, so show all options.
+        var commonLen = lastArg.lastIndexOf('/') + 1;
+        var options = completions.map((c) => c.slice(commonLen));
+        options.sort();
+        terminal.stdout(columnize(options) + "\n");
+        terminal.exitProgram();
+        terminal.setPromptText(promptText);
+      } else {
+        // Delete existing text so we can do case correction.
+        promptText = promptText.substr(0, promptText.length -  lastArg.length);
+        terminal.setPromptText(promptText + prefix);
+      }
     }
-    // Delete existing text so we can do case correction.
-    promptText = promptText.substr(0, promptText.length -  lastArg.length);
-    terminal.setPromptText(promptText + prefix);
   });
 }
 
@@ -914,7 +973,8 @@ function getCompletions(terminal: Terminal, args: string[], cb: (c: string[]) =>
   } else if (args[0] === 'time') {
     getCompletions(terminal, args.slice(1), cb);
   } else {
-    var cmd = terminal.getAvailableCommands()[args[0]], filter: (fname: string) => void = (f) => {};
+    var cmd = terminal.getAvailableCommands()[args[0]],
+        filter: (fname: string, isDir: boolean) => boolean = () => true;
     if (cmd != null) {
       filter = cmd.getAutocompleteFilter();
     }
@@ -926,7 +986,9 @@ function filterSubstring(prefix: string, lst: string[]): string[] {
   return lst.filter((x) => x.substr(0, prefix.length) == prefix);
 }
 
-function fileNameCompletions(cmd: string, args: string[], filter: (item: string) => void, cb: (c: string[])=>void): void {
+function fileNameCompletions(cmd: string, args: string[],
+                             filter: (item: string, isDir: boolean)=>boolean,
+                             cb: (c: string[])=>void): void {
   var toComplete = _.last(args);
   var lastSlash = toComplete.lastIndexOf('/');
   var dirPfx: string, searchPfx: string;
@@ -950,9 +1012,9 @@ function fileNameCompletions(cmd: string, args: string[], filter: (item: string)
         fs.stat(path.resolve(dirPfx + item), function(err: Error, stats) {
           if (err != null) {
             // Do nothing.
-          } else if (stats.isDirectory()) {
+          } else if (stats.isDirectory() && filter(item, true)) {
             completions.push(dirPfx + item + '/');
-          } else if (filter(item)) {
+          } else if (filter(item, false)) {
             completions.push(dirPfx + item);
           }
           next();
