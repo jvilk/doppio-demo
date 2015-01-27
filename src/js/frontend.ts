@@ -792,20 +792,14 @@ class RMCommand extends AbstractTerminalCommand {
       terminal.stdout("Usage: rm <file>\n");
       cb();
     } else {
-      var completed = 0;
-      function removeFile(file: string, total: number): void {
-        fs.unlink(file, (err?: Error) => {
+      async.each(args, (item: string, next: () => void) => {
+        fs.unlink(item, (err?: Error) => {
           if (err) {
-            terminal.stderr(`Could not remove file ${file}: ${err}\n`);
+            terminal.stderr(`Could not remove file ${item}: ${err}\n`);
           }
-          if (++completed == total) {
-            cb();
-          }
+          next();
         });
-      }
-      for (var i = 0; i < args.length; i++) {
-        removeFile(args[i], args.length);
-      }
+      }, cb);
     }
   }
 }
@@ -819,20 +813,14 @@ class RmdirCommand extends AbstractTerminalCommand {
       terminal.stdout("Usage: rmdir <dir>\n");
       cb();
     } else {
-      var completed = 0;
-      function removeDir(dir: string, total: number): void {
-        fs.rmdir(dir, (err?: Error) => {
+      async.each(args, (item: string, next: () => void) => {
+        fs.rmdir(item, (err?: Error) => {
           if (err) {
-            terminal.stderr(`Could not remove directory ${dir}: ${err}\n`);
+            terminal.stderr(`Could not remove directory ${item}: ${err}\n`);
           }
-          if (++completed == total) {
-            cb();
-          }
+          next();
         });
-      }
-      for (var i = 0; i < args.length; i++) {
-        removeDir(args[i], args.length);
-      }
+      }, cb);
     }
   }
 }
