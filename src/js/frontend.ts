@@ -780,12 +780,12 @@ filesystem, please type "mount_dropbox Y".
 
 Once you have successfully authenticated with Dropbox and the page reloads,
 you will need to type "mount_dropbox Y" again to finish mounting.
-(If you would like to use your own API key, please type "mount_dropbox Y your_api_key_here".)`);
+(If you would like to use your own API key, please type "mount_dropbox Y your_api_key_here".)\n`);
       cb();
     } else {
       if (args.length == 2 && args[1].length === 15) {
         api_key = args[1];
-        terminal.stdout(`Using API key ${api_key}...`);
+        terminal.stdout(`Using API key ${api_key}...\n`);
       }
       var client = new Dropbox.Client({ key: api_key });
       client.authenticate((error: any, data?: any): void => {
@@ -793,7 +793,7 @@ you will need to type "mount_dropbox Y" again to finish mounting.
         if (error == null) {
           mfs = (<any>fs).getRootFS();
           mfs.mount('/mnt/dropbox', new (<any>BrowserFS).FileSystem.Dropbox(client));
-          terminal.stdout("Successfully connected to your Dropbox account. You can now access files in the /Apps/DoppioJVM folder of your Dropbox account at /mnt/dropbox.");
+          terminal.stdout("Successfully connected to your Dropbox account. You can now access files in the /Apps/DoppioJVM folder of your Dropbox account at /mnt/dropbox.\n");
         } else {
           terminal.stderr(`Unable to connect to Dropbox: ${error}`);
         }
@@ -820,7 +820,7 @@ class TimeCommand extends AbstractTerminalCommand {
       commandObj.run(terminal, args.slice(1), () => {
         console.profileEnd();
         var end = (new Date).getTime();
-        terminal.stdout(`\nTime elapsed: ${end - start} ms.`);
+        terminal.stdout(`\nTime elapsed: ${end - start} ms.\n`);
         cb();
       });
     }
