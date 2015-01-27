@@ -861,22 +861,25 @@ class HelpCommand extends AbstractTerminalCommand {
   }
 
   public run(terminal: Terminal, args: string[], cb: () => void): void {
-    "Ctrl-D is EOF.\n\n" +
-    "Java-related commands:\n" +
-    "  javac <source file>     -- Invoke the Java 6 compiler.\n" +
-    "  java <class> [args...]  -- Run with command-line arguments.\n" +
-    "  javap [args...] <class> -- Run the Java 6 disassembler.\n" +
-    "  time                    -- Measure how long it takes to run a command.\n" +
-    "  rhino                   -- Run Rhino, the Java-based JavaScript engine.\n\n" +
-    "File management:\n" +
-    "  cat <file>              -- Display a file in the console.\n" +
-    "  edit <file>             -- Edit a file.\n" +
-    "  ls <dir>                -- List files.\n" +
-    "  mv <src> <dst>          -- Move / rename a file.\n" +
-    "  rm <file>               -- Delete a file.\n" +
-    "  mkdir <dir>             -- Create a directory.\n" +
-    "  cd <dir>                -- Change current directory.\n" +
-    "  mount_dropbox           -- Mount a Dropbox folder into the file system.\n\n";
+    terminal.stdout(
+      "Ctrl-D is EOF.\n\n" +
+      "Java-related commands:\n" +
+      "  javac <source file>     -- Invoke the Java 6 compiler.\n" +
+      "  java <class> [args...]  -- Run with command-line arguments.\n" +
+      "  javap [args...] <class> -- Run the Java 6 disassembler.\n" +
+      "  time                    -- Measure how long it takes to run a command.\n" +
+      "  rhino                   -- Run Rhino, the Java-based JavaScript engine.\n\n" +
+      "File management:\n" +
+      "  cat <file>              -- Display a file in the console.\n" +
+      "  edit <file>             -- Edit a file.\n" +
+      "  ls <dir>                -- List files.\n" +
+      "  mv <src> <dst>          -- Move / rename a file.\n" +
+      "  rm <file>               -- Delete a file.\n" +
+      "  mkdir <dir>             -- Create a directory.\n" +
+      "  cd <dir>                -- Change current directory.\n" +
+      "  mount_dropbox           -- Mount a Dropbox folder into the file system.\n\n"
+    );
+    cb();
   }
 }
 
