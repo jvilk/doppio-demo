@@ -99,6 +99,9 @@ class Terminal {
     };
   }
   public runCommand(args: string[]) {
+    if (args[0] === '') {
+      return this.exitProgram();
+    }
     var command = this._commands[args[0]];
     if (command === undefined) {
       this.stderr(`Unknown command ${args[0]}. Type "help" for a list of commands.\n`);
