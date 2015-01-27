@@ -66,7 +66,7 @@ export function setup(grunt: IGrunt) {
     // Downloads files.
     'curl-dir': {
       long: {
-        src: 'https://github.com/plasma-umass/doppio_jcl/releases/download/v2.0/java_home.tar.gz',
+        src: 'https://github.com/plasma-umass/doppio_jcl/releases/download/DemoExperiment/java_home.tar.gz',
         dest: "<%= build.vendor_dir %>"
       }
     },
@@ -106,6 +106,12 @@ export function setup(grunt: IGrunt) {
           expand: true, flatten: true,
           src: ['vendor/doppio/dist/natives/**/*.js'],
           dest: '<%= resolve(build.build_dir, "demo_files", "natives") %>'
+        },
+        {
+          expand: true, flatten: false,
+          cwd: 'vendor',
+          src: ['java_home/**/*'],
+          dest: '<%= resolve(build.build_dir, "demo_files") %>'
         }]
       }
     },

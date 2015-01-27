@@ -166,7 +166,7 @@ var process: NodeJS.Process = BrowserFS.BFSRequire('process'),
  */
 function constructJavaOptions(customArgs: { [prop: string]: any } = {}) {
   return _.extend({
-    bootstrapClasspath: ['/sys/java_home/classes/classes.jar'],
+    bootstrapClasspath: ['resources.jar', 'rt.jar', 'jsse.jar', 'jce.jar', 'charsets.jar', 'jfr.jar', 'tools.jar'].map((item: string) => "/sys/java_home/lib/" + item),
     classpath: [],
     javaHomePath: '/sys/java_home',
     extractionPath: '/jars',
