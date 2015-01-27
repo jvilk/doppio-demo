@@ -811,7 +811,7 @@ class TimeCommand extends AbstractTerminalCommand {
     var command = args[0],
       commandObj = terminal.getAvailableCommands()[command];
 
-    if (command === undefined) {
+    if (commandObj === undefined) {
       terminal.stderr(`Undefined command: ${command}\n`);
       cb();
     } else {
