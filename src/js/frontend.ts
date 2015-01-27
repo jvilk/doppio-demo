@@ -353,6 +353,7 @@ $(document).ready(() => {
           new MkdirCommand(),
           new CDCommand(),
           new RMCommand(),
+          new RmdirCommand(),
           new MountDropboxCommand(),
           new TimeCommand(),
           new ProfileCommand(),
@@ -802,19 +803,35 @@ class RMCommand extends AbstractTerminalCommand {
           }
         });
       }
-      if (args[0] === '*') {
-        fs.readdir('.', function (err: Error, fnames: string[]) {
+      for (var i = 0; i < args.length; i++) {
+        removeFile(args[i], args.length);
+      }
+    }
+  }
+}
+
+class RmdirCommand extends AbstractTerminalCommand {
+  public getCommand() {
+    return 'rmdir';
+  }
+  public run(terminal: Terminal, args: string[], cb: () => void): void {
+    if (args[0] == null) {
+      terminal.stdout("Usage: rmdir <dir>\n");
+      cb();
+    } else {
+      var completed = 0;
+      function removeDir(dir: string, total: number): void {
+        fs.rmdir(dir, (err?: Error) => {
           if (err) {
-            terminal.stderr(`Could not read '.': ${err}\n`);
+            terminal.stderr(`Could not remove directory ${dir}: ${err}\n`);
+          }
+          if (++completed == total) {
             cb();
-          } else {
-            for (var i = 0; i < fnames.length; i++) {
-              removeFile(fnames[i], fnames.length);
-            }
           }
         });
-      } else {
-        removeFile(args[0], 1);
+      }
+      for (var i = 0; i < args.length; i++) {
+        removeDir(args[i], args.length);
       }
     }
   }
