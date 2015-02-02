@@ -686,7 +686,8 @@ class EditCommand extends AbstractTerminalCommand {
 
   private defaultFile(filename: string): string {
     if (filename.indexOf('.java', filename.length - 5) != -1) {
-      return `class ${filename.substr(0, filename.length - 5)} {
+      var lastSlash = filename.lastIndexOf('/');
+      return `class ${filename.substring(lastSlash+1, filename.length-5)} {
   public static void main(String[] args) {
     // enter code here
   }
