@@ -325,11 +325,15 @@ $(document).ready(() => {
 
   // Set up file system.
   var xhrfs = new BrowserFS.FileSystem.XmlHttpRequest('listings.json', 'demo_files/'),
-    mfs = new BrowserFS.FileSystem.MountableFileSystem();
+    mfs = new BrowserFS.FileSystem.MountableFileSystem(),
+    fs = BrowserFS.BFSRequire('fs');
 
   mfs.mount('/sys', xhrfs);
   BrowserFS.initialize(mfs);
-  BrowserFS.BFSRequire('fs').mkdirSync('/home');
+  fs.mkdirSync('/mnt');
+  mfs.mount('/mnt/localStorage', new BrowserFS.FileSystem.LocalStorage());
+
+  fs.mkdirSync('/home');
   process.chdir('/home');
 
   recursiveCopy('/sys/classes', '/home', (err?) => {
