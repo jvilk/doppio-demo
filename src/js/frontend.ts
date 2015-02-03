@@ -703,20 +703,20 @@ class CatCommand extends AbstractTerminalCommand {
     return 'cat';
   }
   public run(terminal: Terminal, args: string[], cb: () => void): void {
-    var fname = args[0];
-    if (fname == null) {
+    if (args.length == 0) {
       terminal.stdout("Usage: cat <file>\n");
-      cb();
-    } else {
-      fs.readFile(fname, 'utf8', function (err: Error, data: string): void {
+      return cb();
+    }
+    async.eachSeries(args, (item: string, next: () => void) => {
+      fs.readFile(item, 'utf8', function (err: Error, data: string): void {
         if (err) {
-          terminal.stderr(`Could not open file '${fname}': ${err}\n`);
+          terminal.stderr(`Could not open file '${item}': ${err}\n`);
         } else {
           terminal.stdout(data);
         }
-        cb();
+        next();
       });
-    }
+    }, cb);
   }
 }
 
