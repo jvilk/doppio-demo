@@ -292,7 +292,7 @@ function recursiveCopy(srcFolder: string, destFolder: string, cb: (err?: any) =>
                   if (stat.isDirectory()) {
                     processDir(srcItem, destItem, next);
                   } else {
-                    processFile(srcItem, destItem, next);
+                    copyFile(srcItem, destItem, next);
                   }
                 }
               });
@@ -303,17 +303,17 @@ function recursiveCopy(srcFolder: string, destFolder: string, cb: (err?: any) =>
     });
   }
 
-  function processFile(srcFile: string, destFile: string, cb: (err?: any) => void) {
-    fs.readFile(srcFile, (e: any, data?: Buffer) => {
-      if (e) {
-        cb(e);
-      } else {
-        fs.writeFile(destFile, data, cb);
-      }
-    });
-  }
-
   processDir(srcFolder, path.resolve(destFolder, path.basename(srcFolder)), cb);
+}
+
+function copyFile(srcFile: string, destFile: string, cb: (err?: any) => void) {
+  fs.readFile(srcFile, (e: any, data?: Buffer) => {
+    if (e) {
+      cb(e);
+    } else {
+      fs.writeFile(destFile, data, cb);
+    }
+  });
 }
 
 // TODO: Download file locally command.
@@ -354,6 +354,7 @@ $(document).ready(() => {
           new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
           new CatCommand(),
           new MvCommand(),
+          new CpCommand(),
           new MkdirCommand(),
           new CDCommand(),
           new RMCommand(),
@@ -711,7 +712,7 @@ class CatCommand extends AbstractTerminalCommand {
         if (err) {
           terminal.stderr(`Could not open file '${fname}': ${err}\n`);
         } else {
-          terminal.stdout(data + "\n");
+          terminal.stdout(data);
         }
         cb();
       });
@@ -735,6 +736,52 @@ class MvCommand extends AbstractTerminalCommand {
         cb();
       });
     }
+  }
+}
+
+class CpCommand extends AbstractTerminalCommand {
+  public getCommand() {
+    return 'cp';
+  }
+  public run(terminal: Terminal, args: string[], cb: () => void): void {
+    if (args.length < 2) {
+      terminal.stdout("Usage: cp <from-file> <to-file>\n");
+      return cb();
+    }
+    var dest = args.pop();
+    // hack around BFS bug: stat('foo/') fails for some reason
+    if (dest.lastIndexOf('/') == dest.length-1) {
+      dest = dest.substr(0, dest.length-1);
+    }
+    fs.stat(dest, (err: Error, stat: any) => {
+      if (err && (<any>err).code !== 'ENOENT') {
+        terminal.stderr(`Invalid destination: ${dest}: ${err}\n`);
+        cb();
+      } else if (stat != null && stat.isDirectory()) {
+        // copy args to dest directory
+        async.each(args, (item: string, next: () => void) => {
+          copyFile(item, path.resolve(dest, path.basename(item)), (err: Error) => {
+            if (err) {
+              terminal.stderr(`Copy failed for ${item}: ${err}\n`);
+            }
+            next();
+          });
+        }, cb);
+      } else if (args.length > 1) {
+        terminal.stderr("Too many arguments for file target.\n");
+        cb();
+      } else if (args[0] == dest) {
+        terminal.stderr("Source and target are identical.\n");
+        cb();
+      } else {
+        copyFile(args[0], dest, (err: Error) => {
+          if (err) {
+            terminal.stderr(`Copy failed: ${err}\n`);
+          }
+          cb();
+        });
+      }
+    });
   }
 }
 
