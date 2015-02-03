@@ -727,15 +727,15 @@ class MvCommand extends AbstractTerminalCommand {
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     if (args.length < 2) {
       terminal.stdout("Usage: mv <from-file> <to-file>\n");
-      cb();
-    } else {
-      fs.rename(args[0], args[1], (err?: Error) => {
-        if (err) {
-          terminal.stderr(`Could not rename ${args[0]} to ${args[1]}: ${err}\n`);
-        }
-        cb();
-      });
+      return cb();
     }
+    // TODO: support mv foo bar someDir/
+    fs.rename(args[0], args[1], (err?: Error) => {
+      if (err) {
+        terminal.stderr(`Could not rename ${args[0]} to ${args[1]}: ${err}\n`);
+      }
+      cb();
+    });
   }
 }
 
@@ -792,15 +792,16 @@ class MkdirCommand extends AbstractTerminalCommand {
   public run(terminal: Terminal, args: string[], cb: () => void): void {
     if (args.length < 1) {
       terminal.stdout("Usage: mkdir <dirname>\n");
-      cb();
-    } else {
-      fs.mkdir(args[0], (err?: Error) => {
-        if (err) {
-          terminal.stderr(`Could not make directory ${args[0]}.\n`);
-        }
-        cb();
-      });
+      return cb();
     }
+    async.each(args, (item: string, next: () => void) => {
+      fs.mkdir(item, (err?: Error) => {
+        if (err) {
+          terminal.stderr(`Could not make directory ${item}: ${err}\n`);
+        }
+        next();
+      });
+    }, cb);
   }
 }
 
