@@ -6,3 +6,5 @@ tasks/*.js
 Grunttasks.js
 build/js/app.js
 build/*.html
+
+.DS_Store
