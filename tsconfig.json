@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "target": "es3",
+        "noImplicitAny": true,
+        "inlineSourceMap": true,
+        "inlineSources": true
+    },
+    "files": [
+      "typings/tsd.d.ts",
+      "src/js/termlib.d.ts",
+      "src/js/app.ts",
+      "src/js/shell.ts",
+      "src/js/commands/fs.ts",
+      "src/js/commands/util.ts",
+      "src/js/commands/java.ts",
+      "src/js/commands/edit.ts",
+      "src/js/commands/meta.ts",
+      "src/js/util.ts",
+      "Grunttasks.ts",
+      "tasks/find_native_java.ts",
+      "tasks/java.ts",
+      "tasks/listings.ts",
+      "tasks/render.ts"
+    ]
+}

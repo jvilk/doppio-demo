@@ -1,8 +1,8 @@
 node_modules
-vendor
 demo_files/**/*.class
 src/js/.baseDir.ts
 src/js/*.js
-build
 tasks/*.js
 Grunttasks.js
+build/js/app.js
+build/*.html

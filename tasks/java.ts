@@ -1,6 +1,4 @@
-/// <reference path="../vendor/DefinitelyTyped/node/node.d.ts" />
-/// <reference path="../vendor/DefinitelyTyped/gruntjs/gruntjs.d.ts" />
-/// <reference path="../vendor/DefinitelyTyped/async/async.d.ts" />
+///<reference path="../typings/tsd.d.ts" />
 import child_process = require('child_process');
 import os = require('os');
 import fs = require('fs');
@@ -33,12 +31,44 @@ function java(grunt: IGrunt) {
     if (inputFiles.length === 0) {
       return done();
     }
-    var jcl_dir = grunt.config('build.jcl_dir');
-    var jars = fs.readdirSync(jcl_dir).filter((fname)=>/\.jar/.test(fname)).map((fname)=>jcl_dir+'/'+fname);
-    var cmd = shellEscape(grunt.config('build.javac')) + ' -bootclasspath ' + jars.join(':') + ' -source 1.8 -target 1.8 ' + inputFiles.join(' ');
-    child_process.exec(cmd, function(err?: any) {
+    // Bootclasspath for javac uses OS's path separator.
+    // -Xbootclasspath always uses :.
+    let bootclasspath = grunt.config('build.bootclasspath');
+    if (os.platform() === 'win32') {
+      bootclasspath = bootclasspath.replace(/:/g, ';');
+    }
+    child_process.exec(shellEscape(grunt.config('build.javac')) + ' -J-Dfile.encoding=UTF8 -bootclasspath ' + bootclasspath + ' -source 1.8 -target 1.8 ' + inputFiles.join(' '), function(err?: any) {
       if (err) {
         grunt.fail.fatal('Error running javac: ' + err);
+      }
+      done();
+    });
+  });
+
+  grunt.registerMultiTask('run_java', 'Run java on input files.', function() {
+    var files: {src: string[]; dest: string}[] = this.files,
+        done: (status?: boolean) => void = this.async(),
+        tasks: Array<AsyncFunction<void>> = [];
+    grunt.config.requires('build.java');
+    files.forEach(function(file: {src: string[]; dest: string}) {
+      if (fs.existsSync(file.dest) && fs.statSync(file.dest).mtime > fs.statSync(file.src[0]).mtime) {
+        // No need to process file.
+        return;
+      }
+      tasks.push(function(cb: (err?: any) => void) {
+        // Trim '.java' from filename to get the class name.
+        var className = file.src[0].slice(0, -5);
+        // NOTE: -ea is to enable assert() statements, which are used in some test cases.
+        child_process.exec(shellEscape(grunt.config('build.java')) + ' -Dfile.encoding=UTF8 -ea -Xbootclasspath/a:' + grunt.config('build.bootclasspath') + ' ' + className, function(err?: any, stdout?: NodeBuffer, stderr?: NodeBuffer) {
+          fs.writeFileSync(file.dest, stdout.toString() + stderr.toString());
+          cb();
+        });
+      });
+    });
+
+    async.parallelLimit(tasks, os.cpus().length, function(err?: any) {
+      if (err) {
+        grunt.fail.fatal('java failed: ' + err);
       }
       done();
     });
