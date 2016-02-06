@@ -12,9 +12,9 @@ import JVMCLIOptions = DoppioJVM.VM.Interfaces.JVMCLIOptions;
  * Optionally merge it with the custom arguments specified.
  */
 function constructJavaOptions(customArgs: { [prop: string]: any } = {}): JVMCLIOptions {
-  return _.extend(DoppioJVM.VM.JVM.getDefaultOptions('/sys'), {
+  return _.extend(customArgs, DoppioJVM.VM.JVM.getDefaultOptions('/sys'), {
     extractionPath: '/jars'
-  }, customArgs);
+  });
 }
 
 
@@ -66,6 +66,7 @@ export class JARCommand extends JavaCommand {
   }
   public run(terminal: Shell, args: string[], cb: () => void): void {
     var allArgs = ["-jar", this._jarPath].concat(this._extraArgs, args);
+    console.log(allArgs);
     super.run(terminal, allArgs, cb);
   }
 }

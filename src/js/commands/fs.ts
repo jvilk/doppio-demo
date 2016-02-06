@@ -8,10 +8,11 @@ import _fs = require('fs');
 import Stats = _fs.Stats;
 
 const path = BrowserFS.BFSRequire('path'),
-  fs = BrowserFS.BFSRequire('fs');
+  fs = BrowserFS.BFSRequire('fs'),
+  process = BrowserFS.BFSRequire('process');
 
 // helper function for 'ls'
-function readDir(dir: string, pretty: boolean, columns: boolean, cb: (listing: string) => void): void {
+function readDir(dir: string, pretty: boolean, columns: boolean, numCols: number, cb: (listing: string) => void): void {
   fs.readdir(path.resolve(dir), (err: Error, contents: string[]) => {
     if (err || contents.length == 0) {
       return cb('');
@@ -37,7 +38,7 @@ function readDir(dir: string, pretty: boolean, columns: boolean, cb: (listing: s
       // runs at the end of processing
       () => {
         if (columns)
-          cb(columnize(prettyList));
+          cb(columnize(prettyList, numCols));
         else
           cb(prettyList.join('\n'));
       });
@@ -48,21 +49,22 @@ export class LSCommand extends AbstractShellCommand {
   public getCommand() {
     return 'ls';
   }
-  public run(terminal: Shell, args: string[], cb: () => void): void {
+  public run(shell: Shell, args: string[], cb: () => void): void {
+    const cols = shell.terminal.maxCols;
     if (args.length === 0) {
-      readDir('.', true, true,(listing) => {
-        terminal.stdout(listing + "\n");
+      readDir('.', true, true, cols, (listing) => {
+        shell.stdout(listing + "\n");
         cb();
       });
     } else if (args.length === 1) {
-      readDir(args[0], true, true,(listing) => {
-        terminal.stdout(listing + "\n");
+      readDir(args[0], true, true, cols, (listing) => {
+        shell.stdout(listing + "\n");
         cb();
       });
     } else {
       async.each(args, (dir: string, next: () => void) => {
-        readDir(dir, true, true,(listing: string) => {
-          terminal.stdout(`${dir}:\n${listing}\n\n`);
+        readDir(dir, true, true, cols, (listing: string) => {
+          shell.stdout(`${dir}:\n${listing}\n\n`);
           next();
         });
       }, cb);

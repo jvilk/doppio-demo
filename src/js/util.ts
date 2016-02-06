@@ -118,7 +118,7 @@ export function longestCommmonPrefix(lst: string[]): string {
   return lst.join(' ').match(/^(\S*)\S*(?: \1\S*)*$/i)[1];
 }
 
-export function columnize(str_list: string[], line_length: number = 100): string {
+export function columnize(str_list: string[], line_length: number): string {
   var max_len = 0;
   for (var i = 0; i < str_list.length; i++) {
     var len = str_list[i].length;
@@ -148,27 +148,28 @@ export function padRight(str: string, len: number): string {
   return str + Array(len - str.length + 1).join(' ');
 }
 
-export function recursiveCopy(srcFolder: string, destFolder: string, cb: (err?: any) => void): void {
+export function recursiveCopy(srcFolder: string, destFolder: string, progressCb: (src: string, dest: string, size: Stats) => void, cb: (err?: any) => void): void {
   function processDir(srcFolder: string, destFolder: string, cb: (err?: any) => void) {
-    fs.mkdir(destFolder, (err?: any) => {
+    fs.mkdir(destFolder, (err?: NodeJS.ErrnoException) => {
       // Ignore EEXIST.
       if (err && err.code !== 'EEXIST') {
         cb(err);
       } else {
-        fs.readdir(srcFolder, (e: any, items: string[]) => {
+        fs.readdir(srcFolder, (e: NodeJS.ErrnoException, items: string[]) => {
           if (e) {
             cb(e);
           } else {
             async.each(items, (item: string, next: (err?: any) => void) => {
               var srcItem = path.resolve(srcFolder, item),
                 destItem = path.resolve(destFolder, item);
-              fs.stat(srcItem, (e: any, stat?: any) => {
+              fs.stat(srcItem, (e: NodeJS.ErrnoException, stat?: Stats) => {
                 if (e) {
                   cb(e);
                 } else {
                   if (stat.isDirectory()) {
                     processDir(srcItem, destItem, next);
                   } else {
+                    progressCb(srcItem, destItem, stat);
                     copyFile(srcItem, destItem, next);
                   }
                 }

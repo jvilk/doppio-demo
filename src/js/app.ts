@@ -5,6 +5,8 @@ import {JARCommand, JavaClassCommand, JavaCommand} from './commands/java';
 import EditCommand from './commands/edit';
 import {LSCommand, CatCommand, CDCommand, CpCommand, MkdirCommand, MountDropboxCommand, MvCommand, RMCommand, RmdirCommand} from './commands/fs';
 import {TimeCommand, HelpCommand, ProfileCommand} from './commands/util';
+import _fs = require('fs');
+import Stats = _fs.Stats;
 
 const process: NodeJS.Process = BrowserFS.BFSRequire('process'),
   Buffer = BrowserFS.BFSRequire('buffer').Buffer,
@@ -90,6 +92,58 @@ function uploadFiles(terminal: Shell, ev: FileReaderEvent) {
 }
 
 $(document).ready(() => {
+  // Set up the master terminal object.
+  const shell = new Shell($('#console'), [
+      new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
+      new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [], ['js']),
+      new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['js']),
+      new JARCommand('clojure', demoJars + "clojure1.7.0.jar", [], ['js']),
+      // Needs --bin irb to do REPL. Add if no args!
+      new JARCommand('jruby', demoJars + "jruby-complete-9.0.1.0.jar", [], ['js']),
+      // Doesn't work :| Fucking jline.
+      new JARCommand('jython', demoJars + "jython-standalone-2.7.0.jar", ["-Djline.terminal=jline.UnsupportedTerminal"], ['js']),
+      new JavaClassCommand('scala', "", 'scala.tools.nsc.MainGenericRunner', [
+        "-Xbootclasspath/a", [
+          'akka-actor_2.11-2.3.10.jar',
+          'config-1.2.1.jar',
+          'jline-2.12.1.jar',
+          'scala-actors-2.11.0.jar',
+          'scala-actors-migration_2.11-1.1.0.jar',
+          'scala-compiler.jar',
+          'scala-continuations-library_2.11-1.0.2.jar',
+          'scala-continuations-plugin_2.11.7-1.0.2.jar',
+          'scala-library.jar',
+          'scala-parser-combinators_2.11-1.0.4.jar',
+          'scala-reflect.jar',
+          'scala-swing_2.11-1.0.2.jar',
+          'scala-xml_2.11-1.0.4.jar',
+          'scalap-2.11.7.jar'
+        ].map((item) => `${demoJars}scala-2.11.7/lib/${item}`).join(':'),
+        "-classpath", "", `-Dscala.home=${demoJars}scala-2.11.7`, '-Dscala.usejavacp=true',
+        '-Denv.emacs='
+      ], ['js']),
+      new JARCommand('groovy', demoJars + "groovy-all-2.4.5-indy.jar", [], ['js']),
+      new JARCommand('abcl', demoJars + "abcl-contrib-1.3.3.jar", [], ['js']),
+      new JARCommand('nashorn', "/sys/java_home/lib/ext/nashorn.jar", [], ['js']),
+      new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], ['java']),
+      new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], ['class']),
+      new JavaCommand(),
+      new LSCommand(),
+      new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
+      new CatCommand(),
+      new MvCommand(),
+      new CpCommand(),
+      new MkdirCommand(),
+      new CDCommand(),
+      new RMCommand(),
+      new RmdirCommand(),
+      new MountDropboxCommand(),
+      new TimeCommand(),
+      new ProfileCommand(),
+      new HelpCommand()
+    ], 'Please wait while the DoppioJVM demo loads...');
+
+
   // Set up file system.
   const xhrfs = new BrowserFS.FileSystem.XmlHttpRequest(require('json!../../build/demo_files/listings.json'), 'demo_files/'),
     mfs = new BrowserFS.FileSystem.MountableFileSystem(),
@@ -103,64 +157,18 @@ $(document).ready(() => {
   fs.mkdirSync('/home');
   process.chdir('/home');
 
-  recursiveCopy('/sys/classes', '/home', (err?) => {
-    recursiveCopy('/sys/programs', '/home', (err?) => {
-      // Set up the master terminal object.
-      fs.readFile("/sys/motd", (e: NodeJS.ErrnoException, data: Buffer) => {
-        let welcomeText = "";
-        if (!e) {
-          welcomeText = data.toString();
-        }
-        const shell = new Shell($('#console'), [
-          new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
-          new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [], ['js']),
-          new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['js']),
-          new JARCommand('clojure', demoJars + "clojure1.7.0.jar", [], ['js']),
-          // Needs --bin irb to do REPL. Add if no args!
-          new JARCommand('jruby', demoJars + "jruby-complete-9.0.1.0.jar", [], ['js']),
-          // Doesn't work :| Fucking jline.
-          new JARCommand('jython', demoJars + "jython-standalone-2.7.0.jar", ["-Djline.terminal=jline.UnsupportedTerminal"], ['js']),
-          new JavaClassCommand('scala', "", 'scala.tools.nsc.MainGenericRunner', [
-            "-Xbootclasspath/a", [
-              'akka-actor_2.11-2.3.10.jar',
-              'config-1.2.1.jar',
-              'jline-2.12.1.jar',
-              'scala-actors-2.11.0.jar',
-              'scala-actors-migration_2.11-1.1.0.jar',
-              'scala-compiler.jar',
-              'scala-continuations-library_2.11-1.0.2.jar',
-              'scala-continuations-plugin_2.11.7-1.0.2.jar',
-              'scala-library.jar',
-              'scala-parser-combinators_2.11-1.0.4.jar',
-              'scala-reflect.jar',
-              'scala-swing_2.11-1.0.2.jar',
-              'scala-xml_2.11-1.0.4.jar',
-              'scalap-2.11.7.jar'
-            ].map((item) => `${demoJars}scala-2.11.7/lib/${item}`).join(':'),
-            "-classpath", "", `-Dscala.home=${demoJars}scala-2.11.7`, '-Dscala.usejavacp=true',
-            '-Denv.emacs='
-          ], ['js']),
-          new JARCommand('groovy', demoJars + "groovy-all-2.4.5-indy.jar", [], ['js']),
-          new JARCommand('abcl', demoJars + "abcl-contrib-1.3.3.jar", [], ['js']),
-          new JARCommand('nashorn', "/sys/java_home/lib/ext/nashorn.jar", [], ['js']),
-          new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], ['java']),
-          new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], ['class']),
-          new JavaCommand(),
-          new LSCommand(),
-          new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
-          new CatCommand(),
-          new MvCommand(),
-          new CpCommand(),
-          new MkdirCommand(),
-          new CDCommand(),
-          new RMCommand(),
-          new RmdirCommand(),
-          new MountDropboxCommand(),
-          new TimeCommand(),
-          new ProfileCommand(),
-          new HelpCommand()
-        ], welcomeText);
+  fs.readFile("/sys/motd", (e: NodeJS.ErrnoException, data: Buffer) => {
+    let welcomeText = "";
+    if (!e) {
+      welcomeText = data.toString();
+    }
 
+    function progressCb(src: string, dest: string, stat: Stats): void {
+      shell.terminal.statusLine(`Preloading ${dest}...`);
+    }
+
+    recursiveCopy('/sys/classes', '/home', progressCb, (err?) => {
+      recursiveCopy('/sys/programs', '/home', progressCb, (err?) => {
         // set up the local file loaders
         $('#file').change((ev: FileReaderEvent) => {
           uploadFiles(shell, ev);
@@ -176,9 +184,7 @@ $(document).ready(() => {
           });
         });
 
-        // Open + focus the terminal.
-        shell.terminal.open();
-        shell.terminal.focus();
+        shell.loadingCompleted(welcomeText);
       });
     });
   });

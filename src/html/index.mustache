@@ -20,69 +20,70 @@
   <body>
     <a href="https://github.com/plasma-umass/doppio">
       <img style="position: fixed; top: 0; right: 0; border: 0;z-index:9999"
-      src="browser/ribbon.png" alt="Fork me on GitHub">
+      src="img/ribbon.png" alt="Fork me on GitHub">
     </a>
-
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand bitter" href="about.html">DoppioJVM</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
 
     <div class="jumbotron">
       <div class="container">
-        <hi>DoppioJVM</h1>
-        <span class='build-info'>
-            <a href="https://github.com/plasma-umass/doppio-demo/commit/{{git_hash}}">
-              @{{git_short_hash}}</a>, built {{date}}
-        </span>
-        <p>DoppioJVM is a Java Virtual Machine written in 100% JavaScript that supports:
-          <ul>
-            <li>FileSystem</li>
-          </ul>
-        </p>
+        <h1>DoppioJVM</h1>
+        <p>A Java Virtual Machine written in 100% JavaScript.<p>
         <p><a class="btn btn-primary btn-lg" href="https://plasma-umass.github.io/doppio-demo/paper.pdf">Read the academic paper »</a></p>
         <p><a class="btn btn-primary btn-lg" href="https://github.com/plasma-umass/doppio">Browse the code »</a></p>
       </div>
     </div>
 
-    <div class='page-header'>
-      <!-- File upload button strategy credit goes davist11: https://gist.github.com/645816 -->
-      <span class="file-wrapper" style='margin: 8px 0 3px 0;float:right;'>
-        <input type="file" name="file" id="file" multiple />
-        <span class="button">Upload Files...</span>
-      </span>
-      <h1>&nbsp;</h1>
-    </div>
-
     <div class="container" id="main">
+      <div class='page-header'>
+        <!-- File upload button strategy credit goes davist11: https://gist.github.com/645816 -->
+        <span class="file-wrapper" style='margin: 8px 0 3px 0;float:right;'>
+          <input type="file" name="file" id="file" multiple />
+          <span class="button">Upload Files...</span>
+        </span>
+        <h2>Shell Demo</h2>
+      </div>
+
       <div id='console'></div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h2>OS Resources</h2>
+          <p>Contains support for a variety of UNIX-like operating system resources, including:
+            <ul>
+              <li><b>Thread Pool</b>: Emulates multiple concurrent threads, letting DoppioJVM support multithreaded JVM programs.</li>
+              <li><b>File System</b>: Maps files and directories to browser storage, cloud storage, zip files, and more! Uses our <a href="https://github.com/jvilk/browserfs">BrowserFS</a> library.</li>
+              <li><b>Network Sockets</b>: Maps outgoing TCP socket connections to WebSockets, which can connect to unmodified servers <a href="https://github.com/kanaka/websockify">wrapped in Websockify.</a></li>
+              <li><b>Unmanaged Heap</b>: Enables emulation of the controversial <tt>sun.misc.Unsafe</tt> API, which OpenJDK uses extensively internally.</li>
+              <li><b>Standard Streams</b>: Supports stdin/stdout/stderr, which can be hooked up to arbitrary UIs (such as a terminal).
+            </ul>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h2>Compatibility</h2>
+          <p>
+            DoppioJVM uses an unmodified version of the Java 8 OpenJDK Java Class Library, giving it compatibility with a wide range of existing software.
+          </p>
+          <p>
+            Try software out by uploading a JAR with the "Upload Files..." button, and running it in the terminal with the <tt>java</tt> command!
+          </p>
+        </div>
+      </div>
     </div>
 
-    <div class="page-footer">
-      <p>This demo uses the excellent <a href="http://www.masswerk.at/termlib/">termlib</a> library.</p>
-    </div>
+    <footer class="page-footer">
+      <div class="container">
+        <p>
+          Running demo version <a href="https://github.com/plasma-umass/doppio-demo/commit/{{git_hash}}">@{{git_short_hash}}</a>, built {{date}}.
+          This demo uses the excellent <a href="http://www.masswerk.at/termlib/">termlib</a> library.
+        </p>
+      </div>
+    </footer>
     <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/mode-java.js" type="text/javascript" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/dropbox.js/0.10.3/dropbox.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/termlib/compacted/termlib_min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/termlib/termlib.js" type="text/javascript" charset="utf-8"></script>
     <!-- BEGIN WebSockify LIBRARY -->
     <script src="demo_files/vendor/websockify/base64.js" type="text/javascript" charset="utf-8"></script>
     <script src="demo_files/vendor/websockify/util.js" type="text/javascript" charset="utf-8"></script>

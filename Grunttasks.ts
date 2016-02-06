@@ -74,15 +74,6 @@ export function setup(grunt: IGrunt) {
       }
     },
     watch: {
-      'js': {
-        files: ['src/js/**/*.ts'],
-        tasks: ['webpack-dev-server:watch'],
-        options: {
-          event: [],
-          atBegin: true,
-          spawn: true
-        }
-      },
       'mustache-templates': {
         files: ['src/html/*.mustache'],
         tasks: ['mustache_render:release'],
@@ -105,10 +96,13 @@ export function setup(grunt: IGrunt) {
       build: webpackConfig
     },
     'webpack-dev-server': {
-      watch: _.extend(webpackConfig, {
+      options: _.extend({
+        webpack: webpackConfig
+      }, webpackConfig.devServer),
+      watch: {
         watch: true,
         keepAlive: true
-      })
+      }
     }
   });
 

@@ -21,7 +21,6 @@
       "Grunttasks.ts",
       "tasks/find_native_java.ts",
       "tasks/java.ts",
-      "tasks/listings.ts",
-      "tasks/render.ts"
+      "tasks/listings.ts"
     ]
 }
