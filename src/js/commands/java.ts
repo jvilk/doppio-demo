@@ -66,7 +66,6 @@ export class JARCommand extends JavaCommand {
   }
   public run(terminal: Shell, args: string[], cb: () => void): void {
     var allArgs = ["-jar", this._jarPath].concat(this._extraArgs, args);
-    console.log(allArgs);
     super.run(terminal, allArgs, cb);
   }
 }
