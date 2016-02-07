@@ -85,7 +85,6 @@ export default class Shell {
       },
       ctrlHandler: (): void => {
         const inputChar = term.inputChar;
-        console.log("CTRL: " + inputChar);
         if (!this._activeCommand) {
           // Unset so it does not repeat.
           term.inputChar = 0;
