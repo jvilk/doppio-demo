@@ -6,6 +6,12 @@ export abstract class AbstractShellCommand implements ShellCommand {
     return (fname: string, isDir: boolean) => true;
   }
   public abstract run(terminal: Shell, args: string[], cb: () => void): void;
+  /**
+   * Called when the user hits CTRL+C.
+   */
+  public kill(): void {
+    // NOP.
+  }
 }
 
 export class SimpleCommand extends AbstractShellCommand {

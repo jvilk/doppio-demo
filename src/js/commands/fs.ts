@@ -1,12 +1,12 @@
 import {AbstractShellCommand} from './meta';
 import Shell from '../shell';
 import async = require('async');
-import BrowserFS = require('browserfs');
+import TBrowserFS = require('browserfs');
 import {columnize, copyFile} from '../util';
 
 import _fs = require('fs');
 import Stats = _fs.Stats;
-
+declare const BrowserFS: typeof TBrowserFS;
 const path = BrowserFS.BFSRequire('path'),
   fs = BrowserFS.BFSRequire('fs'),
   process = BrowserFS.BFSRequire('process');
@@ -50,7 +50,7 @@ export class LSCommand extends AbstractShellCommand {
     return 'ls';
   }
   public run(shell: Shell, args: string[], cb: () => void): void {
-    const cols = shell.terminal.maxCols;
+    const cols = shell.cols();
     if (args.length === 0) {
       readDir('.', true, true, cols, (listing) => {
         shell.stdout(listing + "\n");
@@ -282,7 +282,7 @@ you will need to type "mount_dropbox Y" again to finish mounting.
       var client = new Dropbox.Client({ key: api_key });
       client.authenticate((error: any, data?: any): void => {
         if (!error) {
-          let mfs = <BrowserFS.FileSystem.MountableFileSystem> fs.getRootFS();
+          let mfs = <TBrowserFS.FileSystem.MountableFileSystem> fs.getRootFS();
           mfs.mount('/mnt/dropbox', new (<any>BrowserFS).FileSystem.Dropbox(client));
           terminal.stdout("Successfully connected to your Dropbox account. You can now access files in the /Apps/DoppioJVM folder of your Dropbox account at /mnt/dropbox.\n");
         } else {

@@ -304,6 +304,8 @@ declare module Termlib {
     public maxCols: number;
     // maximum number of rows to display
     public maxLines: number;
+    // if true, the terminal is locked and does not accept input.
+    public lock: boolean;
 
     /**
      * Default terminal configuration.

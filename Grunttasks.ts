@@ -46,6 +46,16 @@ export function setup(grunt: IGrunt) {
             dest: path.resolve(demoFilesDir, 'natives')
           },
           {
+            expand: true, flatten: true,
+            src: [path.resolve(__dirname, 'node_modules/doppiojvm/dist/release/doppio.js*')],
+            dest: path.resolve(buildDir, 'js')
+          },
+          {
+            expand: true, flatten: true,
+            src: [path.resolve(__dirname, 'node_modules/browserfs/dist/browserfs.min.*')],
+            dest: path.resolve(buildDir, 'js')
+          },
+          {
             expand: true, flatten: false,
             cwd: path.resolve(__dirname, 'node_modules/doppiojvm'),
             src: ['vendor/**/*'],

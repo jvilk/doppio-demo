@@ -3,7 +3,8 @@ import Stats = _fs.Stats;
 import _ = require('underscore');
 import async = require('async');
 
-import BrowserFS = require('browserfs');
+import TBrowserFS = require('browserfs');
+declare const BrowserFS: typeof TBrowserFS;
 
 const path = BrowserFS.BFSRequire('path'),
   fs = BrowserFS.BFSRequire('fs');

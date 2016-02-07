@@ -6,7 +6,6 @@
 /tasks/*.js
 /Grunttasks.js
 /build/js/app.js
-/build/js/src
 /build/*.html
 /build/demo_files/listings.json
 /build/demo_files/programs

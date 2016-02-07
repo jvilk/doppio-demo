@@ -1,4 +1,4 @@
-import BrowserFS = require('browserfs');
+import TBrowserFS = require('browserfs');
 import {filterSubstring, recursiveCopy} from './util';
 import Shell from './shell';
 import {JARCommand, JavaClassCommand, JavaCommand} from './commands/java';
@@ -7,6 +7,7 @@ import {LSCommand, CatCommand, CDCommand, CpCommand, MkdirCommand, MountDropboxC
 import {TimeCommand, HelpCommand, ProfileCommand} from './commands/util';
 import _fs = require('fs');
 import Stats = _fs.Stats;
+declare const BrowserFS: typeof TBrowserFS;
 
 const process: NodeJS.Process = BrowserFS.BFSRequire('process'),
   Buffer = BrowserFS.BFSRequire('buffer').Buffer,
@@ -95,7 +96,7 @@ $(document).ready(() => {
   // Set up the master terminal object.
   const shell = new Shell($('#console'), [
       new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
-      new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [], ['js']),
+      new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [],  ['js']),
       new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['js']),
       new JARCommand('clojure', demoJars + "clojure1.7.0.jar", [], ['js']),
       // Needs --bin irb to do REPL. Add if no args!
@@ -103,7 +104,7 @@ $(document).ready(() => {
       // Doesn't work :| Fucking jline.
       new JARCommand('jython', demoJars + "jython-standalone-2.7.0.jar", ["-Djline.terminal=jline.UnsupportedTerminal"], ['js']),
       new JavaClassCommand('scala', "", 'scala.tools.nsc.MainGenericRunner', [
-        "-Xbootclasspath/a", [
+        '-Xbootclasspath/a:' + [
           'akka-actor_2.11-2.3.10.jar',
           'config-1.2.1.jar',
           'jline-2.12.1.jar',
@@ -119,14 +120,14 @@ $(document).ready(() => {
           'scala-xml_2.11-1.0.4.jar',
           'scalap-2.11.7.jar'
         ].map((item) => `${demoJars}scala-2.11.7/lib/${item}`).join(':'),
-        "-classpath", "", `-Dscala.home=${demoJars}scala-2.11.7`, '-Dscala.usejavacp=true',
+        `-Dscala.home=${demoJars}scala-2.11.7`, '-Dscala.usejavacp=true',
         '-Denv.emacs='
-      ], ['js']),
+      ], [], ['js']),
       new JARCommand('groovy', demoJars + "groovy-all-2.4.5-indy.jar", [], ['js']),
       new JARCommand('abcl', demoJars + "abcl-contrib-1.3.3.jar", [], ['js']),
-      new JARCommand('nashorn', "/sys/java_home/lib/ext/nashorn.jar", [], ['js']),
-      new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], ['java']),
-      new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], ['class']),
+      new JARCommand('nashorn', "/sys/vendor/java_home/lib/ext/nashorn.jar", [], ['js']),
+      new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], [], ['java']),
+      new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], [], ['class']),
       new JavaCommand(),
       new LSCommand(),
       new EditCommand('source', $('#save_btn'), $('#close_btn'), $('#ide'), $('#console'), $('#filename')),
@@ -163,8 +164,16 @@ $(document).ready(() => {
       welcomeText = data.toString();
     }
 
+    const termWidth = shell.cols();
     function progressCb(src: string, dest: string, stat: Stats): void {
-      shell.terminal.statusLine(`Preloading ${dest}...`);
+      shell.backspace(termWidth);
+
+      let progressStr = `Preloading ${dest}...`;
+      const overPrint = progressStr.length - termWidth;
+      if (overPrint > 0) {
+        progressStr = `${progressStr.slice(0, progressStr.length - 3 - overPrint)}...`
+      }
+      shell.stdout(progressStr);
     }
 
     recursiveCopy('/sys/classes', '/home', progressCb, (err?) => {
@@ -177,12 +186,6 @@ $(document).ready(() => {
           // Set up stdout/stderr/stdin.
         process.stdout.on('data',(data: Buffer) => shell.stdout(data.toString()));
         process.stderr.on('data',(data: Buffer) => shell.stderr(data.toString()));
-        process.stdin.on('_read',() => {
-          shell.stdin((text: string) => {
-            // BrowserFS's stdin lets you write to it for emulation purposes.
-            (<NodeJS.ReadWriteStream> process.stdin).write(new Buffer(text));
-          });
-        });
 
         shell.loadingCompleted(welcomeText);
       });
