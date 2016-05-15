@@ -1,4 +1,4 @@
-///<reference path="./typings/tsd.d.ts" />
+///<reference path="./typings/main.d.ts" />
 
 /**
  * Contains all of doppio's grunt build tasks in TypeScript.

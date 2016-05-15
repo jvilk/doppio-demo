@@ -8,7 +8,7 @@
       "inlineSources": true
     },
     "files": [
-      "typings/tsd.d.ts",
+      "typings/main.d.ts",
       "src/js/termlib.d.ts",
       "src/js/app.ts",
       "src/js/shell.ts",

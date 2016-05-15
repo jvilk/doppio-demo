@@ -1,4 +1,4 @@
-///<reference path="../typings/tsd.d.ts" />
+///<reference path="../typings/main.d.ts" />
 import path = require('path');
 import {exec, spawn} from 'child_process';
 import semver = require('semver');

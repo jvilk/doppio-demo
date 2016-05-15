@@ -1,4 +1,4 @@
-///<reference path="../typings/tsd.d.ts" />
+///<reference path="../typings/main.d.ts" />
 import fs = require('fs');
 
 function listings(grunt: IGrunt) {

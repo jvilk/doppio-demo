@@ -1,4 +1,4 @@
-///<reference path="../typings/tsd.d.ts" />
+///<reference path="../typings/main.d.ts" />
 import child_process = require('child_process');
 import os = require('os');
 import fs = require('fs');
