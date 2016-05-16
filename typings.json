@@ -5,6 +5,8 @@
     "ace": "registry:dt/ace#0.0.0+20160317120654",
     "async": "registry:dt/async#1.4.2+20160501155344",
     "dropboxjs": "registry:dt/dropboxjs#0.0.0+20160317120654",
+    "express": "registry:dt/express#4.0.0+20160317120654",
+    "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
     "filesystem": "registry:dt/filesystem#0.0.0+20160316155526",
     "filewriter": "registry:dt/filewriter#0.0.0+20160316155526",
     "glob": "registry:dt/glob#5.0.10+20160317120654",
@@ -14,6 +16,7 @@
     "mustache": "registry:dt/mustache#0.8.2+20160316155526",
     "node": "registry:dt/node#6.0.0+20160514165920",
     "semver": "registry:dt/semver#4.3.4+20160316171810",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160501131543",
     "underscore": "registry:dt/underscore#1.7.0+20160505190121"
   }
 }

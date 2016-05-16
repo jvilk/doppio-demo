@@ -10,6 +10,7 @@
     "files": [
       "typings/main.d.ts",
       "src/js/termlib.d.ts",
+      "src/js/term.js.d.ts",
       "src/js/app.ts",
       "src/js/shell.ts",
       "src/js/commands/fs.ts",
