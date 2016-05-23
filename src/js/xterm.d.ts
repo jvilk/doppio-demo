@@ -1,5 +1,4 @@
-declare module "term.js" {
-  import * as express from 'express';
+declare module "xterm" {
   import {EventEmitter} from 'events';
 
   interface TerminalOptions {
@@ -408,16 +407,5 @@ declare module "term.js" {
     public on(eventName: string, listener: Function): this;
   }
 
-  interface term {
-    (options: TerminalOptions): Terminal;
-    new(options: TerminalOptions): Terminal;
-    middleware(options: TermMiddlewareOptions): express.RequestHandler;
-    script: string;
-    path: string;
-    last: number;
-    Terminal: typeof Terminal;
-  }
-
-  const term: term;
-  export = term;
+  export = Terminal;
 }

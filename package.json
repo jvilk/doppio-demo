@@ -21,7 +21,6 @@
     "grunt-contrib-copy": "^1.0",
     "grunt-contrib-watch": "^1.0",
     "grunt-mustache-render": "^1.9",
-    "grunt-ts": "^5.5",
     "grunt-webpack": "^1.0.11",
     "json-loader": "^0.5.4",
     "locate-java-home": "^0.1.5",
@@ -30,7 +29,8 @@
     "ts-loader": "^0.8.0",
     "typescript": "^1.7.5",
     "underscore": "^1.8.3",
-    "webpack": "^1.12.13",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^1.13",
+    "webpack-dev-server": "^1.14.1",
+    "xterm": "^0.33.0"
   }
 }

@@ -2,6 +2,7 @@ import async = require('async');
 import {processGlob, longestCommmonPrefix, fileNameCompletions, filterSubstring, columnize} from './util';
 import _ = require('underscore');
 import TBrowserFS = require('browserfs');
+import Terminal = require('xterm');
 declare const BrowserFS: typeof TBrowserFS;
 const process = BrowserFS.BFSRequire('process');
 const Buffer = BrowserFS.BFSRequire('buffer').Buffer;
@@ -15,41 +16,28 @@ export interface ShellCommand {
 
 let _globalUniqueId: number = 1;
 
-function fixTextForTerminal(text: string) {
-  return text.replace(/\t/g, '    ');
-}
 
 /**
  * Runs a shell on a Termlib terminal.
  */
 export default class Shell {
-  private _terminal: Termlib.Terminal = null;
+  private _terminal: Terminal = null;
   private _commands: { [command: string]: ShellCommand } = {};
-  private _shellElement: JQuery;
   private _activeCommand: ShellCommand = null;
 
-  constructor(shellElement: JQuery, commands: ShellCommand[], loadingText: string) {
-    this._shellElement = shellElement;
+  constructor(shellElement: HTMLElement, commands: ShellCommand[], loadingText: string) {
     commands.forEach((c: ShellCommand) => {
       this._commands[c.getCommand()] = c;
     });
 
-    let termDiv = shellElement.attr('id');
-    if (!termDiv) {
-      termDiv = `shell-terminal${_globalUniqueId++}`;
-      shellElement.attr('id', termDiv);
-    }
-
     const rows = 500;
     const term = this._terminal = new Terminal({
-      blinkDelay: 500,
-      x: 0,
-      y: 0,
-      rows: rows,
-      frameWidth: 10,
-      termDiv: termDiv,
-      ps: '',
-      handler: (): void => {
+      cols: 100,
+      rows: 500
+    });
+    term.open(shellElement);
+
+    /*  handler: (): void => {
         if (!term.charMode) {
           term.newLine();
           let parts = term.lineBuffer.trim().split(/\s+/);
@@ -82,8 +70,8 @@ export default class Shell {
           }
           (<NodeJS.WritableStream> <any> process.stdin).write(new Buffer([inputChar]));
         }
-      },
-      ctrlHandler: (): void => {
+      }*/
+      /*ctrlHandler: (): void => {
         const inputChar = term.inputChar;
         if (!this._activeCommand) {
           // Unset so it does not repeat.
@@ -103,17 +91,13 @@ export default class Shell {
         }
 
         // TODO: Handle ctrl+ codes.
-      },
-      // TODO: Change when in program.
-      printTab: false,
-      greeting: ""
-    });
-    term.open();
-    term.cursorSet(rows - 1, 0);
-    this.stdout(`${loadingText}\n`);
-    const scrollDest = shellElement.prop('scrollHeight') - shellElement.innerHeight();
-    shellElement.scrollTop(scrollDest);
-    term.cursorOff();
+      }*/
+    //});
+    //term.cursorSet(rows - 1, 0);
+    //this.stdout(`${loadingText}\n`);
+    //const scrollDest = shellElement.prop('scrollHeight') - shellElement.innerHeight();
+    //shellElement.scrollTop(scrollDest);
+    //term.cursorOff();
 
     /*consoleElement.console({
       promptLabel: this.ps1(),
@@ -142,7 +126,7 @@ export default class Shell {
    * Get the width of the terminal in characters.
    */
   public cols(): number {
-    return this._terminal.maxCols;
+    return this._terminal.cols;
   }
 
   /**
@@ -157,21 +141,17 @@ export default class Shell {
 
   public stdout(text: string): void {
     const term = this._terminal;
-    term.write(term.escapeMarkup(fixTextForTerminal(text)), false);
-    // HACK: Poke cursor to redraw it.
-    term.cursorRight();
+    term.write(text);
   }
   public stderr(text: string): void {
     const term = this._terminal;
     // Print red, then switch back to the default color.
-    term.write(`%c(red)${term.escapeMarkup(fixTextForTerminal(text))}%c0`, false);
-    // HACK: Poke cursor to redraw it.
-    term.cursorRight();
+    term.write(`%c(red)${text}%c0`);
   }
   public runCommand(args: string[]) {
-    this._terminal.cursorOn();
-    this._terminal.charMode = true;
-    this._terminal.lock = false;
+    // this._terminal.cursor
+    // this._terminal.charMode = true;
+    // this._terminal.lock = false;
     if (args[0] === '') {
       return this.exitProgram();
     }
@@ -200,8 +180,8 @@ export default class Shell {
   public exitProgram(): void {
     const term = this._terminal;
     this._activeCommand = null;
-    term.charMode = false;
-    term.rawMode = false;
+    // term.charMode = false;
+    // term.rawMode = false;
     this.prompt();
   }
   public focus(): void {
@@ -214,7 +194,7 @@ export default class Shell {
    * Updates the terminal's prompt to one valid for the current directory.
    */
   public updatePS(): void {
-    this._terminal.ps = this._ps();
+    // this._terminal.ps = this._ps();
   }
   public getAvailableCommands(): { [commandName: string]: ShellCommand } {
     return _.clone(this._commands);
@@ -258,13 +238,13 @@ export default class Shell {
   public backspace(length: number): void {
     const term = this._terminal;
     for (let i = 0; i < length; i++) {
-      term.backspace();
+      term.write('\b');
     }
   }
 
   public prompt(): void {
-    this._terminal.cursorOff();
-    this._terminal.prompt();
+    //this._terminal.cursorOff();
+    //this._terminal.prompt();
   }
 
   public tabComplete(lineText: string, args: string[]): void {
@@ -286,7 +266,7 @@ export default class Shell {
           let commonLen = lastArg.lastIndexOf('/') + 1;
           let options = completions.map((c) => c.slice(commonLen));
           options.sort();
-          this.stdout(`\n${columnize(options, term.maxCols)}`);
+          this.stdout(`\n${columnize(options, term.cols)}`);
           this.prompt();
           this.stdout(lineText);
         } else {

@@ -47,7 +47,7 @@ function uploadFile(f: File, cb: (e?: string) => void) {
     }
   };
   reader.onload = (e) => {
-    fs.writeFile(process.cwd() + '/' + f.name, new Buffer((<any> e.target).result),(err: Error) => {
+    fs.writeFile(process.cwd() + '/' + f.name, new Buffer((<any> e.target).result), (err) => {
       if (err) {
         cb(`${err}`);
       } else {
@@ -94,7 +94,7 @@ function uploadFiles(terminal: Shell, ev: FileReaderEvent) {
 
 $(document).ready(() => {
   // Set up the master terminal object.
-  const shell = new Shell($('#console'), [
+  const shell = new Shell($('#console').get()[0], [
       new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
       new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [],  ['js']),
       new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['js']),
