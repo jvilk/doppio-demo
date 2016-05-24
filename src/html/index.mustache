@@ -43,6 +43,15 @@
         <h2>Shell Demo</h2>
       </div>
 
+      <div id='ide' style='display:none'>
+        <div id='source' style='height: 70%;'></div>
+        <form class='form-inline' style='margin: 8px 0 3px 0;'>
+          <label for='filename' class='control-label'>Save As:</label>
+          <input type='text' id='filename' class='input-xlarge'/>
+          <button id='save_btn' class='btn btn-mini btn-primary'>Save &amp; Close</button>
+          <button id='close_btn' class='btn btn-mini btn-primary'>Close Without Saving</button>
+        </form>
+      </div>
       <div id='console'></div>
 
       <div class="row">
@@ -74,7 +83,6 @@
       <div class="container">
         <p>
           Running demo version <a href="https://github.com/plasma-umass/doppio-demo/commit/{{git_hash}}">@{{git_short_hash}}</a>, built {{date}}.
-          This demo uses the excellent <a href="http://www.masswerk.at/termlib/">termlib</a> library.
         </p>
       </div>
     </footer>

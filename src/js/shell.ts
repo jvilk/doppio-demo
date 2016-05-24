@@ -76,6 +76,7 @@ export default class Shell {
   private _disableInput = true;
   private _savedCommand = "";
   private _shellHistoryFile: string;
+  private _bufferedInput: string = "";
 
   constructor(shellElement: HTMLElement, commands: ShellCommand[], loadingText: string, shellHistoryFile: string) {
     this._shellHistoryFile = shellHistoryFile;
@@ -83,16 +84,15 @@ export default class Shell {
       this._commands[c.getCommand()] = c;
     });
 
-    const rows = 15;
+    const rows = 25;
     const term = this._terminal = globalTerm = new Terminal({
       cols: 100,
       rows: rows,
-      cursorBlink: true
+      cancelEvents: true
     });
     term.open(shellElement);
     term.cursorHidden = true;
 
-    const isRaw: boolean = (<any> process.stdin).isRaw;
     term.on('key', (key, e) => {
       if (this._disableInput) {
         return;
@@ -211,6 +211,7 @@ export default class Shell {
             break;
           case KeyCodes.BACKSPACE:
             // delete character
+            keyProcessed = true;
             this.stdin('\b');
             break;
           case KeyCodes.TAB:
@@ -225,7 +226,8 @@ export default class Shell {
             break;
           case KeyCodes.DELETE:
             // forward delete
-            if (this._shellEnabled) {
+            // NOTE: Is also '.' on my Mac...
+            if (this._shellEnabled && e.type === "keydown") {
               keyProcessed = true;
               this._forwardDelete();
             }
@@ -301,17 +303,17 @@ export default class Shell {
   private _cursorLeft(): void {
     if (this._cursorX() === 0 && this._cursorY() > 0) {
       // Move up one, to end of line.
-      this.stdin(ControlCodes.CURSOR_POSITION(this._terminal, this._terminal.cols - 1, this._cursorY() - 1));
+      this.stdout(ControlCodes.CURSOR_POSITION(this._terminal, this._terminal.cols - 1, this._cursorY() - 1));
     } else {
-      this.stdin(ControlCodes.LEFT_ARROW);
+      this.stdout(ControlCodes.LEFT_ARROW);
     }
   }
 
   private _cursorRight(): void {
     if (this._cursorX() === this._terminal.cols - 1 && this._endY > this._cursorY()) {
-      this.stdin(ControlCodes.CURSOR_POSITION(this._terminal, 0, this._cursorY() + 1));
+      this.stdout(ControlCodes.CURSOR_POSITION(this._terminal, 0, this._cursorY() + 1));
     } else {
-      this.stdin(ControlCodes.RIGHT_ARROW);
+      this.stdout(ControlCodes.RIGHT_ARROW);
     }
   }
 
@@ -443,20 +445,31 @@ export default class Shell {
         }
         const yAfter = this._cursorY();
         if (yAfter !== yBefore) {
-          // XXX: Hackfox for end of line.
+          // XXX: Hackfix for end of line.
           this.stdout(ControlCodes.UP_ARROW);
         }
         // Update the prompt.
         this._updatePrompt();
       }
     } else {
-      const isRaw: boolean = (<any> process.stdin).isRaw;
-      if (!isRaw) {
-        // Echo the text.
+      // Echo the text. Strip control characters out. Buffer input.
+      if (key === '\b') {
+        if (this._bufferedInput.length > 0) {
+          this._cursorLeft();
+          this.stdout(` `);
+          this._cursorLeft();
+          this._bufferedInput = this._bufferedInput.slice(0, this._bufferedInput.length - 1);
+        }
+      } else if (key === '\r') {
+        this.stdout('\r\n');
+        this._bufferedInput += '\n';
+        // Pass to program.
+        (<NodeJS.ReadWriteStream> process.stdin).write(this._bufferedInput);
+        this._bufferedInput = "";
+      } else if (key[0] !== '\x1b') {
+        this._bufferedInput += key;
         this.stdout(key);
       }
-      // Pass to program.
-      (<NodeJS.ReadWriteStream> process.stdin).write(key);
     }
   }
 
@@ -472,15 +485,17 @@ export default class Shell {
   }
 
   private _getArgs(command: string): string[] {
-    return this._getEnteredText().split(/\s+/g);
+    return this._getEnteredText().trim().split(/\s+/g);
   }
 
   private _runCommand(raw: string, args: string[]) {
+    this._bufferedInput = "";
     this._shellEnabled = false;
     this._historyOffset = this._history.push(raw);
     fs.writeFile(this._shellHistoryFile, new Buffer(this._history.join("\n")), () => {});
     if (args[0] === '') {
-      return this.exitProgram();
+      this.prompt();
+      return;
     }
     if (this._activeCommand) {
       this.stderr(`ERROR: Already running a command!\n`);
@@ -490,12 +505,12 @@ export default class Shell {
     const command = this._commands[args[0]];
     if (!command) {
       this.stderr(`Unknown command ${args[0]}. Type "help" for a list of commands.\n`);
-      this.exitProgram();
+      this.prompt();
     } else {
       this._expandArguments(args.slice(1), (expArgs, err) => {
         if (err) {
           this.stderr(`${command.getCommand()}: ${err}\n`);
-          this.exitProgram();
+          this.prompt();
         } else {
           this._activeCommand = command;
           command.run(this, expArgs, () => {
@@ -508,15 +523,17 @@ export default class Shell {
   public killProgram(): void {
     if (this._activeCommand) {
       this._activeCommand.kill();
-      this.prompt();
+      this.exitProgram();
     }
   }
   public exitProgram(): void {
-    this._activeCommand = null;
-    if (this._cursorX() !== 0) {
-      this.stdout("\n");
+    if (this._activeCommand) {
+      this._activeCommand = null;
+      if (this._cursorX() !== 0) {
+        this.stdout("\n");
+      }
+      this.prompt();
     }
-    this.prompt();
   }
   public focus(): void {
     this._terminal.focus();
@@ -654,8 +671,9 @@ export default class Shell {
           let commonLen = lastArg.lastIndexOf('/') + 1;
           let options = completions.map((c) => c.slice(commonLen));
           options.sort();
-          this.stdout(`\n${columnize(options, term.cols)}`);
+          this.stdout(`\n${columnize(options, term.cols)}\n`);
           // Create a new prompt with same command.
+          this.prompt();
           this._redrawPrompt(raw);
         } else {
           args[args.length - 1] = prefix;

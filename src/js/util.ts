@@ -219,10 +219,10 @@ export function disableScroll(element: HTMLElement): void {
   if (element.addEventListener) {
     element.addEventListener('DOMMouseScroll', preventDefault, false);
   }
-  element.onwheel = preventDefault; // modern standard
-  element.onmousewheel = preventDefault; // older browsers, IE
-  element.ontouchmove  = preventDefault; // mobile
-  element.onkeydown  = preventDefaultForScrollKeys;
+//  element.onwheel = preventDefault; // modern standard
+//  element.onmousewheel = preventDefault; // older browsers, IE
+// element.ontouchmove  = preventDefault; // mobile
+  // element.onkeydown  = preventDefaultForScrollKeys;
 }
 
 export function enableScroll(element: HTMLElement): void {
@@ -232,5 +232,5 @@ export function enableScroll(element: HTMLElement): void {
   element.onmousewheel = null;
   element.onwheel = null;
   element.ontouchmove = null;
-  element.onkeydown = null;
+  // element.onkeydown = null;
 }

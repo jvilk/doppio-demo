@@ -22,8 +22,8 @@ export default class EditCommand extends AbstractShellCommand {
     this._closeButtonElement = closeButtonElement;
 
     // Initiaize AceEdit.
-    // this._editor = ace.edit(editorElementName);
-    // this._editor.setTheme('ace/theme/twilight');
+    this._editor = ace.edit(editorElementName);
+    this._editor.setTheme('ace/theme/twilight');
   }
 
   private initialize(terminal: Shell) {
@@ -74,8 +74,10 @@ export default class EditCommand extends AbstractShellCommand {
     this.initialize(terminal);
 
     var startEditor = (data: string): void => {
+      const consoleHeight = this._consoleElement.height();
       this._consoleElement.fadeOut('fast', (): void => {
         this._filenameElement.val(args[0]);
+        this._editorContainer.height(consoleHeight);
         this._editorContainer.fadeIn('fast');
         if (args[0] == null || args[0].split('.')[1] === 'java') {
           var JavaMode = ace.require("ace/mode/java").Mode;

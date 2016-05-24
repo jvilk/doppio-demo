@@ -15,6 +15,7 @@ declare module "xterm" {
     useEvents?: boolean;
     useFocus?: boolean;
     useMouse?: boolean;
+    cancelEvents?: boolean;
     /**
      * Alias for parent.
      */
