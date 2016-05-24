@@ -255,7 +255,7 @@ function setupJavaHome(persistentFs: any, cb: () => void): void {
       const remainingMinutes = Math.floor(remainingTime / 60);
       const remainingSeconds = remainingTime % 60;
       const percent = ((loaded / total) * 100)|0;
-      progressBarText.text(`Downloading doppio_home.zip at ${rate.toPrecision(4)} KB/s [${loaded >> 10} KB / ${total >> 10} KB] (${remainingMinutes}m${remainingSeconds}s remaining)`);
+      progressBarText.text(`Downloading doppio_home.zip at ${rate.toFixed(2)} KB/s [${loaded >> 10} KB / ${total >> 10} KB] (${remainingMinutes}m${remainingSeconds}s remaining)`);
       progressBar.attr('aria-valuenow', percent);
       progressBar.css('width', `${percent}%`);
     });
