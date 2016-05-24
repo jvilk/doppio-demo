@@ -1,7 +1,0 @@
-Initializing Foo with Thread-1
-Initializing Bar with Thread-2
-Interrupted
-Finished initializing Foo with Thread-1
-Made a Foo from main
-Made a Foo from Bar
-Finished initializing Bar with Thread-2
