@@ -10,10 +10,7 @@ import _ = require('underscore');
 import child_process = require('child_process');
 var webpackConfig = require('./webpack.config.js');
 
-const vendorDir = path.resolve(__dirname, "vendor"),
-  javaHomeDir = path.resolve(vendorDir, "java_home"),
-  buildDir = path.resolve(__dirname, 'build'),
-  demoFilesDir = path.resolve(buildDir, 'demo_files'),
+const buildDir = path.resolve(__dirname, 'build'),
   gitData = child_process.execSync('git rev-parse HEAD'),
   mustacheData = {
     git_hash: gitData.toString(),
@@ -32,19 +29,14 @@ export function setup(grunt: IGrunt) {
     },
     listings: {
       options: {
-        output: path.resolve(buildDir, 'demo_files', 'listings.json'),
-        cwd: demoFilesDir
+        output: 'build/programs/listings.json',
+        cwd: path.resolve(__dirname, 'build', 'programs')
       },
       default: {}
     },
     copy: {
       build: {
         files: [
-          {
-            expand: true, flatten: true,
-            src: [path.resolve(__dirname, 'node_modules/doppiojvm/dist/release/natives/**/*.js')],
-            dest: path.resolve(demoFilesDir, 'natives')
-          },
           {
             expand: true, flatten: true,
             src: [path.resolve(__dirname, 'node_modules/doppiojvm/dist/release/doppio.js*')],
@@ -57,10 +49,24 @@ export function setup(grunt: IGrunt) {
           },
           {
             expand: true, flatten: false,
-            cwd: path.resolve(__dirname, 'node_modules/doppiojvm'),
-            src: ['vendor/**/*'],
-            dest: demoFilesDir
+            cwd: 'node_modules/doppiojvm/vendor',
+            src: ['websockify/**/*'],
+            dest: 'build/js'
           }
+        ]
+      }
+    },
+    compress: {
+      doppio_home: {
+        options: {
+          level: 9,
+          archive: 'build/doppio_home.zip'
+        },
+        files: [
+          { expand: true, cwd: 'node_modules/doppiojvm', src: ['vendor/java_home/**/*'], dest: '' },
+          { expand: true, cwd: 'node_modules/doppiojvm/dist/release/', src: ['natives/**/*.js'], dest: ''},
+          { expand: true, cwd: 'demo_files', src: ['+(classes|files)/**/*'], dest: ''},
+          { expand: true, cwd: 'demo_files', src: ['motd'], dest: ''}
         ]
       }
     },
@@ -68,7 +74,7 @@ export function setup(grunt: IGrunt) {
       default: {
         files: [{
           expand: true,
-          src: path.resolve(demoFilesDir, '/classes/**/*.java')
+          src: 'demo_files/classes/**/*.java'
         }]
       }
     },
@@ -92,7 +98,7 @@ export function setup(grunt: IGrunt) {
         }
       },
       java: {
-        files: ['build/demo_files/**/*.java'],
+        files: ['demo_files/**/*.java'],
         tasks: [
           'javac',
           'copy:build'
@@ -118,10 +124,17 @@ export function setup(grunt: IGrunt) {
 
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mustache-render');
   grunt.loadNpmTasks('grunt-webpack');
   // Load our custom tasks.
   grunt.loadTasks('tasks');
+
+  grunt.registerTask('doppio_home', 'Compresses doppio_home.zip if needed.', function() {
+    if (!grunt.file.exists('build/doppio_home.zip')) {
+      grunt.task.run(['compress']);
+    }
+  });
 
   /**
    * PUBLIC-FACING TARGETS BELOW.
@@ -133,6 +146,7 @@ export function setup(grunt: IGrunt) {
       'javac',
       'mustache_render:release',
       'copy:build',
+      'doppio_home',
       'listings',
       'webpack:build'
     ]);

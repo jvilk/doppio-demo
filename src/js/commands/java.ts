@@ -1,11 +1,10 @@
 import {AbstractShellCommand} from './meta';
 import Shell from '../shell';
-import TBrowserFS = require('browserfs');
-import TDoppioJVM = require('doppiojvm');
+import BrowserFS = require('browserfs');
+import Doppio = require('doppiojvm');
 import _ = require('underscore');
-import JVMCLIOptions = TDoppioJVM.VM.Interfaces.JVMCLIOptions;
-declare const Doppio: typeof TDoppioJVM;
-declare const BrowserFS: typeof TBrowserFS;
+import JVMCLIOptions = Doppio.VM.Interfaces.JVMCLIOptions;
+const path = BrowserFS.BFSRequire('path');
 
 /**
  * Construct a JavaOptions object with the default demo fields filled in.
@@ -14,12 +13,12 @@ declare const BrowserFS: typeof TBrowserFS;
 function constructJavaOptions(customArgs: { [prop: string]: any } = {}): JVMCLIOptions {
   // Strip default classpath. The CLI module will add it back in, and it causes errors
   // if the -jar argument is specified.
-  return _.extend(customArgs, Doppio.VM.JVM.getDefaultOptions('/sys'), { classpath: [] });
+  return _.extend(customArgs, Doppio.VM.JVM.getDefaultOptions('/home'), { classpath: [] });
 }
 
 
 export class JavaCommand extends AbstractShellCommand {
-  private _jvm: TDoppioJVM.VM.JVM = null;
+  private _jvm: Doppio.VM.JVM = null;
   private _killed: boolean = false;
 
   public getCommand(): string {
@@ -33,6 +32,13 @@ export class JavaCommand extends AbstractShellCommand {
       var ext = dot === -1 ? '' : fname.slice(dot+1);
       return ext === 'class' || ext === 'jar';
     }
+  }
+  public translateFileToArg(fname: string): string {
+    const ext = path.extname(fname);
+    if (ext == '.class') {
+      return fname.slice(0, fname.lastIndexOf('.')).replace(/\//g, '.');
+    }
+    return fname;
   }
   public run(shell: Shell, args: string[], cb: () => void): void {
     Doppio.VM.CLI(args, constructJavaOptions({

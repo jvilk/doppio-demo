@@ -1,7 +1,6 @@
 import {AbstractShellCommand} from './meta';
 import Shell from '../shell';
-import TBrowserFS = require('browserfs');
-declare const BrowserFS: typeof TBrowserFS;
+import BrowserFS = require('browserfs');
 const fs = BrowserFS.BFSRequire('fs');
 
 export default class EditCommand extends AbstractShellCommand {

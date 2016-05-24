@@ -3,8 +3,7 @@ import Stats = _fs.Stats;
 import _ = require('underscore');
 import async = require('async');
 
-import TBrowserFS = require('browserfs');
-declare const BrowserFS: typeof TBrowserFS;
+import BrowserFS = require('browserfs');
 
 const path = BrowserFS.BFSRequire('path'),
   fs = BrowserFS.BFSRequire('fs');
@@ -149,6 +148,37 @@ export function padRight(str: string, len: number): string {
   return str + Array(len - str.length + 1).join(' ');
 }
 
+export function recursiveRm(dir: string, cb: (err?: any) => void): void {
+  function processDir(folder: string, cb: (err?: any) => void): void {
+    fs.readdir(folder, (err, items) => {
+      if (err) {
+        return cb(err);
+      }
+      async.each(items, (item: string, next: (err?: any) => void) => {
+        const p = path.resolve(folder, item);
+        fs.stat(p, (e, stat) => {
+          if (e) {
+            next(e);
+          } else {
+            if (stat.isDirectory()) {
+              processDir(p, (e) => {
+                if (!e) {
+                  fs.rmdir(p, next);
+                } else {
+                  next(e);
+                }
+              });;
+            } else {
+              fs.unlink(p, next);
+            }
+          }
+        });
+      }, cb);
+    });
+  }
+  processDir(dir, cb);
+}
+
 export function recursiveCopy(srcFolder: string, destFolder: string, progressCb: (src: string, dest: string, size: Stats) => void, cb: (err?: any) => void): void {
   function processDir(srcFolder: string, destFolder: string, cb: (err?: any) => void) {
     fs.mkdir(destFolder, (err?: NodeJS.ErrnoException) => {
@@ -182,7 +212,7 @@ export function recursiveCopy(srcFolder: string, destFolder: string, progressCb:
     });
   }
 
-  processDir(srcFolder, path.resolve(destFolder, path.basename(srcFolder)), cb);
+  processDir(srcFolder, destFolder, cb);
 }
 
 export function copyFile(srcFile: string, destFile: string, cb: (err?: any) => void) {

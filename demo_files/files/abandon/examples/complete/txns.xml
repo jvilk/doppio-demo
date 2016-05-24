@@ -1,0 +1,170 @@
+<abandon>
+  <journal>
+    <transactions>
+      <txn date="2012-03-01">
+        <payee>OpeningBalance</payee>
+        <post delta="6000" name="Capital:Share:Hary"></post>
+        <post delta="4000" name="Capital:Share:Amy"></post>
+        <post delta="-1500" name="Capital:Reserves_And_Surplus"></post>
+        <post delta="-7500" name="Assets:Current:BankAccount:Account1"></post>
+        <post delta="-1000" name="Assets:Fixed:Computer"></post>
+      </txn>
+      <txn date="2012-10-05">
+        <post delta="-280.90" name="Expenses:Bank_Charges"></post>
+        <post delta="280.90" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-01-04">
+        <comment> Invoice a</comment>
+        <post delta="-25000" name="Assets:Current:Sundry_Debtors:Vikings"></post>
+        <post delta="25000" name="Income:Receipts"></post>
+      </txn>
+      <txn date="2013-01-15">
+        <payee>Alice Enterprises</payee>
+        <annotation>89000</annotation>
+        <comment> For Office Stationary</comment>
+        <post delta="-485" name="Expenses:Consumables"></post>
+        <post delta="485" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-01-19">
+        <comment> payment for invoice a</comment>
+        <post delta="-22500" name="Assets:Current:BankAccount:Account1"></post>
+        <post delta="-2500" name="Assets:Current:TDS"></post>
+        <post delta="25000" name="Assets:Current:Sundry_Debtors:Vikings"></post>
+      </txn>
+      <txn date="2013-01-29">
+        <payee>Bob Traders</payee>
+        <annotation>89001</annotation>
+        <comment> For 22&quot; monitor</comment>
+        <post delta="-7250" name="Assets:Fixed:Computer"></post>
+        <post delta="7250" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-01-29">
+        <payee>Bob Traders</payee>
+        <annotation>89002</annotation>
+        <comment> For 50 DVD set</comment>
+        <post delta="-1100" name="Expenses:Consumables"></post>
+        <post delta="1100" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-02-01">
+        <payee>Bob Traders</payee>
+        <annotation>89003</annotation>
+        <comment> For modem</comment>
+        <post delta="-2090" name="Expenses:Consumables"></post>
+        <post delta="2090" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-02-04">
+        <comment> Invoice b</comment>
+        <post delta="-10000" name="Assets:Current:Sundry_Debtors:Greeks"></post>
+        <post delta="10000" name="Income:Receipts"></post>
+      </txn>
+      <txn date="2013-02-09">
+        <comment> payment for invoice b</comment>
+        <post delta="-9000" name="Assets:Current:BankAccount:Account1"></post>
+        <post delta="-1000" name="Assets:Current:TDS"></post>
+        <post delta="10000" name="Assets:Current:Sundry_Debtors:Greeks"></post>
+      </txn>
+      <txn date="2013-02-14">
+        <payee>Cherry Auditors</payee>
+        <annotation>89004</annotation>
+        <comment> Audit fees</comment>
+        <post delta="-5000" name="Liability:Expenses_Payable:Audit_Fees"></post>
+        <post delta="5000" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-02-16">
+        <payee>Deepika</payee>
+        <annotation>80005</annotation>
+        <comment> January Salary</comment>
+        <post delta="-2000" name="Expenses:Salaries"></post>
+        <post delta="2000" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-02-18">
+        <payee>Bob Traders</payee>
+        <annotation>80006</annotation>
+        <comment> For Cabinet and spike buster</comment>
+        <post delta="-1100" name="Assets:Fixed:Computer"></post>
+        <post delta="-400" name="Expenses:Consumables"></post>
+        <post delta="1500" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-02-23">
+        <payee>Ekta</payee>
+        <annotation>80007</annotation>
+        <post delta="-1000" name="Expenses:Rent">
+          <comment> Dec 2012 rent</comment>
+        </post>
+        <post delta="-2000" name="Expenses:Rent">
+          <comment> Jan 2013 rent</comment>
+        </post>
+        <post delta="3000" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-04">
+        <payee>Far Furnishing</payee>
+        <annotation>80008</annotation>
+        <comment> For curtains</comment>
+        <post delta="-1200" name="Assets:Fixed:Furniture">
+          <comment> Far Furnishing invoice #20</comment>
+        </post>
+        <post delta="-200" name="Assets:Fixed:Furniture">
+          <comment> Transportation cost</comment>
+        </post>
+        <post delta="1400" name="Assets:Current:Cash"></post>
+      </txn>
+      <txn date="2013-03-04">
+        <payee>Ekta</payee>
+        <annotation>80009</annotation>
+        <comment> Feb 2013 rent</comment>
+        <post delta="-1500" name="Expenses:Rent"></post>
+        <post delta="1500" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-04">
+        <payee>Bob Traders</payee>
+        <annotation>80010</annotation>
+        <comment> For DVD drive</comment>
+        <post delta="-1250" name="Assets:Fixed:Computer"></post>
+        <post delta="1250" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-06">
+        <payee>Deepika</payee>
+        <annotation>80011</annotation>
+        <comment> Feb Salary</comment>
+        <post delta="-1100" name="Expenses:Salaries"></post>
+        <post delta="1100" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-06">
+        <comment> For office cleaning labour</comment>
+        <post delta="-250" name="Expenses"></post>
+        <post delta="250" name="Assets:Current:Cash"></post>
+      </txn>
+      <txn date="2013-03-06">
+        <comment> For glass decorations</comment>
+        <post delta="-400" name="Expenses:Consumables"></post>
+        <post delta="400" name="Assets:Current:Cash"></post>
+      </txn>
+      <txn date="2013-03-06">
+        <comment> For Snacks</comment>
+        <post delta="-180" name="Expenses"></post>
+        <post delta="180" name="Assets:Current:Cash"></post>
+      </txn>
+      <txn date="2013-03-15">
+        <annotation>80012</annotation>
+        <comment> Cash Withdrawl</comment>
+        <post delta="-5000" name="Assets:Current:Cash"></post>
+        <post delta="5000" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-21">
+        <annotation>80013</annotation>
+        <comment> Cash Withdrawl</comment>
+        <post delta="-2000" name="Assets:Current:Cash"></post>
+        <post delta="2000" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-23">
+        <comment> Advance tax</comment>
+        <post delta="-1100" name="Assets:Current:AdvanceTax"></post>
+        <post delta="1100" name="Assets:Current:BankAccount:Account1"></post>
+      </txn>
+      <txn date="2013-03-28">
+        <post delta="-4000" name="Capital:Share:Amy"></post>
+        <post delta="4000" name="Capital:Share:Bailey"></post>
+      </txn>
+    </transactions>
+  </journal>
+</abandon>

@@ -11,16 +11,24 @@ nav.navbar {
   margin-bottom: 0;
 }
 
-/* div#main {margin: 0 auto;  width:900px;} */
-/*
- div#consoleUnderlay {
-  position:absolute;
-  top: 0;
-  right: 5px;
-  visibility: hidden;
-  z-index: 2;
+/**
+ * Progress bars with centered text
+ */
+
+.progress {
+    position: relative;
+    background-color:#333 !important;
+    height: 30px !important;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: #ccc;
+    font-size: 1.5rem;
+    padding-top: 3px;
  }
-*/
 
 /*
    Hide the Ace Editor.

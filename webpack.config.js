@@ -7,6 +7,10 @@ module.exports = {
     publicPath: "/js/",
     filename: "app.js"
   },
+  externals: {
+    'browserfs': 'BrowserFS',
+    'doppiojvm': 'Doppio'
+  },
   resolve: {
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
   },

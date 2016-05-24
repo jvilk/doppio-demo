@@ -5,6 +5,9 @@ export abstract class AbstractShellCommand implements ShellCommand {
   public getAutocompleteFilter(): (fname: string, isDir: boolean) => boolean {
     return (fname: string, isDir: boolean) => true;
   }
+  public translateFileToArg(fname: string): string {
+    return fname;
+  }
   public abstract run(terminal: Shell, args: string[], cb: () => void): void;
   /**
    * Called when the user hits CTRL+C.

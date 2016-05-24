@@ -18,6 +18,7 @@
     "dropbox": "^0.10.3",
     "glob": "^7.0",
     "grunt": "^1.0",
+    "grunt-contrib-compress": "^1.2.0",
     "grunt-contrib-copy": "^1.0",
     "grunt-contrib-watch": "^1.0",
     "grunt-mustache-render": "^1.9",

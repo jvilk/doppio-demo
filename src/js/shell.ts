@@ -1,9 +1,8 @@
 import async = require('async');
 import {processGlob, longestCommmonPrefix, fileNameCompletions, filterSubstring, columnize} from './util';
 import _ = require('underscore');
-import TBrowserFS = require('browserfs');
+import BrowserFS = require('browserfs');
 import Terminal = require('xterm');
-declare const BrowserFS: typeof TBrowserFS;
 const process = BrowserFS.BFSRequire('process');
 const Buffer = BrowserFS.BFSRequire('buffer').Buffer;
 const fs = BrowserFS.BFSRequire('fs');
@@ -13,6 +12,7 @@ declare var globalTerm: Terminal;
 export interface ShellCommand {
   getCommand(): string;
   getAutocompleteFilter(): (fname: string, isDir: boolean) => boolean;
+  translateFileToArg(fname: string): string;
   run(terminal: Shell, args: string[], cb: () => void): void;
   kill(): void;
 }

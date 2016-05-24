@@ -6,9 +6,10 @@
 /tasks/*.js
 /Grunttasks.js
 /build/js/app.js
+/build/js/browserfs.*
+/build/js/doppio*
+/build/js/websockify/
+/build/programs
 /build/*.html
-/build/demo_files/listings.json
-/build/demo_files/programs
-/build/demo_files/vendor
-/build/demo_files/natives
+/build/doppio_home.zip
 .DS_Store
