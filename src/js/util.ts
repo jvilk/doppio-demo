@@ -194,3 +194,43 @@ export function copyFile(srcFile: string, destFile: string, cb: (err?: any) => v
     }
   });
 }
+
+// Adapted from http://stackoverflow.com/a/4770179
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+const keys: {[key: number]: number} = {37: 1, 38: 1, 39: 1, 40: 1, 32: 1, 33: 1, 34: 1, 35: 1, 36: 1};
+
+function preventDefault(e: Event): void {
+  e = e || window.event;
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.returnValue = false;
+}
+
+function preventDefaultForScrollKeys(e: KeyboardEvent): boolean | void {
+  if (keys[e.keyCode]) {
+    preventDefault(e);
+    return false;
+  }
+}
+
+export function disableScroll(element: HTMLElement): void {
+  if (element.addEventListener) {
+    element.addEventListener('DOMMouseScroll', preventDefault, false);
+  }
+  element.onwheel = preventDefault; // modern standard
+  element.onmousewheel = preventDefault; // older browsers, IE
+  element.ontouchmove  = preventDefault; // mobile
+  element.onkeydown  = preventDefaultForScrollKeys;
+}
+
+export function enableScroll(element: HTMLElement): void {
+  if (element.removeEventListener) {
+    element.removeEventListener('DOMMouseScroll', preventDefault, false);
+  }
+  element.onmousewheel = null;
+  element.onwheel = null;
+  element.ontouchmove = null;
+  element.onkeydown = null;
+}

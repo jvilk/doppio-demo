@@ -59,13 +59,10 @@ declare module "xterm" {
    */
   class Terminal extends Stream {
     public useStyle: boolean;
-    // Platform identification
-    public isAndroid: boolean;
     public isMac: boolean;
     public isIpad: boolean;
     public isIPhone: boolean;
     public isMSIE: boolean;
-    public isMobile: boolean;
 
     /**
      * The window context in which the Terminal is hosted.
@@ -88,11 +85,6 @@ declare module "xterm" {
     public parent: HTMLElement;
     public cols: number;
     public rows: number;
-
-    // Node TTY emulation
-    public isTTY: boolean;
-    public isRaw: boolean;
-    public columns: number;
 
     public ybase: number;
     public ydisp: number;
@@ -122,15 +114,6 @@ declare module "xterm" {
       scrollBottom: number;
       tabs: {[index: number]: boolean};
     };
-
-    // select modes
-    public prefixMode: boolean;
-    public selectMode: boolean;
-    public visualMode: boolean;
-    public searchMode: boolean;
-    public searchDown: boolean;
-    public entry: string;
-    public entryPrefix: string;
 
     // charset
     public charset: {[key: string]: string};
@@ -177,7 +160,7 @@ declare module "xterm" {
     public prefix: string;
     public postfix: string;
 
-    public lines: [number, string][];
+    public lines: [number, string][][];
 
     public tabs: {[index: number]: boolean};
 
@@ -224,7 +207,6 @@ declare module "xterm" {
      * Initialize global behavior.
      */
     public initGlobal(): void;
-    public fixMobile(document: Document): void;
 
     /**
      * Open the terminal using the given parent element.
@@ -245,18 +227,13 @@ declare module "xterm" {
      */
     public setRawMode(enable: boolean): void;
 
-    public close(): void;
     public destroy(): void;
-    public destroySoon(): void;
     public showCursor(): void;
     public refreshBlink(): void;
     public scroll(): void;
     public scrollDisp(disp: number): void;
     public write(data: string): boolean;
     public writeln(data: string): boolean;
-    public end(data?: string): boolean;
-    public resume(): void;
-    public pause(): void;
     public keyDown(ev: MouseEvent): boolean;
     public setgLevel(g: string): void;
     public setgCharset(g: string, charset: {[key: string]: string}): void;
@@ -351,27 +328,21 @@ declare module "xterm" {
     public requestLocatorPosition(params: number[]): void;
     public insertColumns(params: number[]): void;
     public deleteColumns(params: number[]): void;
-    public enterPrefix(): void;
-    public leavePrefix(): void;
-    public enterSelect(): void;
-    public leaveSelect(): void;
-    public enterVisual(): void;
-    public leaveVisual(): void;
-    public enterSearch(down: boolean): void;
-    public leaveSearch(): void;
     public copyBuffer(lines?: [number, string][]): void;
     public getCopyTextarea(): HTMLTextAreaElement;
     public copyText(text: string): void;
-    public selectText(x1: number, x2: number, y1: number, y2: number): void;
-    public grabText(x1: number, x2: number, y1: number, y2: number): string;
     public keyPrefix(ev: KeyboardEvent, key: string): void;
     public keySelect(ev: KeyboardEvent, key: string): void;
-    public keySearch(ev: KeyboardEvent, key: string): void;
 
     /**
      * Emits any copied text.
      */
     public on(event: 'copy', listener: (text: string) => any): this;
+    public on(event: 'refresh', listener: (data: {
+      element: HTMLDivElement,
+      start: number,
+      end: number
+    }) => any): this;
     public on(event: 'request paste', listener: () => any): this;
     public on(event: 'request create', listener: () => any): this;
     public on(event: 'request term', listener: () => any): this;
@@ -379,28 +350,9 @@ declare module "xterm" {
     public on(event: 'request term previous', listener: () => any): this;
     public on(event: 'request command mode', listener: () => any): this;
     public on(event: 'open', listener: () => any): this;
-    public on(event: 'end', listener: () => any): this;
-    public on(event: 'close', listener: () => any): this;
-    public on(event: 'finish', listener: () => any): this;
-    public on(event: 'destroy', listener: () => any): this;
-    public on(event: 'udk', listener: (data: {
-      clearAll: boolean;
-      eraseBelow: boolean;
-      lockKeys: boolean;
-      dontLockKeys: boolean;
-      keyList: {
-        keyCode: string;
-        hexKeyValue: string;
-      }[];
-    }) => void): this;
-    public on(event: 'set terminfo', listener: (data: {
-      name: string
-    }) => any): this;
-    public on(event: 'passthrough', listener: (data: number) => any): this;
     public on(event: 'keydown', listener: (ev: KeyboardEvent) => any): this;
     public on(event: 'keypress', listener: (ev: KeyboardEvent) => any): this;
-    public on(event: 'key', listener: (ev: KeyboardEvent) => any): this;
-    public on(event: 'bell', listener: () => any): this;
+    public on(event: 'key', listener: (key: string, ev: KeyboardEvent) => any): this;
     public on(event: 'resize', listener: () => any): this;
     public on(event: 'data', listener: (data: string) => any): this;
     public on(event: 'title', listener: (title: string) => any): this;

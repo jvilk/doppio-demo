@@ -200,7 +200,6 @@ export class CDCommand extends AbstractShellCommand {
       fs.exists(dir, (doesExist: boolean) => {
         if (doesExist) {
           process.chdir(dir);
-          shell.updatePS();
         } else {
           shell.stderr(`Directory ${dir} does not exist.\n`);
         }

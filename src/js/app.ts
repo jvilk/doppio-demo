@@ -1,5 +1,5 @@
 import TBrowserFS = require('browserfs');
-import {filterSubstring, recursiveCopy} from './util';
+import {filterSubstring, recursiveCopy, disableScroll} from './util';
 import Shell from './shell';
 import {JARCommand, JavaClassCommand, JavaCommand} from './commands/java';
 import EditCommand from './commands/edit';
@@ -94,7 +94,10 @@ function uploadFiles(terminal: Shell, ev: FileReaderEvent) {
 
 $(document).ready(() => {
   // Set up the master terminal object.
-  const shell = new Shell($('#console').get()[0], [
+  const consoleJQuery = $('#console');
+  const consoleElement = consoleJQuery.get()[0];
+  disableScroll(consoleElement);
+  const shell = new Shell(consoleElement, [
       new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
       new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [],  ['js']),
       new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['js']),
@@ -142,7 +145,7 @@ $(document).ready(() => {
       new TimeCommand(),
       new ProfileCommand(),
       new HelpCommand()
-    ], 'Please wait while the DoppioJVM demo loads...');
+    ], 'Please wait while the DoppioJVM demo loads...', `/home/.shell_history`);
 
 
   // Set up file system.
