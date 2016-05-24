@@ -1,0 +1,19 @@
+{
+  "name": "doppio-demo",
+  "version": false,
+  "ambientDependencies": {
+    "ace": "registry:dt/ace#0.0.0+20160317120654",
+    "async": "registry:dt/async#1.4.2+20160501155344",
+    "dropboxjs": "registry:dt/dropboxjs#0.0.0+20160317120654",
+    "filesystem": "registry:dt/filesystem#0.0.0+20160316155526",
+    "filewriter": "registry:dt/filewriter#0.0.0+20160316155526",
+    "glob": "registry:dt/glob#5.0.10+20160317120654",
+    "gruntjs": "registry:dt/gruntjs#0.4.0+20160316171810",
+    "jquery": "registry:dt/jquery#1.10.0+20160417213236",
+    "minimatch": "registry:dt/minimatch#2.0.8+20160317120654",
+    "mustache": "registry:dt/mustache#0.8.2+20160316155526",
+    "node": "registry:dt/node#6.0.0+20160514165920",
+    "semver": "registry:dt/semver#4.3.4+20160316171810",
+    "underscore": "registry:dt/underscore#1.7.0+20160505190121"
+  }
+}

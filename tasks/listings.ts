@@ -1,5 +1,4 @@
-/// <reference path="../vendor/DefinitelyTyped/node/node.d.ts" />
-/// <reference path="../vendor/DefinitelyTyped/gruntjs/gruntjs.d.ts" />
+///<reference path="../typings/main.d.ts" />
 import fs = require('fs');
 
 function listings(grunt: IGrunt) {
@@ -9,7 +8,7 @@ function listings(grunt: IGrunt) {
       options = this.options();
     grunt.util.spawn({
       cmd: 'node',
-      args: [cwd + '/node_modules/coffee-script/bin/coffee', cwd + '/tools/gen_dir_listings.coffee'],
+      args: [`${cwd}/node_modules/coffee-script/bin/coffee`, `${cwd}/node_modules/browserfs/tools/XHRIndexer.coffee`],
       opts: {cwd: options.cwd}
     }, function(error: Error, result: grunt.util.ISpawnResult, code: number) {
       if (code !== 0 || error) {

@@ -1,0 +1,12 @@
+Balance Sheet
+
+Balance Sheet
+─────────────
+
+  -33400.00   Assets                          6000.00   Capital:Owner
+  -30400.00    ├╴Current                      5000.00   Liability:Loan
+   -5400.00    │  ├╴BankAccount             
+  -25000.00    │  └╴Sundry_Debtors:Vikings  
+   -3000.00    └╴Fixed:Computer             
+──────────────────────────────────────────────────────────────────────
+  -33400.00                                  11000.00 = -22400

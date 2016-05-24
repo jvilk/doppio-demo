@@ -1,0 +1,22 @@
+<abandon>
+  <transactions>
+    <txn date="2013,1,19" name="Bank" delta="-7000">
+      <other_txns>
+        <txn name="TDS" delta="-3000"/>
+        <txn name="Vikings" delta="10000"/>
+      </other_txns>
+    </txn>
+    <txn date="2013,1,19" name="TDS" delta="-3000">
+      <other_txns>
+        <txn name="Bank" delta="-7000"/>
+        <txn name="Vikings" delta="10000"/>
+      </other_txns>
+    </txn>
+    <txn date="2013,1,19" name="Vikings" delta="10000">
+      <other_txns>
+        <txn name="Bank" delta="-7000"/>
+        <txn name="TDS" delta="-3000"/>
+      </other_txns>
+    </txn>
+  </transactions>
+</abandon>
