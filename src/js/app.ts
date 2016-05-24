@@ -4,7 +4,7 @@ import Shell from './shell';
 import {JARCommand, JavaClassCommand, JavaCommand} from './commands/java';
 import EditCommand from './commands/edit';
 import {LSCommand, CatCommand, CDCommand, CpCommand, MkdirCommand, MountDropboxCommand, MvCommand, RMCommand, RmdirCommand} from './commands/fs';
-import {TimeCommand, HelpCommand, ProfileCommand} from './commands/util';
+import {TimeCommand, HelpCommand, ProfileCommand, TipCommand} from './commands/util';
 import _fs = require('fs');
 import Stats = _fs.Stats;
 import Doppio = require('doppiojvm');
@@ -64,16 +64,17 @@ function uploadFile(f: File, cb: (e?: string) => void) {
  */
 function uploadFiles(terminal: Shell, ev: FileReaderEvent) {
   if (typeof FileReader === "undefined" || FileReader === null) {
-    terminal.stderr("Your browser doesn't support file loading.\nTry using the editor to create files instead.\n");
-    return terminal.exitProgram();
+    terminal.stderr("\nYour browser doesn't support file loading.\nTry using the editor to create files instead.\n");
+    return terminal.prompt();
   }
   var fileCount = ev.target.files.length, filesUploaded = 0;
   if (fileCount > 0) {
-    terminal.stdout(`Uploading ${fileCount} files...\n`);
+    terminal.stdout(`\nUploading ${fileCount} files...\n`);
   }
 
-  var files = ev.target.files;
-  files.forEach((f: File) => {
+  const files = ev.target.files;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
     uploadFile(f,(e?) => {
       filesUploaded++;
       var str = `[${filesUploaded}/${fileCount}]: File ${f.name} `
@@ -86,10 +87,10 @@ function uploadFiles(terminal: Shell, ev: FileReaderEvent) {
       }
 
       if (filesUploaded === fileCount) {
-        terminal.exitProgram();
+        terminal.prompt();
       }
     });
-  });
+  }
 }
 
 function startDemo() {
@@ -130,7 +131,9 @@ function startDemo() {
         ], [], ['scala', 'sc']),
         new JARCommand('groovy', demoJars + "groovy-all-2.4.5-indy.jar", [], ['groovy', 'gvy', 'gy', 'gsh']),
         new JARCommand('abcl', demoJars + "abcl-1.3.3.jar", [], ['lisp', 'cl', 'lsp', 'l']),
-        new JARCommand('nashorn', "/sys/vendor/java_home/lib/ext/nashorn.jar", [], ['js']),
+        new JARCommand('nashorn', "/home/vendor/java_home/lib/ext/nashorn.jar", [], ['js']),
+        new JARCommand('abandon', "/programs/abandon.jar", [], ['conf']),
+        new JavaClassCommand('scimark2', "/programs/scimark2lib.jar", 'jnt.scimark2.commandline', [], [], []),
         new JavaClassCommand('javac', demoClasses, "classes.util.Javac", [], [], ['java']),
         new JavaClassCommand('javap', demoClasses, "classes.util.Javap", [], [], ['class']),
         new JavaCommand(),
@@ -146,6 +149,7 @@ function startDemo() {
         new MountDropboxCommand(),
         new TimeCommand(),
         new ProfileCommand(),
+        new TipCommand(),
         new HelpCommand()
       ], 'Please wait while the DoppioJVM demo loads...', `/home/.shell_history`);
 
@@ -246,8 +250,12 @@ function setupJavaHome(persistentFs: any, cb: () => void): void {
       const total = e.total;
       // KB/s
       const rate = (loaded >> 10) / ((time - startTime) / 1000);
+      const remaining = (total - loaded) >> 10;
+      const remainingTime = Math.floor(remaining / rate);
+      const remainingMinutes = Math.floor(remainingTime / 60);
+      const remainingSeconds = remainingTime % 60;
       const percent = ((loaded / total) * 100)|0;
-      progressBarText.text(`Downloading doppio_home.zip at ${rate.toPrecision(4)} KB/s [${loaded >> 10} KB / ${total >> 10} KB]`);
+      progressBarText.text(`Downloading doppio_home.zip at ${rate.toPrecision(4)} KB/s [${loaded >> 10} KB / ${total >> 10} KB] (${remainingMinutes}m${remainingSeconds}s remaining)`);
       progressBar.attr('aria-valuenow', percent);
       progressBar.css('width', `${percent}%`);
     });
@@ -256,7 +264,7 @@ function setupJavaHome(persistentFs: any, cb: () => void): void {
     });
     xhr.addEventListener('error', (e) => {
       progressBar.removeClass('active').addClass('progress-bar-danger');
-      progressBarText.text(`Error downloading doppio_home.zip: ${e}`);
+      progressBarText.text(`Error downloading doppio_home.zip: ${e.error}`);
     });
     xhr.addEventListener('abort', (e) => {
       progressBar.removeClass('active').addClass('progress-bar-danger');
@@ -294,7 +302,10 @@ $(document).ready(() => {
         // Add clear demo button.
         $('#clear-demo-button').fadeIn('fast').on('click', () => {
           $('#clear-demo-button').prop('disabled', true);
-          recursiveRm('/', (err) => {
+          const resetStatus = $('#reset-status');
+          recursiveRm('/', (p) => {
+            resetStatus.text(`Deleting cached file ${p}...`);
+          }, (err) => {
             if(err) console.error(`Error removing: ${err}`);
             document.location.reload(true);
           });

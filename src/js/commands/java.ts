@@ -92,6 +92,7 @@ export class JARCommand extends JavaCommand {
     }
   }
   public run(terminal: Shell, args: string[], cb: () => void): void {
+    terminal.stdout(`Please be patient; this command may need to download resources from the network.\n`);
     var allArgs = ["-jar", this._jarPath].concat(this._extraArgs, args);
     super.run(terminal, allArgs, cb);
   }
@@ -129,8 +130,8 @@ export class JavaClassCommand extends JavaCommand {
     }
   }
   public run(terminal: Shell, args: string[], cb: () => void): void {
+    terminal.stdout(`Please be patient; this command may need to download resources from the network.\n`);
     let allArgs = [].concat(this._extraJvmArgs, ["-cp", `.:${this._classpath}`, this._className], this._extraProgArgs, args);
-    console.log(allArgs);
     super.run(terminal, allArgs, cb);
   }
 }

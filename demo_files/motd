@@ -1,24 +1,21 @@
-Welcome to DoppioJVM! You may wish to try the following Java programs:
+Welcome to the DoppioJVM demo!
 
-  java classes/demo/Fib <num>
-  java classes/demo/Chatterbot
-  java classes/demo/RegexTestHarness
+This demo comes packed with a number of JVM languages (Scala, Groovy, Scheme),
+some basic programs and utilities (javac, accounting software), and standard
+shell commands that interact with our in-browser filesystem!
 
-Text files can be created/modified with the `edit` command, or
-imported using the "upload" button above the console.
-Try making a file, then running the following programs:
+For example, try a simple Fibonacci demo:    java classes/demo/Fib <num>
 
-  java classes/demo/GzipDemo c Hello.txt hello.gz  # compress your text file
-  java classes/demo/GzipDemo d hello.gz hello.tmp  # decompress it
-  java classes/demo/DiffPrint Hello.txt hello.tmp  # compare with original
+Then, edit the demo, recompile it, and run the new version:
 
-Next, try compiling a Java program with `javac`:
-
+  edit classes/demo/Fib.java
   javac classes/demo/Fib.java
+  java classes/demo/Fib
 
-We can even run `rhino`, the Java-based JavaScript engine!
+Hop into Clojure's repl with the `clojure` command. Or try `nashorn`, a
+repl for JavaScript running on the JVM!
 
-`help` prints a full list of commands. Ctrl+D is EOF. Ctrl+C is SIGINT.
+Type `help` for more information, or `tip` for an idea. Ctrl+C is SIGINT.
 Tab-completion and globbing should mimic commonly used bash features.
 
 DoppioJVM has been tested with the latest versions of most popular browsers,

@@ -148,7 +148,7 @@ export function padRight(str: string, len: number): string {
   return str + Array(len - str.length + 1).join(' ');
 }
 
-export function recursiveRm(dir: string, cb: (err?: any) => void): void {
+export function recursiveRm(dir: string, progressCb: (file: string) => void, cb: (err?: any) => void): void {
   function processDir(folder: string, cb: (err?: any) => void): void {
     fs.readdir(folder, (err, items) => {
       if (err) {
@@ -169,6 +169,7 @@ export function recursiveRm(dir: string, cb: (err?: any) => void): void {
                 }
               });;
             } else {
+              progressCb(p);
               fs.unlink(p, next);
             }
           }

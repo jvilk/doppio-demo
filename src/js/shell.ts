@@ -479,9 +479,11 @@ export default class Shell {
   }
 
   public stderr(text: string): void {
-    const term = this._terminal;
+    // Programs use stderr for weird things. Red text looks out of place.
+    // const term = this._terminal;
     // Print red, then switch back to the default color.
-    term.write(`\x1b[31m${text.replace(/\n/g, '\r\n')}\x1b[0m`);
+    // term.write(`\x1b[31m${text.replace(/\n/g, '\r\n')}\x1b[0m`);
+    this.stdout(text);
   }
 
   private _getArgs(command: string): string[] {

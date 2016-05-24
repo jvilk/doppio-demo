@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: path.resolve(__dirname, "src", "js", "app.ts"),
@@ -20,6 +21,9 @@ module.exports = {
     contentBase: path.resolve(__dirname, "build"),
     publicPath: "/js/"
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ],
   node: {
     console: false,
     global: true,
