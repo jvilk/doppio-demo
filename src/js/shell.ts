@@ -86,7 +86,7 @@ export default class Shell {
 
     const rows = 25;
     const term = this._terminal = globalTerm = new Terminal({
-      cols: 100,
+      cols: 80,
       rows: rows,
       cancelEvents: true
     });

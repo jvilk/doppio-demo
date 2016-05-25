@@ -262,7 +262,21 @@ export class MountDropboxCommand extends AbstractShellCommand {
 
   public run(terminal: Shell, args: string[], cb: () => void): void {
     var api_key: string = "j07r6fxu4dyd08r";
-    if (args.length < 1 || args[0] !== 'Y') {
+    const URL = document.URL;
+    // Can't connect to Dropbox over HTTP unless served locally during development.
+    if (URL.indexOf("http:") === 0 && URL.indexOf("http://localhost") === -1) {
+      terminal.stdout(
+`You are currently accessing the demo from a non-secure URL:
+
+${document.URL}
+
+Dropbox only allows authentication over a secure connection. Please access the
+demo from the following HTTPS URL and try again:
+
+${document.URL.replace(/^http:/, 'https:')}\n`
+      );
+      cb();
+    } else if (args.length < 1 || args[0] !== 'Y') {
       terminal.stdout(
 `This command may redirect you to Dropbox's site for authentication.
 If you would like to proceed with mounting Dropbox into the in-browser
