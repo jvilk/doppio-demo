@@ -262,7 +262,8 @@ export class MountDropboxCommand extends AbstractShellCommand {
 
   public run(terminal: Shell, args: string[], cb: () => void): void {
     var api_key: string = "j07r6fxu4dyd08r";
-    const URL = document.URL;
+    // For some weird reason. document.URL is undefined?
+    const URL = window.document.URL ? window.document.URL : location.href;
     // Can't connect to Dropbox over HTTP unless served locally during development.
     if (URL.indexOf("http:") === 0 && URL.indexOf("http://localhost") === -1) {
       terminal.stdout(
