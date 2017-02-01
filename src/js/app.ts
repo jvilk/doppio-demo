@@ -104,7 +104,7 @@ function startDemo() {
         new JARCommand('ecj', demoJars + "ecj-4.5.jar", ['-Djdt.compiler.useSingleThread=true'], ['java']),
         new JARCommand('rhino', demoJars + "rhino1.7.6.jar", [],  ['js']),
         new JARCommand('kawa', demoJars + "kawa-2.0.jar", [], ['scm', 'ss', 'sch']),
-        new JARCommand('clojure', demoJars + "clojure1.7.0.jar", [], ['clj', 'cljs', 'cljc', 'edn']),
+        new JARCommand('clojure', demoJars + "clojure-1.7.0.jar", [], ['clj', 'cljs', 'cljc', 'edn']),
         // Needs --bin irb to do REPL. Add if no args!
         // new JARCommand('jruby', demoJars + "jruby-complete-9.0.1.0.jar", [], ['rb']),
         // Doesn't work :| Fucking jline.
