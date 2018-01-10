@@ -1,4 +1,5 @@
 ///<reference path="../typings/main.d.ts" />
+import os = require('os');
 import path = require('path');
 import {exec, spawn} from 'child_process';
 import semver = require('semver');
@@ -20,6 +21,10 @@ function findNativeJava(grunt: IGrunt) {
       grunt.config.set('build.java', home.executables.java);
       grunt.config.set('build.javac', home.executables.javac);
       grunt.config.set('build.javap', home.executables.javap);
+      grunt.config.set('build.bootclasspath',
+        path.join(home.path, 'jre', 'lib', 'rt.jar')
+        + (os.platform() === 'win32' ? ';' : ':')
+        + path.join(home.path, "lib", "tools.jar"));
       grunt.log.ok("Java: " + grunt.config('build.java'));
       grunt.log.ok("Javap: " + grunt.config('build.javap'));
       grunt.log.ok("Javac: " + grunt.config('build.javac'));
